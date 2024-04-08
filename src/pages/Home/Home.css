@@ -1,0 +1,12 @@
+.card {
+    display: center;
+    margin-top: 0.5em;
+    max-width: 50em;
+    background-color: black;
+}
+
+.img{
+    display: flex;
+    max-height: 55em;
+    max-width: 55em;
+}
