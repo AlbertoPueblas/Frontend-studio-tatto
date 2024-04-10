@@ -1,57 +1,66 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CustomImput } from '../../components/CustomImput/CustomImput'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import './Home.css'
 
 //--------------------------------------------------
 
 export const Home = () => {
-    const [count, setCount] = useState(0)
-    const [inputData, setInputData] = useState("")
-    const password = "contraseña correcta"
+  const [count, setCount] = useState(0)
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: ""
+  });
 
-    //Instance
-    const navigate = useNavigate()
-  
-    //Handlers
-    const addCountButtonHandler = () => {
-      setCount(count + 1)
-    }
-  
-    const inputHandler = (event) => {
-      setInputData(event.target.value)
-    }
-    
-    //UseEfect
-    useEffect(() => {
-    }, [count])
-  
-    useEffect(() => {
-      if (inputData === password) {
-        console.log("sucesfully");
-        navigate("/Profile")
-       }
-    },
-    [inputData])
+  const inputHandler = (event) => {
+    setCredentials((prevState) => ({
+      ...prevState,
+       [event.target.name]: event.target.value
+    }))
+  }
 
-    return(
-      <>
-      <button className='button' onClick={(event) => inputHandler(event)}>Iniciar sesion</button>
-      <div className="card">
+  useEffect(() => {
+    console.log(credentials);
+  }, [credentials])
+
+  return (
+    <>
+      {/* <div className="card">
       <img src='./src/pages/img/logo.jpg' className='img'></img>
-        {/* <CustomImput
+        <CustomInput
         typeProp="email"
         nameProp="email input"
         placeholderProp="introduce tu email"
         handlerProp={inputHandler}
         />
         <input type='text'
-         name='inputPrueba'
+         name='inputPrueba' onChange={(event) => inputHandler(event)}
          placeholder='contraseña'
           >
-        </input> */}
+        </input>
+      </div> */}
+      <div className="card">
+        <Form>
+          <h1>Login</h1>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword" >
+            <Form.Label >Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            <h3 onChange={(event) => inputHandler(event)}>Login</h3>
+          </Button>
+        </Form>
+        <img src='./src/pages/img/logo.jpg' className='img'></img>
       </div>
-        </>
-    )
+    </>
+  )
 }
 

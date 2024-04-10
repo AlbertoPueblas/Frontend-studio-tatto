@@ -6,17 +6,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 //-------------------------------------------------------------
 function Header() {
+
+  
+
   return (
     <Navbar expand="xxlg" className="bg-body-tertiary" display="center">
       <Container>
-        <Navbar.Brand href="/Home">Art Tatto</Navbar.Brand>
+        <Navbar.Brand href="/Home">Home</Navbar.Brand>
+        <Navbar.Brand href="/Login" onClick={() => navigate("/login")} >Iniciar sesion</Navbar.Brand>
+        <Navbar.Brand href="/Register"  >Register</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#">Appointment</Nav.Link>
             <Nav.Link href="#link">Jobs</Nav.Link>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Perfil</NavDropdown.Item>
+              <NavDropdown.Item href="/Profile">Perfil</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
                 Logout
               </NavDropdown.Item>

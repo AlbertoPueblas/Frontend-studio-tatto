@@ -1,12 +1,29 @@
 .card {
     display: center;
-    margin-top: 0.5em;
-    max-width: 50em;
-    background-color: black;
+    margin-top: 1em;
+    max-width: 56em;
 }
 
 .img{
     display: flex;
-    max-height: 55em;
-    max-width: 55em;
+    max-width: 700em;
+    max-height: 700em;
+}
+.login-container {
+    display: flex;
+    margin-top: 0.5em;
+    max-width: 50em; 
+}
+
+Form {
+    display: center;
+    margin: auto;
+    margin-top: 10em;
+    max-width: 30em;
+}
+
+h1 {
+    background-color: aliceblue;
+    opacity: 20%;
+    border-radius: 80em;
 }
