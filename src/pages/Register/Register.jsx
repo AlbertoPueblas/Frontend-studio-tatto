@@ -1,29 +1,85 @@
-// import { useEffect, useState } from "react";
-// import { CustomInput } from "../../components/CustomInput/CustomInput";
+import { useNavigate } from "react-router-dom";
+import { CustomInput } from "../../components/CustomInput/CustomInput";
+import { ButtonC } from "../../components/ButtonC/ButtonC";
+import { useEffect, useState } from "react";
+import { decodeToken } from "react-jwt";
+import { registerNewUserCall } from "../../services/apiCalls";
+import "./Register.css";
+import { inputValidator } from "../../utils/validators";
 
-// //----------------------------------------------------------------------
+export const Register = () => {
+  const navigate = useNavigate();
 
-// export const Register = () => {
-//   const [count, setCount] = useState(0);
-//   const [credentials, setCredentials] = useState({
-//     email: "",
-//     password: ""
-//   });
+  const [credentials, setCredentials] = useState({
+    email: "",
+    firstName: "",
+    password: "",
+  });
 
-//   console.log("close modal estuvo aquí")
+  const [msg, setMsg] = useState("");
 
-//   const inputHandler = (event) => {
-//     setCredentials((prevState) => ({
-//       ...prevState,
-//       [event.target.name]: event.target.value
-//     }));
-//   };
+  const inputHandler = (e) => {
+    //genero la función que bindea
+    console.log(e);
+    setCredentials((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-//   // useEffects
-//   useEffect(() => {}, [count]);
+  const registerMe = async () => {
+    console.log("funcionas?", credentials);
+    if (inputValidator(credentials.firstName, "firstName") && 
+    inputValidator(credentials.password, "password")) {
+      const answer = await registerNewUserCall(credentials);
+      console.log(answer)
+      setMsg(answer.data.message);
 
-//   useEffect(() => {
-//     console.log(credentials);
-//   }, [credentials]);
-  
-// };
+      if (answer.data) {
+        setTimeout(() => {
+          navigate("/Login");
+        }, 2000);
+      }
+    }
+    else {
+      console.log("credenciales incorrectas, algún campo no está bien introducido")
+    }
+  }; 
+
+  return (
+    <div className="register-container registerElementsDesign">
+      {msg === "" ? (
+        <>
+          <CustomInput
+            typeProp={"text"}
+            nameProp={"firstName"}
+            handlerProp={(e) => inputHandler(e)}
+            placeholderProp={"escribe tu nombre"}
+          />
+          <CustomInput
+            typeProp={"email"}
+            nameProp={"email"}
+            handlerProp={(e) => inputHandler(e)}
+            placeholderProp={"escribe tu e-mail"}
+          />
+
+          <CustomInput
+            typeProp={"password"}
+            nameProp={"password"}
+            handlerProp={(e) => inputHandler(e)}
+            placeholderProp={"escribe el password"}
+          />
+
+          <ButtonC
+            title={"register!"}
+            className={"regularButtonClass"}
+            functionEmit={registerMe}
+          />
+        </>
+      ) : (
+        <div>{msg}</div>
+      )}
+      {/* <pre>{JSON.stringify(credentials, null, 2)}</pre> */}
+    </div>
+  );
+};

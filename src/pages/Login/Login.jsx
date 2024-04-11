@@ -1,11 +1,14 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+// import Button from 'react-bootstrap/Button';
+// import Form from 'react-bootstrap/Form';
 import { useEffect,useState } from "react";
+import { CustomInput } from "../../components/CustomInput/CustomInput";
 import { useNavigate } from 'react-router-dom'
 import { loginCall } from '../../services/apiCalls';
 import { login } from "../userSlice";
 import { useDispatch } from 'react-redux'
+import { decodeToken } from "react-jwt";
 import './Login.css'
+import { ButtonC } from '../../components/ButtonC/ButtonC';
 
 // //--------------------------------------------------
 
@@ -16,9 +19,9 @@ export const Login = () => {
     email:"",
     password:""
   })
-  const [msg, setMsg] = useState("")
+  const [msg, setMsg] = useState("");
   
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   
   const inputHandler = (e) => {
     // setInputData(event.target.value)
@@ -37,30 +40,28 @@ export const Login = () => {
         token: answer.data.token,
         decoded: uDecoded,
       };
-      dispatch(login(passport))
+      // dispatch(login(passport))
       console.log(passport);
       sessionStorage.setItem('passport', JSON.stringify(passport))
 
       setMsg(`${uDecoded.name}, welcome again`);
 
       setTimeout(() => {
-        navigate("/Profile")
+        navigate("/Menu")
       }, 3000);
     }
-  };
+  }
   
-  useEffect(() => {
-    if (inputData === password) {
-      console.log("sucesfully");
-      navigate("/Profile")
+  // useEffect(() => {
+  //   if (inputData === password) {
+  //     console.log("sucesfully");
+  //     navigate("/Profile")
       
-    } else if(inputData !==password) {
-      console.log("invalid credentials");
-    }
-  })
+  //   } 
+  // })
   return(
     <>
-        <div className="login-container">
+        {/* <div className="login-container">
           <Form>
             <h1>Login</h1>
       <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -82,7 +83,34 @@ export const Login = () => {
             <h3 >Login</h3>
       </Button>
     </Form>
-        </div>
+        </div> */}
+        <div className="login-container loginElementsDesign">
+      {msg === "" ? (
+        <>
+          <CustomInput
+            typeProp={"email"}
+            nameProp={"email"}
+            handlerProp={(e) => inputHandler(e)}
+            placeholderProp={"escribe tu e-mail"}
+          />
+          <CustomInput
+            typeProp={"password"}
+            nameProp={"password"}
+            handlerProp={(e) => inputHandler(e)}
+            placeholderProp={"escribe el password"}
+          />
+
+          <ButtonC
+            title={"log me!"}
+            className={"regularButtonClass"}
+            functionEmit={loginMe}
+          />
+        </>
+      ) : (
+        <div>{msg}</div>
+      )}
+      <pre>{JSON.stringify(credentials, null, 2)}</pre>
+    </div>
     </>
   )
 }

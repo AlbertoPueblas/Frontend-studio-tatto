@@ -8,18 +8,32 @@ import { getLoggedAmount, getUserData, resetCount } from "../pages/userSlice";
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    role: "",
   });
-  const [isEditing, setIsEditing] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [isEditing, setIsEditing] = useState(false);
+  // const [errorMessage, setErrorMessage] = useState("");
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  const veces = useSelector(getLoggedAmount)
-  const myPassport = useSelector(getUserData)
+  // const veces = useSelector(getLoggedAmount)
+  // const myPassport = useSelector(getUserData)
+  // const token = myPassport.token;
+  const myPassport= JSON.parse(sessionStorage.getItem("passport"))
+  // console.log(myPassport);
+  // console.log(typeof(myPassport));
   const token = myPassport.token;
+  console.log(token);
+
+  // const bringProfile = async() => {
+  //   try {
+  //     const meProfile = await bringProfile(token)
+  //     setProfileData(meProfile) 
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   const inputHandler = (e) => {
     setProfileData((prevState) => ({
@@ -28,37 +42,71 @@ export const Profile = () => {
     }));
   };
 
-  useEffect(() => {
+  useEffect (() => {
     const fetchProfile = async () => {
       const myProfileData = await bringProfile(token);
       setProfileData(myProfileData);
     };
     fetchProfile();
-  }, []);
+  },[])
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     const myProfileData = await bringProfile(token);
+  //     setProfileData(myProfileData);
+  //   };
+  //   fetchProfile();
+  // }, []);
 
-  const updateProfileHandler = () => {
-    if (
-      !inputValidator(profileData.name, "name") ||
-      !inputValidator(profileData.email, "email")
-    ) {
-      console.log("nombre o email no válidos");
-      setErrorMessage("No se pueden actualizar los datos");
-      return;
-    }
-    try {
-      updateProfile(profileData, token);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const updateProfileHandler = () => {
+  //   if (
+  //     !inputValidator(profileData.name, "name") ||
+  //     !inputValidator(profileData.email, "email")
+  //   ) {
+  //     console.log("nombre o email no válidos");
+  //     setErrorMessage("No se pueden actualizar los datos");
+  //     return;
+  //   }
+  //   try {
+  //     updateProfile(profileData, token);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  const resetLoggedCount = () => {
-    console.log(veces)
-  }
+  // const resetLoggedCount = () => {
+  //   console.log(veces)
+  // }
 
   return (
     <>
+      <h1>Profile</h1>
+
       <CustomInput
+        typeProp="text"
+        nameProp="firstName"
+        handlerProp={(e) => inputHandler(e)}
+        placeholderProp="firstName"
+        value={profileData.firstName}
+      />
+
+      <CustomInput
+        typeProp="text"
+        nameProp="lastName"
+        handlerProp={(e) => inputHandler(e)}
+        placeholderProp="lastName"
+        value={profileData.lastName==null ? "lastName" : profileData.lastName }
+      />
+      <CustomInput
+        typeProp="text"
+        nameProp="email"
+        handlerProp={(e) => inputHandler(e)}
+        placeholderProp="email"
+        value={profileData.email}
+      />
+
+      <button onClick={bringProfile}>Aqui un perfil</button>
+
+      {/* <CustomInput
         typeProp="text"
         nameProp="name"
         placeholderProp="name"
@@ -95,7 +143,7 @@ export const Profile = () => {
           inputHandler={inputHandler}
           token={token}/>
         </>
-      )}
+      )} */}
     </>
   );
 };

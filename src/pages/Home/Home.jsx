@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Home.css'
+import { CustomInput } from "../../components/CustomInput/CustomInput";
 
 //--------------------------------------------------
 
@@ -12,6 +13,8 @@ export const Home = () => {
     email: "",
     password: ""
   });
+
+  const navigate = useNavigate()
 
   const inputHandler = (event) => {
     setCredentials((prevState) => ({
@@ -24,23 +27,30 @@ export const Home = () => {
     console.log(credentials);
   }, [credentials])
 
+
   return (
     <>
-      {/* <div className="card">
-      <img src='./src/pages/img/logo.jpg' className='img'></img>
-        <CustomInput
-        typeProp="email"
-        nameProp="email input"
-        placeholderProp="introduce tu email"
-        handlerProp={inputHandler}
-        />
-        <input type='text'
-         name='inputPrueba' onChange={(event) => inputHandler(event)}
-         placeholder='contraseña'
-          >
-        </input>
-      </div> */}
+      <h1>SOY HOME</h1>
+      <h1>Vite + React</h1>
+      <h2>Este es el subtítulo</h2>
       <div className="card">
+      <img src='./src/pages/img/logo.jpg' className='img'></img>
+        <button>Bring My Profile</button>
+        <h3>LOGIN</h3>
+        <CustomInput
+          typeProp="email"
+          nameProp="email"
+          placeholderProp="introduce tu email"
+          handlerProp={inputHandler}
+        />
+        <CustomInput
+          typeProp="password"
+          nameProp="password"
+          placeholderProp=""
+          handlerProp={inputHandler}
+        />
+      </div>
+      {/* <div className="card">
         <Form>
           <h1>Login</h1>
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -55,12 +65,15 @@ export const Home = () => {
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
           <Button variant="primary" type="submit">
-            <h3 onChange={(event) => inputHandler(event)}>Login</h3>
+            <h3 >Login</h3>
           </Button>
         </Form>
         <img src='./src/pages/img/logo.jpg' className='img'></img>
       </div>
     </>
   )
-}
+} */}
+ </>
+  );
+};
 
