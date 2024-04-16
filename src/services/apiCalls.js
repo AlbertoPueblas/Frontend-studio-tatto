@@ -11,8 +11,8 @@ export const registerNewUserCall = async (credentials) => {
 };
 
 export const loginCall = async (credentials) => {
-  console.log(credentials, "aqui loginCall");
   const res = await axios.post(`${API_URL}auth/login`, credentials);
+  console.log(credentials, "aqui loginCall");
   console.log(res);
   return res
 };
@@ -33,4 +33,34 @@ export const bringProfile = async (token) => {
   }
   const res = await axios.get(`${API_URL}users/profile`, config)
   return res.data
+}
+
+export const updateProfile = async (data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const res = await axios.put(`${API_URL}users/profile`, data, config)
+  console.log(res, "yo soy updateProfile")
+  return res
+}
+
+export const logout = async (credentials) => {
+  const res = await axios.post(`${API_URL}auth/profile`, credentials);
+  console.log(credentials, "aqui logOut");
+  console.log(res);
+  return res
+};
+
+export const deleteUser = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  console.log("que ha pasao");
+  const res =  axios.delete(`${API_URL}users`,token, config)
+  console.log("yo soy deleteProfile")
+  return res
 }

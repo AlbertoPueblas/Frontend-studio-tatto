@@ -11,8 +11,8 @@ export const Register = () => {
   const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
-    email: "",
     firstName: "",
+    email: "",
     password: "",
   });
 
