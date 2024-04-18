@@ -14,7 +14,7 @@ function BootstrapModal({ profileData, inputHandler, token }) {
     
     const navigate = useNavigate();
 
-    const handleClose = () => {
+    const handleClose = () => { 
         navigate("/");
         setTimeout(() => {
             navigate("/Profile")
@@ -22,23 +22,23 @@ function BootstrapModal({ profileData, inputHandler, token }) {
         console.log("close");
         setShow(false);
     }
-    // const handleUpdate = async () => {
-    //     try {
-    //         await updateProfile(profileData, token);
-    //         console.log("datos actualizados");
-    //         navigate("/Profile")
-    //         setTimeout(() => {
-    //             setShow(false);
-    //         }, 2000)
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
-    const handleUpdate = () => {
-        updateProfile(profileData,token);
-        console.log(profileData);
+    const handleUpdate = async () => {
+        try {
+            await updateProfile(profileData, token);
+            console.log("datos actualizados");
+            navigate("/Profile")
+            setTimeout(() => {
+                setShow(false);
+            }, 2000)
+        } catch (error) {
+            console.log(error);
+        }
     };
+
+    // const handleUpdate = () => {
+    //     updateProfile(profileData,token);
+    //     console.log(profileData);
+    // };
 
 
 

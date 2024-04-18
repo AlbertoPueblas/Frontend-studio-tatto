@@ -40,7 +40,6 @@ export const updateProfile = async (data, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log(data);
   const res = await axios.put(`${API_URL}users/profile`, data, config)
   console.log(res, "yo soy updateProfile")
   return res
@@ -53,14 +52,14 @@ export const loginOut = async (credentials) => {
   return res
 };
 
-export const deleteUser = async (token) => {
+export const deleteUser = async (data, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log("que ha pasao");
-  const res = await axios.delete(`${API_URL}users`,token, config)
   console.log("yo soy deleteProfile")
+  const res = await axios.put(`${API_URL}users/profile`,data, config)
+  console.log("que ha pasao",res);
   return res
 }

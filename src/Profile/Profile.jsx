@@ -6,24 +6,21 @@ import { deleteUser } from "../services/apiCalls";
 
 import { inputValidator } from "../utils/validators";
 import BootstrapModal from "../components/BootstrapModal/BootstrapModal";
-import { useDispatch, useSelector } from "react-redux";
-// import { getLoggedAmount, getUserData, resetCount } from "../app/slice/userSlice";
+import { useDispatch, useSelector, } from "react-redux";
+
 import { useNavigate } from 'react-router-dom'
-import { getUserData, logout } from "../app/slice/userSlice";
+import { getUserData, logout,  } from "../app/slice/userSlice";
 // import { logout } from "../app/slice/userSlice";
 
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState({
+    isActive:"",
     firstName: "",
     lastName: "",
     email: "",
   });
-
-  // const [credentials, setCredentials] = useState({
-  //   email:"",
-  //   password:""
-  // })
+  const activeUser = profileData.isActive
 
   const [isEditing, setIsEditing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -32,10 +29,8 @@ export const Profile = () => {
   const navigate = useNavigate()
 
   const myPassport = useSelector(getUserData)
-  // console.log(myPassport);
-  console.log(typeof(myPassport));
+
   const token = myPassport.token;
-  console.log(token);
 
 
   const inputHandler = (e) => {
@@ -54,40 +49,18 @@ export const Profile = () => {
     fetchProfile();
   }, []);
 
-    const deleteProfile = async() => {
-        try {
-            await deleteUser(profileData, token);
-            console.log("datos borrados");
-            setTimeout(() => {
-              navigate("/Home")
-            }, 1000)
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-  //   const logOutMe = async () => {
-  //     const answer = await loginOut(credentials);
-  //     if (answer.data.token) {
-  //         const uDecoded = decodeToken(answer.data.token);
-  
-  //         const passport = {
-  //             token: answer.data.token,
-  //             decoded: uDecoded,
-  //           };
-  //           dispatch(logout(passport))
-      
-  //           setMsg(`${uDecoded.name}, welcome again`);
-      
-  //           setTimeout(() => {
-  //               navigate("/Home")
-  //     }, 3000);
-  //   }
-  // }
-
-    const logOutMe = () => {
-      dispatch(logout())
+  const deleteProfile = async () => {
+    try {
+      await deleteUser(profileData, token);
+      console.log(profileData);
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  const logOutMe = () => {
+    dispatch(logout())
+  }
 
   return (
     <>
@@ -117,24 +90,26 @@ export const Profile = () => {
         isDisabled={!isEditing}
         handlerProp={inputHandler}
       />
-                <ButtonC
-            title={"Delete Profile"}
-            className={"regularButtonClass"}
-            functionEmit={deleteProfile}
-          />
-        
-        <button onClick={() => 
-          {logOutMe()
-            navigate("/Home")
-          }}>log out</button>
+      <ButtonC
+        title={"Delete Profile"}
+        className={"regularButtonClass"}
+        functionEmit={()=> {
+          deleteProfile()
+        }}
+      />
 
-(
-        <>
-          <BootstrapModal 
+      <button onClick={() => {
+        logOutMe()
+        navigate("/Home")
+      }}>log out</button>
+
+      (
+      <>
+        <BootstrapModal
           profileData={profileData}
           inputHandler={inputHandler}
-          token={token}/>
-        </>
+          token={token} />
+      </>
       )
     </>
   );

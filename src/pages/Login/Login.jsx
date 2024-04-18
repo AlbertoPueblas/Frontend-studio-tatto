@@ -31,7 +31,6 @@ export const Login = () => {
 
   const loginMe = async () => {
     const answer = await loginCall(credentials);
-    console.log("???");
       if (answer.data.token) {
           const uDecoded = decodeToken(answer.data.token);
 
