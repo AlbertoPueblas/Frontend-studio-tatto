@@ -79,7 +79,7 @@ export const Register = () => {
       ) : (
         <div>{msg}</div>
       )}
-      {/* <pre>{JSON.stringify(credentials, null, 2)}</pre> */}
+      <pre>{JSON.stringify(credentials, null, 2)}</pre>
     </div>
   );
 };

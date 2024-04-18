@@ -6,10 +6,11 @@ import { deleteUser } from "../services/apiCalls";
 
 import { inputValidator } from "../utils/validators";
 import BootstrapModal from "../components/BootstrapModal/BootstrapModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { getLoggedAmount, getUserData, resetCount } from "../app/slice/userSlice";
 import { useNavigate } from 'react-router-dom'
-import { logout } from "../app/slice/userSlice";
+import { getUserData, logout } from "../app/slice/userSlice";
+// import { logout } from "../app/slice/userSlice";
 
 
 export const Profile = () => {
@@ -18,13 +19,19 @@ export const Profile = () => {
     lastName: "",
     email: "",
   });
+
+  // const [credentials, setCredentials] = useState({
+  //   email:"",
+  //   password:""
+  // })
+
   const [isEditing, setIsEditing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const myPassport= JSON.parse(sessionStorage.getItem("passport"))
+  const myPassport = useSelector(getUserData)
   // console.log(myPassport);
   console.log(typeof(myPassport));
   const token = myPassport.token;
@@ -54,34 +61,33 @@ export const Profile = () => {
             setTimeout(() => {
               navigate("/Home")
             }, 1000)
-            dispatch(logout(myPassport))
-            sessionStorage.removeItem('passport', JSON.stringify(myPassport))
-
-
         } catch (error) {
             console.log(error);
         }
     };
 
-    const logOutMe = async () => {
-      const answer = await loginOut(credentials);
-      if (answer.data.token) {
-          const uDecoded = decodeToken(answer.data.token);
+  //   const logOutMe = async () => {
+  //     const answer = await loginOut(credentials);
+  //     if (answer.data.token) {
+  //         const uDecoded = decodeToken(answer.data.token);
   
-          const passport = {
-              token: answer.data.token,
-              decoded: uDecoded,
-            };
-            dispatch(login(passport))
-            sessionStorage.removeItem('passport', JSON.stringify(passport))
+  //         const passport = {
+  //             token: answer.data.token,
+  //             decoded: uDecoded,
+  //           };
+  //           dispatch(logout(passport))
       
-            setMsg(`${uDecoded.name}, welcome again`);
+  //           setMsg(`${uDecoded.name}, welcome again`);
       
-            setTimeout(() => {
-                navigate("/Home")
-      }, 3000);
+  //           setTimeout(() => {
+  //               navigate("/Home")
+  //     }, 3000);
+  //   }
+  // }
+
+    const logOutMe = () => {
+      dispatch(logout())
     }
-  }
 
   return (
     <>
@@ -116,12 +122,12 @@ export const Profile = () => {
             className={"regularButtonClass"}
             functionEmit={deleteProfile}
           />
+        
+        <button onClick={() => 
+          {logOutMe()
+            navigate("/Home")
+          }}>log out</button>
 
-<ButtonC
-            title={"logOut!"}
-            className={"regularButtonClass"}
-            functionEmit={logOutMe}
-          />
 (
         <>
           <BootstrapModal 

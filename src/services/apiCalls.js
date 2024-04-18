@@ -16,7 +16,6 @@ export const loginCall = async (credentials) => {
   console.log(res);
   return res
 };
-  
 
 export const bringAllCharacters = async() => {
     const res = await axios.get(`${API_URL}users`, /*headers*/)
@@ -41,12 +40,13 @@ export const updateProfile = async (data, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
+  console.log(data);
   const res = await axios.put(`${API_URL}users/profile`, data, config)
   console.log(res, "yo soy updateProfile")
   return res
 }
 
-export const logout = async (credentials) => {
+export const loginOut = async (credentials) => {
   const res = await axios.post(`${API_URL}auth/profile`, credentials);
   console.log(credentials, "aqui logOut");
   console.log(res);
@@ -60,7 +60,7 @@ export const deleteUser = async (token) => {
     },
   }
   console.log("que ha pasao");
-  const res =  axios.delete(`${API_URL}users`,token, config)
+  const res = await axios.delete(`${API_URL}users`,token, config)
   console.log("yo soy deleteProfile")
   return res
 }

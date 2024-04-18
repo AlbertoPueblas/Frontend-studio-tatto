@@ -11,9 +11,7 @@ import { updateProfile } from "../../services/apiCalls";
 
 function BootstrapModal({ profileData, inputHandler, token }) {
     const [show, setShow] = useState(false)
-    const [logOut, setLogOut] = useTransition(false)
-
-
+    
     const navigate = useNavigate();
 
     const handleClose = () => {
@@ -24,39 +22,30 @@ function BootstrapModal({ profileData, inputHandler, token }) {
         console.log("close");
         setShow(false);
     }
-    const handleUpdate = async () => {
-        try {
-            await updateProfile(profileData, token);
-            console.log("datos actualizados");
-            navigate("/")
-            setTimeout(() => {
-                setShow(false);
-            }, 2000)
-        } catch (error) {
-            console.log(error);
-        }
+    // const handleUpdate = async () => {
+    //     try {
+    //         await updateProfile(profileData, token);
+    //         console.log("datos actualizados");
+    //         navigate("/Profile")
+    //         setTimeout(() => {
+    //             setShow(false);
+    //         }, 2000)
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+    const handleUpdate = () => {
+        updateProfile(profileData,token);
+        console.log(profileData);
     };
-   
-    const handleLogOut = async () => {
-        try {
-            await logOutProfile(profileData, token);
-            console.log("datos borrado");
-            console.log(typeof(logOutProfile));
-            setTimeout(() => {
-                logOut(false)
-            }, 2000)
-        } catch (error) {
-            console.log(error);
-        }
-    };
+
+
 
     return (
         <>
             <Button variant="primary" onClick={() => setShow(true)}>
                 Modificar
-            </Button>
-            <Button variant="primary" onClick={() =>setLogOut(true)}>
-                LogOut
             </Button>
 
             <Modal show={show} onHide={handleClose}>
@@ -73,14 +62,6 @@ function BootstrapModal({ profileData, inputHandler, token }) {
                         handlerProp={inputHandler}
                     />
                     <CustomInput
-                        typeProp="email"
-                        nameProp="email"
-                        placeholderProp="email"
-                        value={profileData.email}
-                        isDisabled=""
-                        handlerProp={inputHandler}
-                    />
-                    <CustomInput
                         typeProp="text"
                         nameProp="lastName"
                         placeholderProp="lastName"
@@ -88,16 +69,24 @@ function BootstrapModal({ profileData, inputHandler, token }) {
                         isDisabled=""
                         handlerProp={inputHandler}
                     />
+                    <CustomInput
+                        typeProp="email"
+                        nameProp="email"
+                        placeholderProp="email"
+                        value={profileData.email}
+                        isDisabled=""
+                        handlerProp={inputHandler}
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Cancelar
+                        Cancel
                     </Button>
-                    <Button variant="primary" onClick={handleUpdate}>
-                        Guardar cambios
-                    </Button>
-                    <Button variant="primary" onClick={handleLogOut}>
-                        borrar
+                    <Button variant="primary" onClick={() => {
+                        handleUpdate()
+                        handleClose()
+                    }}>
+                        Save Changes
                     </Button>
                 </Modal.Footer>
             </Modal>

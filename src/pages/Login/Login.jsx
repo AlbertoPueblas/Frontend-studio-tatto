@@ -1,5 +1,3 @@
-// import Button from 'react-bootstrap/Button';
-// import Form from 'react-bootstrap/Form';
 import { useEffect,useState } from "react";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
 import { useNavigate } from 'react-router-dom'
@@ -32,7 +30,8 @@ export const Login = () => {
   };
 
   const loginMe = async () => {
-      const answer = await loginCall(credentials);
+    const answer = await loginCall(credentials);
+    console.log("???");
       if (answer.data.token) {
           const uDecoded = decodeToken(answer.data.token);
 
@@ -41,7 +40,6 @@ export const Login = () => {
               decoded: uDecoded,
             };
             dispatch(login(passport))
-            sessionStorage.setItem('passport', JSON.stringify(passport))
       
             setMsg(`${uDecoded.name}, welcome again`);
       
@@ -51,30 +49,11 @@ export const Login = () => {
     }
   }
 
-  const logOutMe = async () => {
-    const answer = await loginOut(credentials);
-    if (answer.data.token) {
-        const uDecoded = decodeToken(answer.data.token);
 
-        const passport = {
-            token: answer.data.token,
-            decoded: uDecoded,
-          };
-          dispatch(login(passport))
-          sessionStorage.removeItem('passport', JSON.stringify(passport))
-    
-          setMsg(`${uDecoded.name}, welcome again`);
-    
-          setTimeout(() => {
-              navigate("/Home")
-    }, 3000);
-  }
-}
 
   return(
-      <>
-  
-          <div className="login-container loginElementsDesign">
+
+      <div className="login-container loginElementsDesign">
         {msg === "" ? (
             <>
               <CustomInput
@@ -95,17 +74,11 @@ export const Login = () => {
             className={"regularButtonClass"}
             functionEmit={loginMe}
           />
-                    <ButtonC
-            title={"logOut!"}
-            className={"regularButtonClass"}
-            functionEmit={logOutMe}
-          />
         </>
       ) : (
         <div>{msg}</div>
       )}
       <pre>{JSON.stringify(credentials, null, 2)}</pre>
     </div>
-    </>
   )
-}
+};
