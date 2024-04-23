@@ -1,0 +1,39 @@
+.userList{
+    margin-top: 1em;
+    color:rgb(255, 255, 255);
+}
+
+.deleteButton {
+    width: 1em;
+    height: 1em;
+    background-color: red;
+    border-radius: 5em;
+    margin-left: 1em;
+    margin-top: 0.4em;
+}
+.deleteButton:hover {
+    cursor: crosshair;
+}
+
+.flex-row {
+    display: flex;
+    padding: 0.3em;
+}
+
+.showButton {
+    width: 1em;
+    height: 1em;
+    background-color: rgb(81, 255, 0);
+    border-radius: 5em;
+    margin-left: 1em;
+    margin-top: 0.4em;
+}
+
+.upgradeButton {
+    width: 1em;
+    height: 1em;
+    background-color: rgb(255, 196, 0);
+    border-radius: 5em;
+    margin-left: 1em;
+    margin-top: 0.4em;
+}

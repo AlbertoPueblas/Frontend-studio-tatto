@@ -6,6 +6,7 @@ import { Characters } from "../Characters/Characters";
 import './Body.css'
 import { Profile } from "../../Profile/Profile";
 import { Menu } from "../Menu/Menu";
+import { Admin } from "../Admin/Admin";
 
 //---------------------------------------------------------
 
@@ -21,6 +22,7 @@ export const Body = () => {
             <Route path="/Profile" element={<Profile/>} />
             <Route path="/Register" element={<Register/>} />
             <Route path="/characters" element={<Characters/>} />
+            <Route path="/admin" element={<Admin/>} />
             <Route path="/Menu" element={<Menu/>} />
         </Routes>
     </>

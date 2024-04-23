@@ -2,28 +2,25 @@ import { useEffect, useState } from "react";
 import { CustomInput } from "../components/CustomInput/CustomInput";
 import { bringProfile, loginOut } from "../services/apiCalls";
 import { ButtonC } from "../components/ButtonC/ButtonC";
-import { deleteUser } from "../services/apiCalls";
-
+// import { deleteUser } from "../services/apiCalls";
 import { inputValidator } from "../utils/validators";
 import BootstrapModal from "../components/BootstrapModal/BootstrapModal";
 import { useDispatch, useSelector, } from "react-redux";
-
 import { useNavigate } from 'react-router-dom'
 import { getUserData, logout,  } from "../app/slice/userSlice";
-// import { logout } from "../app/slice/userSlice";
 
+//---------------------------------------------------------------------------
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState({
-    isActive:"",
     firstName: "",
     lastName: "",
     email: "",
   });
-  const activeUser = profileData.isActive
 
   const [isEditing, setIsEditing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -49,18 +46,21 @@ export const Profile = () => {
     fetchProfile();
   }, []);
 
-  const deleteProfile = async () => {
-    try {
-      await deleteUser(profileData, token);
-      console.log(profileData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const deleteProfile = async () => {
+  //   try {
+  //     await deleteUser(profileData, token);
+  //     // res.json(await deleteUser(req.params.id,req.payload))
+  //     console.log(profileData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const logOutMe = () => {
     dispatch(logout())
   }
+
+
 
   return (
     <>
@@ -75,14 +75,6 @@ export const Profile = () => {
         handlerProp={inputHandler}
       />
       <CustomInput
-        typeProp="email"
-        nameProp="email"
-        placeholderProp="email"
-        value={profileData.email}
-        isDisabled={!isEditing}
-        handlerProp={inputHandler}
-      />
-      <CustomInput
         typeProp="text"
         nameProp="lastName"
         placeholderProp="lastName"
@@ -90,12 +82,21 @@ export const Profile = () => {
         isDisabled={!isEditing}
         handlerProp={inputHandler}
       />
+      <CustomInput
+        typeProp="email"
+        nameProp="email"
+        placeholderProp="email"
+        value={profileData.email}
+        isDisabled={!isEditing}
+        handlerProp={inputHandler}
+      />
       <ButtonC
         title={"Delete Profile"}
         className={"regularButtonClass"}
-        functionEmit={()=> {
-          deleteProfile()
-        }}
+        
+        // functionEmit={()=> {
+        //   deleteProfile()
+        // }}
       />
 
       <button onClick={() => {

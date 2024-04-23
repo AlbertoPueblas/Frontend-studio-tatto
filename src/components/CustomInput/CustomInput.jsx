@@ -6,7 +6,8 @@ export const CustomInput = ({
   placeholderProp,
   handlerProp,
   value,
-  isDisabled
+  isDisabled,
+  onBlurHandler
 }) => {
   // props, properties, propiedades, se reciben como un objeto
 
@@ -17,7 +18,8 @@ export const CustomInput = ({
       placeholder={placeholderProp}
       value={value}
       disabled={isDisabled}
-      onChange={(e) => handlerProp(e)}>
+      onChange={(e) => handlerProp(e)}
+      onBlur={(e) => onBlurHandler(e)}>
       </input>
   );
 };

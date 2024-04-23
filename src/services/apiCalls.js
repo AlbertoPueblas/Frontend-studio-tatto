@@ -17,10 +17,10 @@ export const loginCall = async (credentials) => {
   return res
 };
 
-export const bringAllCharacters = async() => {
-    const res = await axios.get(`${API_URL}users`, /*headers*/)
+export const bringAllCharacters = async () => {
+  const res = await axios.get(`${API_URL}users`, /*headers*/)
 
-    return res.data.results
+  return res.data.results
 
 };
 
@@ -33,6 +33,7 @@ export const bringProfile = async (token) => {
   const res = await axios.get(`${API_URL}users/profile`, config)
   return res.data
 }
+
 
 export const updateProfile = async (data, token) => {
   const config = {
@@ -52,14 +53,56 @@ export const loginOut = async (credentials) => {
   return res
 };
 
-export const deleteUser = async (data, token) => {
+export const getUserById = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const res = await axios.get(`${API_URL}users/${id}`, config)
+  return res.data
+}
+
+export const putUserId = async (id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
   console.log("yo soy deleteProfile")
-  const res = await axios.put(`${API_URL}users/profile`,data, config)
-  console.log("que ha pasao",res);
-  return res
+  return axios.put(`${API_URL}users/profile/${id}`, config)
 }
+
+export const deleteUserId = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  console.log("yo soy deleteProfile")
+  return axios.delete(`${API_URL}users/profile/${id}`, config)
+}
+
+export const bringAllUsers = async (token) => {
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  return axios.get(`${API_URL}users/allUsers?limit=50?pages=10`, config /*headers*/)
+
+}
+
+// export const bringAllappointment = async (appointmentData,token) => {
+
+//   const config = {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   }
+
+//   return axios.get(`${API_URL}users/dates`,appointmentData, config /*headers*/)
+
+// };

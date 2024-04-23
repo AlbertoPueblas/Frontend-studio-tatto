@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteUser } from "../../services/apiCalls";
 
 // creamos nuestro pasillo para el usuario (slice de user)
 export const userSlice = createSlice({
@@ -38,7 +37,7 @@ export const userSlice = createSlice({
             }
         },
         
-        deleteAcount: (state, action) => {
+        deleteUser: (state, action) => {
 
         
             return {

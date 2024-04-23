@@ -8,7 +8,7 @@ import { decodeToken } from "react-jwt";
 import './Login.css'
 import { ButtonC } from '../../components/ButtonC/ButtonC';
 
-// //--------------------------------------------------
+//--------------------------------------------------
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -17,17 +17,25 @@ export const Login = () => {
       email:"",
       password:""
     })
+
+    const [isEmailValid, setIsEmailValid] = useState(true)
     const [msg, setMsg] = useState("");
   
     const dispatch = useDispatch()
   
+
+    //actualiza estado
     const inputHandler = (e) => {
-    
     setCredentials((prevState) => ({
      ...prevState,
       [e.target.name]: e.target.value
     }))
   };
+
+  // const inputValidatorHandler = (e) => {
+  //   const isValid = inputValidator(e.target.value, e.target.name)
+  //   console.log("Es valido?",isValid);
+  // }
 
   const loginMe = async () => {
     const answer = await loginCall(credentials);
@@ -59,6 +67,7 @@ export const Login = () => {
                 typeProp={"email"}
             nameProp={"email"}
             handlerProp={(e) => inputHandler(e)}
+            onBlurHandler={(e) => inputValidatorHandler(e)}
             placeholderProp={"escribe tu e-mail"}
           />
           <CustomInput
