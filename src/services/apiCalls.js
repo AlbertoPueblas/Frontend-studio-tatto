@@ -59,19 +59,10 @@ export const getUserById = async (id, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  const res = await axios.get(`${API_URL}users/${id}`, config)
+  const res = await axios.get(`${API_URL}users/user/${id}`, config)
   return res.data
 }
 
-export const putUserId = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-  console.log("yo soy deleteProfile")
-  return axios.put(`${API_URL}users/profile/${id}`, config)
-}
 
 export const deleteUserId = async (id, token) => {
   const config = {
@@ -95,14 +86,15 @@ export const bringAllUsers = async (token) => {
 
 }
 
-// export const bringAllappointment = async (appointmentData,token) => {
+export const bringAllappointment = async (token) => {
 
-//   const config = {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
 
-//   return axios.get(`${API_URL}users/dates`,appointmentData, config /*headers*/)
+  const res = await axios.get(`${API_URL}dates`, config)
+  return res.data
 
-// };
+};

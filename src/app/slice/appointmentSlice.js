@@ -4,14 +4,18 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const appointmentSlice = createSlice({
     name: "appointment",
-    initialState: null,
+    initialState: {
+        token:"",
+        decodificado: {
+            dates:"",
+        }
+    },
     reducers: {
         appointmentDetail: (state, action) => {
-            state
             return action.payload
         }
     }
 })
 
 export const getAppointmentId = (state) => state.appointment
-export default appointmentSlice.reducer
+export default appointmentSlice.reducer;
