@@ -72,6 +72,7 @@ export const deleteUserId = async (id, token) => {
   }
   console.log("yo soy deleteProfile")
   return axios.delete(`${API_URL}users/profile/${id}`, config)
+
 }
 
 export const bringAllUsers = async (token) => {
@@ -86,15 +87,14 @@ export const bringAllUsers = async (token) => {
 
 }
 
-export const bringAllappointment = async (token) => {
-
+export const bringAppointment = async (id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
 
-  const res = await axios.get(`${API_URL}dates`, config)
-  return res.data
+  return axios.get(`${API_URL}users/dates/${id}`, config)
+  // return res.data
 
 };

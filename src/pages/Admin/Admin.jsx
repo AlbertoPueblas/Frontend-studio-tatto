@@ -1,14 +1,15 @@
 import { useSelector } from "react-redux"
 import { getUserData } from "../../app/slice/userSlice"
 import { useEffect, useState } from "react"
-import { bringAllUsers, bringAllappointment, deleteUserId, getUserById } from "../../services/apiCalls"
+import { bringAllUsers, bringAppointment, deleteUserId, getUserById} from "../../services/apiCalls"
+import Table from 'react-bootstrap/Table';
 import './Admin.css'
 
 //---------------------------------------------------------------------------------
 
 export const Admin = () => {
     const [users, setUsers] = useState([])
-    const [dates, setDates] = useState([])
+    const [userData, setUserData] = useState({})
 
 
     const userReduxData = useSelector(getUserData)
@@ -17,81 +18,84 @@ export const Admin = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             const res = await bringAllUsers(token)
+            console.log(res.data.users);
             setUsers(res.data.users)
         }
         fetchUsers()
     }, [])
 
-    
-    useEffect(() => {
-        console.log(users);
-    }, [users])
-
     // useEffect(() => {
-        const fetchDates = async () => {
-            const res = await bringAllappointment(token)
-            console.log(res);
-            setDates(res.dates)
-            // console.log(res.data.dates);
+
+        const fetchUser = async (id) => {
+            const res = await bringAppointment(id, token)
+            setUserData(res)
         }
-    //     fetchDates()
-    // }, [])
+    //     fetchUser()
+    // },[])
 
     
     useEffect(() => {
-        console.log(dates);
-    }, [dates])
+        console.log(userData);
+    }, [userData])
     
-    // useEffect(() => {
-    //     const fetchUserId = async () => {
-    //         const res = await getUserById(token)
-    //         setAppointmentId(res.data.dates)
-    //     }
-    //     fetchUserId()
-    // }, [])
-
-    // useEffect(() => {
-    //     console.log(dates);
-    // },[dates])
 
     const deleteUser = async (id) => {
-        const res = await deleteUserId(id.params, token)
+        const res = await deleteUserId(id, token)
         console.log(res);
     };
 
     const getUser = async (id) => {
-        const res = await getUserById(id,dates, token)
+        const res = await getUserById(id, token)
         console.log(res,);
     };
 
-    // const putUser = async (id) => {
-    //     const res = await putUserId(id, token)
-    //     console.log(res);
-    // };
-
-    return (
+      return (
         <>
-            <div className="userList">
-                {users.length > 0 ? (
-                    <ol>
-                        {users.map((user) => {
-                            return (
+        <Table striped>   
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Username</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+                <tr>
+            <th key={user.id}>
 
-                                <li key={user.id} className="flex-row">
-                                    {user.firstName} {user.email}{user.dates}
-                                    <div className="showButton" onClick={() => {
-                                        // getUser(user.id)
-                                        fetchDates()
-                                    }}></div>
-                                    <div className="deleteButton" onClick={() => deleteUser(user.id)}></div>
+            {user.firstName}</th>
+            <th>{user.lastName}</th>
+            <th>{user.email}</th>
+            <th>
+                <div className="userList">
+                <div className="showButton" onClick={() => {
+                    fetchUser(user.id)
+                }}></div>
+                <div className="deleteButton" onClick={
+                    () => deleteUser(user.id)}></div>
+                                    <div className="upgradeButton" onClick={
+                    () => getUser(user.id)}></div>
+                </div>                                    
+                </th>
+            </tr>
+        ))}
 
-                                </li>
-                            );
-                        })}
-                    </ol>
-                ) : null}
-            </div>
+            </tbody>
+        </Table>
         </>
-    )
-
-}
+      );
+    }
+    
+            {/* {users.map((date) => (
+                <tr>
+                    <th key={date.id}>{date.firstName}</th>
+                    <th>{date.lastName}</th>
+                    <th>{date.email}</th>
+                    <th>{date.username}</th>
+                    <div className="showButton" onClick={() => {
+                        fetchDates(date.id)
+                    }}></div>
+                    </tr>
+                ))} */}
