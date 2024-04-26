@@ -59,8 +59,7 @@ export const getUserById = async (id, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  const res = await axios.get(`${API_URL}users/user/${id}`, config)
-  return res.data
+  return axios.get(`${API_URL}users/user/${id}`, config)
 }
 
 
@@ -95,6 +94,6 @@ export const bringAppointment = async (id, token) => {
   }
 
   return axios.get(`${API_URL}users/dates/${id}`, config)
-  // return res.data
+  // return res
 
 };
