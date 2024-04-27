@@ -14,8 +14,9 @@ import { useNavigate } from "react-router-dom";
 
 export const Admin = () => {
     const [users, setUsers] = useState([])
+    const [oneUser, setOneUser] = useState([])
     const [userData, setUserData] = useState({})
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState()
     const navigate = useNavigate();
     const userReduxData = useSelector(getUserData)
     const token = userReduxData.token
@@ -29,28 +30,28 @@ export const Admin = () => {
         fetchUsers()
     }, [])
 
-    // useEffect(() => {
-
-        const fetchDates = async (id) => {
-            const res = await bringAppointment(id, token)
-            setUserData(res)
+        const fetchDates = async (userId) => {
+            const res = await bringAppointment(userId, token)
+            console.log(res.data.clientDates);
+            setUserData(res.data.clientDates)
         }
-      //   fetchDates()
-      // }, [])
-    
     useEffect(() => {
-        console.log(userData);
+        setUserData(userData)
     }, [userData])
     
-
+    const fetchProfile = async (userId) => {
+      const res = await getUserById(userId, token)
+      console.log(res.data.user)
+      setOneUser(res.data.user)
+    };
+    
+    useEffect(() => {
+      setOneUser(oneUser)
+    },[oneUser])
+    
     const deleteUser = async (id) => {
         const res = await deleteUserId(id, token)
         console.log(res);
-    };
-
-    const getUser = async (id) => {
-        const res = await getUserById(id, token)
-        console.log(res,);
     };
 
     const handleClose = () => { 
@@ -85,15 +86,14 @@ export const Admin = () => {
             <th>
                 <div className="userList">
                     <div className="showButton" 
-                    onClick={() => setShow((true),fetchDates(user.id))}>
+                    onClick={() => setShow((true),fetchDates(user.id),fetchProfile(user))}>
                 </div>
                 <div className="deleteButton" onClick={
                     () => deleteUser(user.id)}></div>
-
-                    <div className="upgradeButton" onClick={
-                    () => getUser(user.id)}></div>
+                <div className="upgradeButton" onClick={
+                    () => fetchProfile(user.id)}></div>
                 </div>                                    
-                </th>
+              </th>
             </tr>
         ))}
 
@@ -102,7 +102,7 @@ export const Admin = () => {
         <div
       className="modal show"
       style={{ display: 'block', position: 'initial' }}>
-      <Modal show={show} >
+      <Modal show={show}>
         
       <Tabs
       defaultActiveKey="home"
@@ -111,40 +111,33 @@ export const Admin = () => {
       className="mb-3"
     >
       <Tab eventKey="home" title="Dates">
-
-            {/* {users.map((dates) => (
+      {userData.length > 0 &&                          
+            userData.map((dates) => (
                 <tr>
                     <th key={dates.id}></th>
-                    <th>{dates.clientDates}</th>
-                    <th>{dates.email}</th>
-                    <th>{dates.username}</th>
-                    <div className="showButton" onClick={() => {
-                        fetchDates()
-                    }}></div>
+                    <th>Appointment id: {dates.id}</th>
+                    <th>Appointment: {dates.appointmentDate}</th>
+                    <th>User: <br></br>{dates.userId}</th>
+                    <th>Artist id: {dates.tattoArtistId}</th>
                     </tr>
-                ))} */}
+                ))}
       </Tab>
       <Tab eventKey="profile" title="Profile">
-      {users.map((user) => (
-                <tr>
-            <th key={user.id}>
-            {user.firstName}</th>
-            <th>{user.lastName}</th>
-            <th>{user.email}</th>
-            </tr>
+      {oneUser.length > 0 && 
+      oneUser.map((user) => (
+        <tr>
+            <th key={user.data.id}></th>
+            <th>{user.data.id}</th>
+            <th>{user.data}</th>
+        </tr>
         ))}
-      </Tab>
-                
+      </Tab>    
       <Tab eventKey="contact" title="Contact" disabled>
         Tab content for Contact
       </Tab>
     </Tabs>
-            {/* <Modal.Header closeButton onClick={handleClose}></Modal.Header> */}
-
-
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Close</Button>
-          {/* <Button variant="primary">Save changes</Button> */}
         </Modal.Footer>
       </Modal>
     </div>

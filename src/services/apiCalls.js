@@ -94,6 +94,4 @@ export const bringAppointment = async (id, token) => {
   }
 
   return axios.get(`${API_URL}users/dates/${id}`, config)
-  // return res
-
 };
