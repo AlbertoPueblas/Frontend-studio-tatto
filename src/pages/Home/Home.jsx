@@ -13,11 +13,6 @@ import { login } from '../../app/slice/userSlice';
 
 export const Home = () => {
 
-  const user = {
-    email: "21@",
-    password: "12345678"
-  }
-
   const admin = {
     email: "admin1@admin.com",
     password: "12345678"
@@ -44,7 +39,7 @@ export const Home = () => {
     <>
       <div className="card">
         <button onClick={() => loginMe(admin)}>Admin</button>
-        <button onClick={() => loginMe(user)}>User</button>
+        {/* <button onClick={() => loginMe(user)}>User</button> */}
         <img src='./src/pages/img/logo.jpg' className='img'></img>
       </div>
     </>

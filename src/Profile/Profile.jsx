@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import { CustomInput } from "../components/CustomInput/CustomInput";
-import { bringProfile, loginOut } from "../services/apiCalls";
+import { bringAppointment, bringDates, bringProfile, loginOut } from "../services/apiCalls";
 import { ButtonC } from "../components/ButtonC/ButtonC";
 // import { deleteUser } from "../services/apiCalls";
 import { inputValidator } from "../utils/validators";
 import BootstrapModal from "../components/BootstrapModal/BootstrapModal";
 import { useDispatch, useSelector, } from "react-redux";
 import { useNavigate } from 'react-router-dom'
-import { getUserData, logout,  } from "../app/slice/userSlice";
+import { getUserData, logout, } from "../app/slice/userSlice";
+
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+
 
 //---------------------------------------------------------------------------
 
@@ -18,8 +24,11 @@ export const Profile = () => {
     email: "",
   });
 
+  const [userData, setUserData] = useState([]);
+
   const [isEditing, setIsEditing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
 
 
   const dispatch = useDispatch()
@@ -34,6 +43,7 @@ export const Profile = () => {
     setProfileData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
+      [e.target.date]: e.target
     }));
   };
 
@@ -46,6 +56,14 @@ export const Profile = () => {
     fetchProfile();
   }, []);
 
+  useEffect(() => {
+    const fetchDates = async () => {
+      const res = await bringDates(token);
+      console.log(res);
+      setUserData(res);
+    };
+    fetchDates();
+  }, []);
   // const deleteProfile = async () => {
   //   try {
   //     await deleteUser(profileData, token);
@@ -64,8 +82,6 @@ export const Profile = () => {
 
   return (
     <>
-
-
       <CustomInput
         typeProp="text"
         nameProp="firstName"
@@ -89,16 +105,39 @@ export const Profile = () => {
         value={profileData.email}
         isDisabled={!isEditing}
         handlerProp={inputHandler}
-      />
-      <ButtonC
-        title={"Delete Profile"}
-        className={"regularButtonClass"}
+      /> 
+      <CustomInput
+        typeProp="text"
+        nameProp="Date"
+        placeholderProp="Date"
+        value={userData.clientDates}
+        isDisabled={!isEditing}
+        handlerProp={inputHandler}
+        token={token}
+        />
         
-        // functionEmit={()=> {
-        //   deleteProfile()
-        // }}
-      />
-
+ <Tabs
+      defaultActiveKey="home"
+      transition={false}
+      id="noanim-tab-example"
+      className="mb-3"
+    >   
+      <Tab eventKey="dates" title="Dates">
+      {userData.length > 0 &&                          
+            userData.map((dates) => (
+                <tr>
+                    <th key={dates.id}></th>
+                    <th>Appointment id: {dates.id}</th>
+                    <th>Appointment: {dates.appointmentDate}</th>
+                    <th>User: <br></br>{dates.userId}</th>
+                    <th>Artist id: {dates.tattoArtistId}</th>
+                    </tr>
+                ))}
+      </Tab>
+      <Tab eventKey="contact" title="Contact" disabled>
+        Tab content for Contact
+      </Tab>
+    </Tabs>
       <button onClick={() => {
         logOutMe()
         navigate("/Home")

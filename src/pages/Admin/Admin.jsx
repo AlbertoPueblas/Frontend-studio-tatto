@@ -1,7 +1,11 @@
 import { useSelector } from "react-redux"
 import { getUserData } from "../../app/slice/userSlice"
 import { useEffect, useState } from "react"
-import { bringAllUsers, bringAppointment, deleteUserId, getUserById} from "../../services/apiCalls"
+import { bringAllUsers, 
+  bringAppointment, 
+  deleteUserId, 
+  getUserById
+} from "../../services/apiCalls"
 import Table from 'react-bootstrap/Table';
 import './Admin.css'
 import Button from 'react-bootstrap/Button';
@@ -14,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Admin = () => {
     const [users, setUsers] = useState([])
-    const [oneUser, setOneUser] = useState([])
+    const [oneUser, setOneUser] = useState({})
     const [userData, setUserData] = useState({})
     const [show, setShow] = useState()
     const navigate = useNavigate();
@@ -32,26 +36,16 @@ export const Admin = () => {
 
         const fetchDates = async (userId) => {
             const res = await bringAppointment(userId, token)
-            console.log(res.data.clientDates);
             setUserData(res.data.clientDates)
         }
-    useEffect(() => {
-        setUserData(userData)
-    }, [userData])
     
     const fetchProfile = async (userId) => {
       const res = await getUserById(userId, token)
-      console.log(res.data.user)
-      setOneUser(res.data.user)
+      setOneUser(res.data)
     };
-    
-    useEffect(() => {
-      setOneUser(oneUser)
-    },[oneUser])
     
     const deleteUser = async (id) => {
         const res = await deleteUserId(id, token)
-        console.log(res);
     };
 
     const handleClose = () => { 
@@ -86,7 +80,7 @@ export const Admin = () => {
             <th>
                 <div className="userList">
                     <div className="showButton" 
-                    onClick={() => setShow((true),fetchDates(user.id),fetchProfile(user))}>
+                    onClick={() => setShow((true),fetchDates(user.id),fetchProfile(user.id))}>
                 </div>
                 <div className="deleteButton" onClick={
                     () => deleteUser(user.id)}></div>
@@ -110,7 +104,13 @@ export const Admin = () => {
       id="noanim-tab-example"
       className="mb-3"
     >
-      <Tab eventKey="home" title="Dates">
+      <Tab eventKey="home" title="Profile">
+        <h6>User ID: {oneUser.id}</h6>
+        <h6>Name: {oneUser.firstName}</h6>
+        <h6>Last name: {oneUser.lastName}</h6>
+        <h6>Email: {oneUser.email}</h6>
+      </Tab>    
+      <Tab eventKey="dates" title="Dates">
       {userData.length > 0 &&                          
             userData.map((dates) => (
                 <tr>
@@ -122,16 +122,6 @@ export const Admin = () => {
                     </tr>
                 ))}
       </Tab>
-      <Tab eventKey="profile" title="Profile">
-      {oneUser.length > 0 && 
-      oneUser.map((user) => (
-        <tr>
-            <th key={user.data.id}></th>
-            <th>{user.data.id}</th>
-            <th>{user.data}</th>
-        </tr>
-        ))}
-      </Tab>    
       <Tab eventKey="contact" title="Contact" disabled>
         Tab content for Contact
       </Tab>

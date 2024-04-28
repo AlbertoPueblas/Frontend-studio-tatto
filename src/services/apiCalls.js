@@ -12,7 +12,13 @@ export const registerNewUserCall = async (credentials) => {
 
 export const loginCall = async (credentials) => {
   const res = await axios.post(`${API_URL}auth/login`, credentials);
-  console.log(credentials, "aqui loginCall");
+  console.log(res);
+  return res
+};
+
+export const loginOut = async (credentials) => {
+  const res = await axios.post(`${API_URL}auth/profile`, credentials);
+  console.log(credentials, "aqui logOut");
   console.log(res);
   return res
 };
@@ -34,6 +40,15 @@ export const bringProfile = async (token) => {
   return res.data
 }
 
+export const bringDates = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const res = await axios.get(`${API_URL}users/dates`, config)
+  return res.data
+}
 
 export const updateProfile = async (data, token) => {
   const config = {
@@ -46,12 +61,6 @@ export const updateProfile = async (data, token) => {
   return res
 }
 
-export const loginOut = async (credentials) => {
-  const res = await axios.post(`${API_URL}auth/profile`, credentials);
-  console.log(credentials, "aqui logOut");
-  console.log(res);
-  return res
-};
 
 export const getUserById = async (id, token) => {
   const config = {

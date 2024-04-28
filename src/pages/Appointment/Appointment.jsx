@@ -6,60 +6,37 @@ import { useSelector } from 'react-redux';
 import { getUserData } from '../../app/slice/userSlice';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { bringAppointment, bringDates } from '../../services/apiCalls';
 
 
 export const Appointment = () => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [userData, setUserData] = useState({})
 
-    const [profileData, setProfileData] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-      });
+  const userReduxData = useSelector(getUserData)
+  const token = userReduxData.token
 
-      const inputHandler = (e) => {
-        setProfileData((prevState) => ({
-          ...prevState,
-          [e.target.name]: e.target.value,
-        }));
-      };
-    
-      const myPassport = useSelector(getUserData)
-
-      const token = myPassport.token;
+      const fetchDates = async (userId) => {
+        const res = await bringDates(userId, token)
+        setUserData(res.data.clientDates)
+      }
+      console.log(userData)
+    fetchDates(userData)
 
   return (
-    // (
-    //     <>
-    //       <BootstrapModal
-    //         profileData={profileData}
-    //         inputHandler={inputHandler}
-    //         token={token} />
-    //     </>
-    //     ),
+
     <div
       className="modal show"
       style={{ display: 'block', position: 'initial' }}
     >
       <Modal.Dialog>
-      {/* <Tabs
+        <Modal.Body>
+        <Tabs
       defaultActiveKey="home"
       transition={false}
       id="noanim-tab-example"
       className="mb-3"
-    >
-      <Tab eventKey="home" title="Home">
-      </Tab>
-      <Tab eventKey="profile" title="Profile">
-        Tab content for Profile
-      </Tab>
-      <Tab eventKey="contact" title="Contact" disabled>
-        Tab content for Contact
-      </Tab>
-    </Tabs> */}
-
-        <Modal.Body>
-          <p>Modal body text goes here.</p>
+    >  
+    </Tabs>
         </Modal.Body>
 
         <Modal.Footer>
@@ -68,7 +45,5 @@ export const Appointment = () => {
         </Modal.Footer>
       </Modal.Dialog>
     </div>
-  );
-}
-
-export default Appointment;
+  )
+};
