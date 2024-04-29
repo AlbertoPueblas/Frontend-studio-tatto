@@ -53,4 +53,6 @@ export const {login, logout, deleteAcount} = userSlice.actions
 // definimos y exportamos los métodos que nos permitirán venir al almacén a leer información
 export const getUserData = (state) => state.user
 export const getLoggedAmount = (state) => state.user.vecesLogeado
+export const amIAdmin =(state) => state.user.decodificado.role === "ADMIN"
+
 export default userSlice.reducer;

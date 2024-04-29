@@ -11,8 +11,9 @@ import { getUserData, logout, } from "../app/slice/userSlice";
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Tabs from 'react-bootstrap/Tabs';
+import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 
 
 //---------------------------------------------------------------------------
@@ -24,8 +25,8 @@ export const Profile = () => {
     email: "",
   });
 
-  const [userData, setUserData] = useState([]);
-
+  const [userData, setUserData] = useState([{}]);
+  const [oneUser, setOneUser] = useState({})
   const [isEditing, setIsEditing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -59,26 +60,22 @@ export const Profile = () => {
   useEffect(() => {
     const fetchDates = async () => {
       const res = await bringDates(token);
-      console.log(res);
-      setUserData(res);
+      console.log(res.clientDates);
+      setUserData(res.clientDates);
     };
     fetchDates();
   }, []);
-  // const deleteProfile = async () => {
-  //   try {
-  //     await deleteUser(profileData, token);
-  //     // res.json(await deleteUser(req.params.id,req.payload))
-  //     console.log(profileData);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const logOutMe = () => {
     dispatch(logout())
   }
 
-
+  const handleClose = () => {
+    navigate("/");
+    setTimeout(() => {
+      navigate("/Profile")
+    });
+  }
 
   return (
     <>
@@ -89,7 +86,7 @@ export const Profile = () => {
         value={profileData.firstName}
         isDisabled={!isEditing}
         handlerProp={inputHandler}
-      />
+        />
       <CustomInput
         typeProp="text"
         nameProp="lastName"
@@ -98,59 +95,69 @@ export const Profile = () => {
         isDisabled={!isEditing}
         handlerProp={inputHandler}
       />
-      <CustomInput
-        typeProp="email"
-        nameProp="email"
-        placeholderProp="email"
-        value={profileData.email}
-        isDisabled={!isEditing}
-        handlerProp={inputHandler}
-      /> 
-      <CustomInput
-        typeProp="text"
-        nameProp="Date"
-        placeholderProp="Date"
-        value={userData.clientDates}
-        isDisabled={!isEditing}
-        handlerProp={inputHandler}
-        token={token}
-        />
-        
- <Tabs
-      defaultActiveKey="home"
-      transition={false}
-      id="noanim-tab-example"
-      className="mb-3"
-    >   
-      <Tab eventKey="dates" title="Dates">
-      {userData.length > 0 &&                          
-            userData.map((dates) => (
+      <Card style={{ width: '25rem' }}>
+        <Tabs
+          defaultActiveKey="home"
+          transition={false}
+          id="noanim-tab-example"
+          className="mb-3"
+        >
+          <Tab eventKey="home" title="Profile">
+            <CustomInput
+              typeProp="text"
+              nameProp="firstName"
+              placeholderProp="firstName"
+              value={profileData.firstName}
+              isDisabled={!isEditing}
+              handlerProp={inputHandler}
+            />
+            <CustomInput
+              typeProp="text"
+              nameProp="lastName"
+              placeholderProp="lastName"
+              value={profileData.lastName}
+              isDisabled={!isEditing}
+              handlerProp={inputHandler}
+            />
+            <CustomInput
+              typeProp="email"
+              nameProp="email"
+              placeholderProp="email"
+              value={profileData.email}
+              isDisabled={!isEditing}
+              handlerProp={inputHandler}
+            />
+            <>
+              <BootstrapModal
+                profileData={profileData}
+                inputHandler={inputHandler}
+                token={token} />
+            </>
+          </Tab>
+          <Tab eventKey="dates" title="Dates">
+            {userData.length > 0 &&
+              userData.map((dates) => (
                 <tr>
-                    <th key={dates.id}></th>
-                    <th>Appointment id: {dates.id}</th>
-                    <th>Appointment: {dates.appointmentDate}</th>
-                    <th>User: <br></br>{dates.userId}</th>
-                    <th>Artist id: {dates.tattoArtistId}</th>
-                    </tr>
-                ))}
-      </Tab>
-      <Tab eventKey="contact" title="Contact" disabled>
-        Tab content for Contact
-      </Tab>
-    </Tabs>
-      <button onClick={() => {
-        logOutMe()
-        navigate("/Home")
-      }}>log out</button>
-
-      (
-      <>
-        <BootstrapModal
-          profileData={profileData}
-          inputHandler={inputHandler}
-          token={token} />
-      </>
-      )
+                  <th key={dates.id}></th>
+                  <th>Appointment id: {dates.id}</th>
+                  <th>Appointment: {dates.appointmentDate}</th>
+                  {/* <th>User: <br></br>{dates.userId}</th> */}
+                  <th>Artist id: {dates.tattoArtistId}</th>
+                </tr>
+              ))}
+            <Button variant="primary">modify appointment</Button>
+          </Tab>
+          <Tab eventKey="contact" title="Contact" disabled>
+            Tab content for Contact
+          </Tab>
+        </Tabs>
+        <Card.Body>
+          <Button onClick={() => {
+            logOutMe()
+            navigate("/Home")
+          }}>log out</Button>
+        </Card.Body>
+      </Card>
     </>
   );
 };

@@ -35,17 +35,10 @@ function BootstrapModal({ profileData, inputHandler, token }) {
         }
     };
 
-    // const handleUpdate = () => {
-    //     updateProfile(profileData,token);
-    //     console.log(profileData);
-    // };
-
-
-
     return (
         <>
             <Button variant="primary" onClick={() => setShow(true)}>
-                Modificar
+            modify profile
             </Button>
 
             <Modal show={show} onHide={handleClose}>

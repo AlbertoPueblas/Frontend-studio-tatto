@@ -4,12 +4,18 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../../app/slice/userSlice';
 
 //-------------------------------------------------------------
 function Header() {
 
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   
+  const logOutMe = () => {
+    dispatch(logout())
+  }
 
   return (
     <Navbar expand="xxlg" className="bg-body-tertiary" display="center">
@@ -24,8 +30,8 @@ function Header() {
             <Nav.Link href="#link">Jobs</Nav.Link>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <NavDropdown.Item href="/Profile">Perfil</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Logout
+              <NavDropdown.Item href="#action/3.2" onClick={() => {
+            logOutMe(),navigate("/Home")}}>log out
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Delete profile</NavDropdown.Item>
             </NavDropdown>

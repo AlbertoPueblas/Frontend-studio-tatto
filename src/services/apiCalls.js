@@ -92,6 +92,17 @@ export const bringAllUsers = async (token) => {
   }
 
   return axios.get(`${API_URL}users/allUsers?limit=50?pages=10`, config /*headers*/)
+}
+
+export const bringAllAppointment = async (token) => {
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  return axios.get(`${API_URL}/dates`, config /*headers*/)
 
 }
 

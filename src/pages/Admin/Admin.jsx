@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { getUserData } from "../../app/slice/userSlice"
+import { getUserData, logout } from "../../app/slice/userSlice"
 import { useEffect, useState } from "react"
 import { bringAllUsers, 
   bringAppointment, 
@@ -55,6 +55,10 @@ export const Admin = () => {
         });
         console.log("close");
         setShow(false);
+    }
+
+    const logOutMe = () => {
+      dispatch(logout())
     }
 
       return (

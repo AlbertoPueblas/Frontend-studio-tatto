@@ -1,4 +1,4 @@
-import "./CharacterCard.css"
+// import "./CharacterCard.css"
 
 //-----------------------------------------------
 
