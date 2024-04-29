@@ -10,7 +10,6 @@ export const userSlice = createSlice({
             email: "",
             id: ""
         },
-        vecesLogeado: 10
     },
 
     // distintas acciones que puedo realizar en este pasillo (todas reciben un state y un action y devuelven un nuevo estado)
@@ -20,7 +19,6 @@ export const userSlice = createSlice({
             return {
                 ...state,
                 ...action.payload,
-                vecesLogeado: state.vecesLogeado + 1
             }
         },
 

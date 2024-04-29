@@ -1,9 +1,9 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { loginCall } from '../../services/apiCalls';
-import { login } from "../../app/slice/userSlice";
-import { useDispatch } from 'react-redux'
+import { amIAdmin, getUserData, login } from "../../app/slice/userSlice";
+import { useDispatch, useSelector } from 'react-redux'
 import { decodeToken } from "react-jwt";
 import './Login.css'
 import { ButtonC } from '../../components/ButtonC/ButtonC';
@@ -14,57 +14,61 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
-      email:"",
-      password:""
-    })
+    email: "",
+    password: ""
+  })
 
-    const [isEmailValid, setIsEmailValid] = useState(true)
-    const [msg, setMsg] = useState("");
-  
-    const dispatch = useDispatch()
-  
+  const [isEmailValid, setIsEmailValid] = useState(true)
+  const [msg, setMsg] = useState("");
 
-    //actualiza estado
-    const inputHandler = (e) => {
+  const dispatch = useDispatch()
+
+
+  //actualiza estado
+  const inputHandler = (e) => {
     setCredentials((prevState) => ({
-     ...prevState,
+      ...prevState,
       [e.target.name]: e.target.value
     }))
   };
 
-  // const inputValidatorHandler = (e) => {
-  //   const isValid = inputValidator(e.target.value, e.target.name)
-  //   console.log("Es valido?",isValid);
-  // }
+  const inputValidatorHandler = (e) => {
+    const isValid = inputValidator(e.target.value, e.target.name)
+    console.log("Es valido?",isValid);
+  }
 
   const loginMe = async () => {
     const answer = await loginCall(credentials);
-      if (answer.data.token) {
-          const uDecoded = decodeToken(answer.data.token);
+    if (answer.data.token) {
+      const uDecoded = decodeToken(answer.data.token);
 
-          const passport = {
-              token: answer.data.token,
-              decoded: uDecoded,
-            };
-            dispatch(login(passport))
+      const passport = {
+        token: answer.data.token,
+        decoded: uDecoded,
+      };
+      dispatch(login(passport))
       
-            setMsg(`${uDecoded.name}, welcome again`);
+      setMsg(`${uDecoded.name}, welcome again`);
+            
+      // const userReduxData = useSelector(amIAdmin)
+      // const userType = userReduxData.decoded.userRole
       
-            setTimeout(() => {
-                navigate("/Profile")
-      }, 3000);
+      setTimeout(() => {
+
+        credentials.email === "admin1@admin.com" ?        
+        navigate("/admin") : 
+        navigate("/Profile")
+      }, 1000);
     }
   }
 
+  return (
 
-
-  return(
-
-      <div className="login-container loginElementsDesign">
-        {msg === "" ? (
-            <>
-              <CustomInput
-                typeProp={"email"}
+    <div className="login-container loginElementsDesign">
+      {msg === "" ? (
+        <>
+          <CustomInput
+            typeProp={"email"}
             nameProp={"email"}
             handlerProp={(e) => inputHandler(e)}
             onBlurHandler={(e) => inputValidatorHandler(e)}

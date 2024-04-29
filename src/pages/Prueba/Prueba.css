@@ -8,23 +8,14 @@
 .deleteButton {
     width: 1em;
     height: 1em;
-    background-color: rgb(241, 226, 5);
+    background-color: red;
     border-radius: 5em;
     margin-left: 1em;
 }
 .deleteButton:hover {
     cursor: crosshair;
 }
-.confirmDelete {
-    background-color: rgb(255, 12, 12);
-    width: 5em;
-    height: 2em;
-    border-radius: 5em;
-    margin-left: 1em;
-}
-.display-none {
-    display: none;
-}
+
 
 .showButton {
     width: 1em;
@@ -43,4 +34,29 @@
     background-color: rgb(255, 196, 0);
     border-radius: 5em;
     margin-left: 1em;
+}
+.delete-button {
+    height: 1em;
+    width: 1em;
+    background-color: red;
+    border-radius: 50%;
+    margin-top: 0.2em;
+    margin-left: 1em;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.delete-button:hover {
+    cursor: crosshair;
+}
+
+.confirm-delete {
+    background-color: rgb(231, 255, 12);
+}
+
+.display-none {
+    display: none;
 }

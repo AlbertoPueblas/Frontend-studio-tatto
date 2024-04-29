@@ -8,7 +8,7 @@ import { Menu } from "../Menu/Menu";
 import { Admin } from "../Admin/Admin";
 import { Appointment } from "../Appointment/Appointment"
 import './Body.css'
-
+// import { Prueba } from "../Prueba/Prueba"
 //---------------------------------------------------------
 
 export const Body = () => {
@@ -25,6 +25,7 @@ export const Body = () => {
             <Route path="/characters" element={<Characters/>} />
             <Route path="/admin" element={<Admin/>} />
             <Route path="/appointment" element={<Appointment/>} />
+            {/* <Route path="/prueba" element={<Prueba/>} /> */}
             <Route path="/Menu" element={<Menu/>} />
         </Routes>
     </>
