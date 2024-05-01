@@ -48,13 +48,12 @@ export const Login = () => {
       };
       dispatch(login(passport))
       
-      setMsg(`${uDecoded.name}, welcome again`);
+      setMsg(`${uDecoded.firstName}, welcome again`);
             
       // const userReduxData = useSelector(amIAdmin)
       // const userType = userReduxData.decoded.userRole
       
       setTimeout(() => {
-
         credentials.email === "admin1@admin.com" ?        
         navigate("/admin") : 
         navigate("/Profile")
@@ -71,7 +70,7 @@ export const Login = () => {
             typeProp={"email"}
             nameProp={"email"}
             handlerProp={(e) => inputHandler(e)}
-            onBlurHandler={(e) => inputValidatorHandler(e)}
+            // onBlurHandler={(e) => inputValidatorHandler(e)}
             placeholderProp={"escribe tu e-mail"}
           />
           <CustomInput

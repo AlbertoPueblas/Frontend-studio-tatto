@@ -3,16 +3,16 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { CustomInput } from "../CustomInput/CustomInput";
 import Modal from "react-bootstrap/Modal";
-import { updateProfile } from "../../services/apiCalls";
+import { updateDate } from "../../services/apiCalls";
 
 //-----------------------------------------------------------
 
-function BootstrapModal({ profileData, inputHandler, token }) {
+function ModalDate({ appDates, inputHandlerDate, token }) {
     const [show, setShow] = useState(false)
-    
+
     const navigate = useNavigate();
 
-    const handleClose = () => { 
+    const handleClose = () => {
         navigate("/");
         setTimeout(() => {
             navigate("/Profile")
@@ -22,10 +22,10 @@ function BootstrapModal({ profileData, inputHandler, token }) {
     }
     const handleUpdate = async () => {
         try {
-            await updateProfile(profileData, token);
+            await updateDate(appDates, token);
             console.log("datos actualizados");
             setTimeout(() => {
-            navigate("/Profile")
+                navigate("/Profile")
                 setShow(false);
             }, 2000)
         } catch (error) {
@@ -36,37 +36,45 @@ function BootstrapModal({ profileData, inputHandler, token }) {
     return (
         <>
             <Button variant="primary" onClick={() => setShow(true)}>
-            modify profile
+                modify Appointment
             </Button>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edita tus datos!</Modal.Title>
+                    <Modal.Title>Edita tus Citas!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <CustomInput
-                        typeProp="text"
-                        nameProp="firstName"
-                        placeholderProp="firstName"
-                        value={profileData.name}
+                        typeProp="date"
+                        nameProp="appointmentDate"
+                        placeholderProp="appointmentDate"
+                        value={appDates.appointmentDate}
                         isDisabled=""
-                        handlerProp={inputHandler}
+                        handlerProp={inputHandlerDate}
                     />
                     <CustomInput
                         typeProp="text"
-                        nameProp="lastName"
-                        placeholderProp="lastName"
-                        value={profileData.lastName}
+                        nameProp="userId"
+                        placeholderProp="userId"
+                        value={appDates.userId}
                         isDisabled=""
-                        handlerProp={inputHandler}
+                        handlerProp={inputHandlerDate}
                     />
                     <CustomInput
-                        typeProp="email"
-                        nameProp="email"
-                        placeholderProp="email"
-                        value={profileData.email}
+                        typeProp="text"
+                        nameProp="jobId"
+                        placeholderProp="jobId"
+                        value={appDates.jobId}
                         isDisabled=""
-                        handlerProp={inputHandler}
+                        handlerProp={inputHandlerDate}
+                    />
+                    <CustomInput
+                        typeProp="text"
+                        nameProp="tattoArtistId"
+                        placeholderProp="tattoArtistId"
+                        value={appDates.tattoArtistId}
+                        isDisabled=""
+                        handlerProp={inputHandlerDate}
                     />
                 </Modal.Body>
                 <Modal.Footer>
@@ -84,4 +92,4 @@ function BootstrapModal({ profileData, inputHandler, token }) {
         </>
     );
 }
-export default BootstrapModal
+export default ModalDate

@@ -1,67 +1,48 @@
-// import { useSelector } from "react-redux";
-// import { getUserData } from "../../app/slice/userSlice";
-// import { useEffect, useState } from "react";
-// import { bringAllUsers, deleteUserId } from "../../services/apiCalls";
-// import './Prueba.css';
+import { useState } from 'react'
+import './Prueba.css'
+import dayjs from "dayjs"
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import { useNavigate } from 'react-router-dom';
 
-// export const Prueba = () => {
-//   // useState para todos los usuarios, y el que queremos borrar
-//   const [users, setUsers] = useState([]);
-//   const [areYouDeletingMe, setAreYouDeletingMe] = useState(null);
+//--------------------------------
 
-//   const userReduxData = useSelector(getUserData);
-//   const token = userReduxData.token;
+function Prueba() {
 
-//   useEffect(() => {
-//     const fetchUsers = async () => {
-//       const res = await bringAllUsers(token);
-//       console.log(res.data);
-//       setUsers(res.data.users);
-//     };
-//     fetchUsers();
-//   }, []);
+    const [now, setNow] = useState(Date())
+    const [selected, setSelected] = useState();
+    const [msg, setMsg] = useState("")
 
-//   const deleteUser = async (id) => {
-//     const res = await deleteUserId(id, token);
-//     console.log(res);
-//   };
+    const manageTime = (e) => {
+        if (dayjs(e).diff(now, "d") <= 0) {
+            setMsg("No puedes seleccionar una fecha anterior a la actual")
+            setSelected(null)
+            return;
+        }
+        setSelected(dayjs(e).format("dddd, MMMM D, YYYY h:mm A"))
+    };
+    return (
+        <>
+            {userType === "Admin"
+                ? (<>
+                </>) : null}
+        </>
+    );
+}
 
-//   // Función que inicia el borrado del usuario y muestra u oculta el botón de confirmación
-//   const deleteUserStepOne = (id) => {
-//     if (areYouDeletingMe === id) {
-//       setAreYouDeletingMe(null);
-//     } else {
-//       setAreYouDeletingMe(id);
-//     }
-//   };
-
-//   return (
-//     <>
-//       {users.length > 0 ? (
-//         <ul>
-//           {users.map((user) => {
-//             return (
-//               <li key={user._id} className="flex-row">
-//                 {user.name} {user.email}
-//                 <div
-//                   className="delete-button"
-//                   onClick={() => deleteUserStepOne(user._id)}
-//                 ></div>
-//                 <div
-//                   className={
-//                     // botón de confirmación de borrado que comprueba si el useState que lleva el registro de qué usuario
-//                     // se está borrando es el suyo, en cuyo caso se muestra.
-//                     areYouDeletingMe === user._id
-//                       ? "delete-button confirm-delete "
-//                       : "delete-button confirm-delete display-none"
-//                   }
-//                   onClick={() => deleteUser(user.id)}
-//                 ></div>
-//               </li>
-//             );
-//           })}
-//         </ul>
-//       ) : null}
-//     </>
-//   );
-// };
+export default Prueba
+{/* <div className='calendar'>Actual Date:{dayjs(now).format("dddd, MMMM D, YYYY h:mm A")}</div>
+    <DayPicker className='calendar'
+        mode="single"
+        selected={selected}
+        onSelect={(e) => manageTime(e)}
+    />
+    <div className='calendar'>
+        {selected && (
+        <>
+        <div>Selected Date:{selected}</div>
+        <div>Remaining time: {dayjs(selected).diff(now, "d") + 1}Days.</div>
+        </>
+    )}
+        {msg &&<div>{msg}</div>}
+        </div> */}

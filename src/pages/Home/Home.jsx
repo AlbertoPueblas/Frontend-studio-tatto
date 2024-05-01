@@ -38,8 +38,6 @@ export const Home = () => {
   return (
     <>
       <div className="card">
-        <button onClick={() => loginMe(admin)}>Admin</button>
-        {/* <button onClick={() => loginMe(user)}>User</button> */}
         <img src='./src/pages/img/logo.jpg' className='img'></img>
       </div>
     </>

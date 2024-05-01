@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
 import { ButtonC } from "../../components/ButtonC/ButtonC";
 import { useEffect, useState } from "react";
-import { decodeToken } from "react-jwt";
 import { registerNewUserCall } from "../../services/apiCalls";
 import "./Register.css";
 import { inputValidator } from "../../utils/validators";
@@ -17,6 +16,7 @@ export const Register = () => {
   });
 
   const [msg, setMsg] = useState("");
+  
 
   const inputHandler = (e) => {
     //genero la función que bindea
@@ -28,7 +28,6 @@ export const Register = () => {
   };
 
   const registerMe = async () => {
-    console.log("funcionas?", credentials);
     if (inputValidator(credentials.firstName, "firstName") && 
     inputValidator(credentials.password, "password")) {
       const answer = await registerNewUserCall(credentials);

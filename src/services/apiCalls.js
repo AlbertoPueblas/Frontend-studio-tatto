@@ -16,6 +16,18 @@ export const loginCall = async (credentials) => {
   return res
 };
 
+export const appointmentCreate = async(appDates, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  console.log(appDates,"aqui citas o no????");
+  const res = await axios.post(`${API_URL}dates/appointment`,appDates, config);
+  console.log(config, "Hello?");
+  return res
+}
+
 export const loginOut = async (credentials) => {
   const res = await axios.post(`${API_URL}auth/profile`, credentials);
   console.log(credentials, "aqui logOut");
@@ -50,17 +62,26 @@ export const bringDates = async (token) => {
   return res.data
 }
 
-export const updateProfile = async (data, token) => {
+export const updateProfile = async (profileData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  const res = await axios.put(`${API_URL}users/profile`, data, config)
+  const res = await axios.put(`${API_URL}users/profile`, profileData, config)
   console.log(res, "yo soy updateProfile")
   return res
 }
-
+export const updateDate = async (appDates, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const res = await axios.put(`${API_URL}dates/changeDate`, appDates, config)
+  console.log(res, "yo soy updateDate")
+  return res
+}
 
 export const getUserById = async (id, token) => {
   const config = {
@@ -115,3 +136,21 @@ export const bringAppointment = async (id, token) => {
 
   return axios.get(`${API_URL}users/dates/${id}`, config)
 };
+
+export const bringAllJobs = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  return axios.get(`${API_URL}jobs/job`, config)
+}
+
+export const bringAllArtist = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  return axios.get(`${API_URL}users/artists`, config)
+}

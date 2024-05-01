@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { CustomInput } from "../components/CustomInput/CustomInput";
-import { bringAppointment, bringDates, bringProfile, loginOut } from "../services/apiCalls";
-import { ButtonC } from "../components/ButtonC/ButtonC";
-// import { deleteUser } from "../services/apiCalls";
-import { inputValidator } from "../utils/validators";
+import { bringDates, bringProfile, loginOut } from "../services/apiCalls";
+
 import BootstrapModal from "../components/BootstrapModal/BootstrapModal";
+import ModalDate from "../components/ModalDate/ModalDate";
 import { useDispatch, useSelector, } from "react-redux";
 import { useNavigate } from 'react-router-dom'
 import { getUserData, logout, } from "../app/slice/userSlice";
-
+import dayjs from "dayjs"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
@@ -24,12 +23,18 @@ export const Profile = () => {
     lastName: "",
     email: "",
   });
-
+  const [appDates, setAppDates] = useState({
+    appointmentDate: "",
+    userId: "",
+    jobId: "",
+    tattoArtistId: ""
+  })
+  const [now, setNow] = useState(Date())
+  const [selected, setSelected] = useState();
   const [userData, setUserData] = useState([{}]);
   const [oneUser, setOneUser] = useState({})
   const [isEditing, setIsEditing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
 
 
   const dispatch = useDispatch()
@@ -43,8 +48,17 @@ export const Profile = () => {
   const inputHandler = (e) => {
     setProfileData((prevState) => ({
       ...prevState,
-      [e.target.name]: e.target.value,
-      [e.target.date]: e.target
+      [e.target.date]: e.target.value,
+
+    }));
+  };
+
+  const inputHandlerDate = (e) => {
+    console.log(e.target.name, e.target.date);
+    setAppDates((prevState) => ({
+      ...prevState,
+      [e.target.appointmentDate]: e.target.value,
+
     }));
   };
 
@@ -56,7 +70,7 @@ export const Profile = () => {
     };
     fetchProfile();
   }, []);
-
+  
   useEffect(() => {
     const fetchDates = async () => {
       const res = await bringDates(token);
@@ -79,6 +93,8 @@ export const Profile = () => {
 
   return (
     <>
+    <div className='calendar'>Actual Date:{dayjs(now).format
+      ("dddd, MMMM D, YYYY h:mm A")}</div>
       <CustomInput
         typeProp="text"
         nameProp="firstName"
@@ -86,7 +102,7 @@ export const Profile = () => {
         value={profileData.firstName}
         isDisabled={!isEditing}
         handlerProp={inputHandler}
-        />
+      />
       <CustomInput
         typeProp="text"
         nameProp="lastName"
@@ -101,7 +117,7 @@ export const Profile = () => {
           transition={false}
           id="noanim-tab-example"
           className="mb-3"
-        >
+          >
           <Tab eventKey="home" title="Profile">
             <CustomInput
               typeProp="text"
@@ -110,7 +126,7 @@ export const Profile = () => {
               value={profileData.firstName}
               isDisabled={!isEditing}
               handlerProp={inputHandler}
-            />
+              />
             <CustomInput
               typeProp="text"
               nameProp="lastName"
@@ -118,7 +134,7 @@ export const Profile = () => {
               value={profileData.lastName}
               isDisabled={!isEditing}
               handlerProp={inputHandler}
-            />
+              />
             <CustomInput
               typeProp="email"
               nameProp="email"
@@ -126,7 +142,7 @@ export const Profile = () => {
               value={profileData.email}
               isDisabled={!isEditing}
               handlerProp={inputHandler}
-            />
+              />
             <>
               <BootstrapModal
                 profileData={profileData}
@@ -138,14 +154,22 @@ export const Profile = () => {
             {userData.length > 0 &&
               userData.map((dates) => (
                 <tr>
+                  {}
                   <th key={dates.id}></th>
                   <th>Appointment id: {dates.id}</th>
-                  <th>Appointment: {dates.appointmentDate}</th>
-                  {/* <th>User: <br></br>{dates.userId}</th> */}
+                  <th>Appointment: {
+                  dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}</th>
+                  <th>User: <br></br>{dates.userId}</th>
                   <th>Artist id: {dates.tattoArtistId}</th>
                 </tr>
+
               ))}
-            <Button variant="primary">modify appointment</Button>
+            <>
+              <ModalDate
+                appDates={appDates}
+                inputHandlerDate={inputHandlerDate}
+                token={token} />
+            </>
           </Tab>
           <Tab eventKey="contact" title="Contact" disabled>
             Tab content for Contact

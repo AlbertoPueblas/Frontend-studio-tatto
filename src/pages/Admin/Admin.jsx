@@ -23,10 +23,10 @@ export const Admin = () => {
   const [userData, setUserData] = useState({})
   const [show, setShow] = useState()
   const navigate = useNavigate();
+  const [areYouDeletingMe, setAreYouDeletingMe] = useState(null);
+  
   const userReduxData = useSelector(getUserData)
   const token = userReduxData.token
-  const [areYouDeletingMe, setAreYouDeletingMe] = useState(null);
-
   const userType = userReduxData.decoded.userRole
 
   useEffect(() => {
@@ -71,7 +71,8 @@ export const Admin = () => {
   return (
     <>
     {userType ==="Admin"
-    ?( <>   <Table striped>
+    ?( <>   
+    <Table striped>
       <thead>
         <tr>
           <th>ID</th>
@@ -121,8 +122,7 @@ export const Admin = () => {
             </tr>
               );
             })}
-          </>
-        ) : null}
+          </>) : null}
         </tbody>
         </Table>
     <div

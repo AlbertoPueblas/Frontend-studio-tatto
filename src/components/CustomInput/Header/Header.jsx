@@ -27,10 +27,10 @@ function Header() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/Appointment">Appointment</Nav.Link>
-            <Nav.Link href="#link">Jobs</Nav.Link>
+            <Nav.Link href="./job" onClick={() => {navigate("/job")}}>Jobs</Nav.Link>
             <NavDropdown title="Profile" id="basic-nav-dropdown">
               <NavDropdown.Item href="/Profile">Perfil</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2" onClick={() => {
+              <NavDropdown.Item href="home" onClick={() => {
             logOutMe(),navigate("/Home")}}>log out
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Delete profile</NavDropdown.Item>
