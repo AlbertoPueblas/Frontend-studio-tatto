@@ -1,5 +1,11 @@
 .customInputDesign {
     border-radius: 5em;
-    width: 11em;
+    width: 18em;
     height: 2em;
+    margin: auto;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }

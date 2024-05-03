@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import dayjs from "dayjs"
 import { Navigate, useNavigate } from "react-router-dom";
 
 //---------------------------------------------------------------------------------
@@ -96,7 +97,10 @@ export const Admin = () => {
                   <th>
                     <div className="userList">
                       <div className="showButton"
-                        onClick={() => setShow((true), fetchDates(user.id),fetchProfile(user.id))}>
+                        onClick={() => setShow((true), 
+                        fetchDates(user.id),
+                        fetchProfile(user.id)
+                        )}>
                       </div>
                       <div className="deleteButton" onClick={
                         () => deleteUserStepOne(user._id)}></div>
@@ -148,7 +152,8 @@ export const Admin = () => {
                 <tr>
                   <th key={dates.id}></th>
                   <th>Appointment id: {dates.id}</th>
-                  <th>Appointment: {dates.appointmentDate}</th>
+                  <th>Appointment: <br />{
+                        dayjs(dates.appointmentDate).format("dddd, MMMM D,YYYY,h:mm A ")}</th>
                   <th>User: <br></br>{dates.userId}</th>
                   <th>Artist id: {dates.tattoArtistId}</th>
                 </tr>

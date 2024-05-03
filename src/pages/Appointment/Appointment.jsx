@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import dayjs from "dayjs"
 import { Navigate, useNavigate } from "react-router-dom";
 
 //---------------------------------------------------------------------------------
@@ -25,7 +26,7 @@ export const Appointment = () => {
   const userReduxData = useSelector(getUserData)
 
   const token = userReduxData.token
-  const userType = userReduxData.token
+  const userType = userReduxData.decoded.userRole
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -88,7 +89,7 @@ export const Appointment = () => {
                           <th>
                             <div className="userList">
                               <div className="showButton"
-                                onClick={() => setShow((true), fetchUser(dates.id))}>
+                                onClick={() => setShow((true), fetchUser(users._id))}>
                               </div>
                               {/* <div className="deleteButton" onClick={
                                 () => deleteUser(dates.id)}></div> */}

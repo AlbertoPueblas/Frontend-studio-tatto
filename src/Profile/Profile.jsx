@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
 import { CustomInput } from "../components/CustomInput/CustomInput";
 import { bringDates, bringProfile, loginOut } from "../services/apiCalls";
-
 import BootstrapModal from "../components/BootstrapModal/BootstrapModal";
-import ModalDate from "../components/ModalDate/ModalDate";
 import { useDispatch, useSelector, } from "react-redux";
 import { useNavigate } from 'react-router-dom'
 import { getUserData, logout, } from "../app/slice/userSlice";
 import dayjs from "dayjs"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-
 
 //---------------------------------------------------------------------------
 
@@ -25,39 +21,28 @@ export const Profile = () => {
   });
   const [appDates, setAppDates] = useState({
     appointmentDate: "",
-    userId: "",
     jobId: "",
-    tattoArtistId: ""
+    tattoArtistId: "",
   })
   const [now, setNow] = useState(Date())
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState(); 
   const [userData, setUserData] = useState([{}]);
   const [oneUser, setOneUser] = useState({})
   const [isEditing, setIsEditing] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
+  const [show, setShow] = useState()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const myPassport = useSelector(getUserData)
-
   const token = myPassport.token;
 
 
   const inputHandler = (e) => {
     setProfileData((prevState) => ({
       ...prevState,
-      [e.target.date]: e.target.value,
-
-    }));
-  };
-
-  const inputHandlerDate = (e) => {
-    console.log(e.target.name, e.target.date);
-    setAppDates((prevState) => ({
-      ...prevState,
-      [e.target.appointmentDate]: e.target.value,
+      [e.target.name]: e.target.value,
 
     }));
   };
@@ -70,7 +55,7 @@ export const Profile = () => {
     };
     fetchProfile();
   }, []);
-  
+
   useEffect(() => {
     const fetchDates = async () => {
       const res = await bringDates(token);
@@ -93,32 +78,16 @@ export const Profile = () => {
 
   return (
     <>
-    <div className='calendar'>Actual Date:{dayjs(now).format
-      ("dddd, MMMM D, YYYY h:mm A")}</div>
-      <CustomInput
-        typeProp="text"
-        nameProp="firstName"
-        placeholderProp="firstName"
-        value={profileData.firstName}
-        isDisabled={!isEditing}
-        handlerProp={inputHandler}
-      />
-      <CustomInput
-        typeProp="text"
-        nameProp="lastName"
-        placeholderProp="lastName"
-        value={profileData.lastName}
-        isDisabled={!isEditing}
-        handlerProp={inputHandler}
-      />
-      <Card style={{ width: '25rem' }}>
+      <div className='calendar'>{dayjs(now).format
+        ("dddd, MMMM D, YYYY h:mm A")}</div>
+      <Card style={{ width: '40rem' }}>
         <Tabs
           defaultActiveKey="home"
           transition={false}
           id="noanim-tab-example"
           className="mb-3"
-          >
-          <Tab eventKey="home" title="Profile">
+        >
+          <Tab eventKey="home" title="Profile" >
             <CustomInput
               typeProp="text"
               nameProp="firstName"
@@ -126,7 +95,7 @@ export const Profile = () => {
               value={profileData.firstName}
               isDisabled={!isEditing}
               handlerProp={inputHandler}
-              />
+            />
             <CustomInput
               typeProp="text"
               nameProp="lastName"
@@ -134,7 +103,7 @@ export const Profile = () => {
               value={profileData.lastName}
               isDisabled={!isEditing}
               handlerProp={inputHandler}
-              />
+            />
             <CustomInput
               typeProp="email"
               nameProp="email"
@@ -142,7 +111,7 @@ export const Profile = () => {
               value={profileData.email}
               isDisabled={!isEditing}
               handlerProp={inputHandler}
-              />
+            />
             <>
               <BootstrapModal
                 profileData={profileData}
@@ -154,29 +123,33 @@ export const Profile = () => {
             {userData.length > 0 &&
               userData.map((dates) => (
                 <tr>
-                  {}
-                  <th key={dates.id}></th>
-                  <th>Appointment id: {dates.id}</th>
-                  <th>Appointment: {
-                  dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}</th>
-                  <th>User: <br></br>{dates.userId}</th>
-                  <th>Artist id: {dates.tattoArtistId}</th>
+
+                  <h5>Appointment: <br /> {
+                    dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")} <br/></h5>
+                  <h5>Job:{dates.jobId}<br/></h5>   
+                  <h5> Artist:{dates.tattoArtistId}<br/> 
+                  <Button className="showButton"
+                        onClick={() => setShow((true),
+                          navigate("/prueba")
+                        )}>
+                      </Button>
+                          </h5>
                 </tr>
 
               ))}
-            <>
-              <ModalDate
-                appDates={appDates}
-                inputHandlerDate={inputHandlerDate}
-                token={token} />
-            </>
+          <Button variant="primary" onClick={() => {
+            setShow(true),
+            navigate("/appointmentDate")
+          }}>
+            Create Appointment
+          </Button>
           </Tab>
           <Tab eventKey="contact" title="Contact" disabled>
             Tab content for Contact
           </Tab>
         </Tabs>
         <Card.Body>
-          <Button onClick={() => {
+          <Button variant="secondary" onClick={() => {
             logOutMe()
             navigate("/Home")
           }}>log out</Button>

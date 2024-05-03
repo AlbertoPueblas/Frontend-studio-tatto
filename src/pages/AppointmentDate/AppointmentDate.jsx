@@ -1,5 +1,4 @@
 import { appointmentCreate } from "../../services/apiCalls";
-// import { inputValidator } from "../../utils/validators";
 import { useState } from 'react'
 import './AppointmentDate.css'
 import dayjs from "dayjs"
@@ -8,8 +7,9 @@ import 'react-day-picker/dist/style.css';
 import { useSelector } from "react-redux";
 import { getUserData } from "../../app/slice/userSlice";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
-import { ButtonC } from "../../components/ButtonC/ButtonC";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { ButtonC } from "../../components/ButtonC/ButtonC";
 
 
 //------------------------------------------------------------
@@ -21,8 +21,8 @@ export const Dates = () => {
     const [appDates, setAppDates] = useState({
         appointmentDate: "",
         userId: "",
+        tattoArtistId: "",
         jobId: "",
-        tattoArtistId: ""
     })
     const [now, setNow] = useState(Date())
     const [selected, setSelected] = useState();
@@ -31,29 +31,29 @@ export const Dates = () => {
     const userReduxData = useSelector(getUserData)
     const token = userReduxData.token
 
-    const inputHandler = (e) => {
-        console.log(typeof(e.target.value),e.target.name);
+    const inputHandlerDate = (e) => {
+        console.log(typeof (e.target.value), e.target.name);
         setAppDates((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
         }));
     };
-    
+
     const dateForMe = async () => {
-        try{
+        try {
             const res = await appointmentCreate(appDates, token);
             console.log(res);
             // setMsg(res.data.message);
-        } catch (error){
+        } catch (error) {
             console.log(error);
         }
     }
-    
-const manageTime = (e) => {
-    if (dayjs(e).diff(now, "d") <= 0) {
-        setMsg("No puedes seleccionar una fecha anterior a la actual")
-        setSelected(null)
-        return;
+
+    const manageTime = (e) => {
+        if (dayjs(e).diff(now, "d") <= 0) {
+            setMsg("No puedes seleccionar una fecha anterior a la actual")
+            setSelected(null)
+            return;
         }
         setSelected(dayjs(e).format("dddd, MMMM D, YYYY h:mm A"))
     }
@@ -81,35 +81,41 @@ const manageTime = (e) => {
                 typeProp="text"
                 nameProp="userId"
                 placeholderProp="UserId"
-                handlerProp={(e) => inputHandler(e)}
-                />
+                handlerProp={(e) => inputHandlerDate(e)}
+            />
 
             <CustomInput
                 typeProp="text"
                 nameProp="jobId"
                 placeholderProp="jobId"
-                handlerProp={(e) => inputHandler(e)}
-                />
+                handlerProp={(e) => inputHandlerDate(e)}
+            />
 
             <CustomInput
                 typeProp="text"
                 nameProp="tattoArtistId"
                 placeholderProp="tattoArtistId"
-                handlerProp={(e) => inputHandler(e)}
+                handlerProp={(e) => inputHandlerDate(e)}
             />
-            
+
             <CustomInput
                 typeProp="date"
                 nameProp="appointmentDate"
                 placeholderProp="date"
-                handlerProp={(e) => inputHandler(e)}
+                handlerProp={(e) => inputHandlerDate(e)}
             />
 
-            <ButtonC
-                title={"date!"}
-                className={"regularButtonClass"}
-                functionEmit={dateForMe}
-                />
+            <Button onClick={() => {
+                dateForMe(),
+                navigate("/profile")
+            }}>
+                Send Appointment
+                </Button>
+                          {/* <ButtonC
+            title={"Date!"}
+            className={"regularButtonClass"}
+            functionEmit={dateForMe}
+          /> */}
         </>
     )
 };
