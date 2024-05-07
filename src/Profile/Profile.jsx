@@ -11,7 +11,6 @@ import Card from 'react-bootstrap/Card';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import "./Profile.css";
-import { getAppointmentId } from "../app/slice/appointmentSlice";
 
 //---------------------------------------------------------------------------
 
@@ -22,6 +21,7 @@ export const Profile = () => {
     email: "",
   });
   const [appDates, setAppDates] = useState({
+    id:"",
     appointmentDate: "",
     jobId: "",
     tattoArtistId: "",
@@ -30,7 +30,7 @@ export const Profile = () => {
   const [userData, setUserData] = useState([{}]);
   const [isEditing, setIsEditing] = useState(false);
   const [show, setShow] = useState()
-  const selectDate = useSelector(getAppointmentId)
+  // const selectDate = useSelector(getAppointmentId)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -83,9 +83,9 @@ export const Profile = () => {
     });
   }
   
-      const selectAppointment = async () => {
+      const selectAppointment = async (id) => {
         try {
-            const res = await updateDate(selectDate, token);
+            const res = await updateDate(id, token);
             console.log(res);
         } catch (error) {
             console.log(error);
@@ -137,44 +137,39 @@ export const Profile = () => {
           </Tab>
           <Tab eventKey="dates" title="Dates">
             {userData.length > 0 &&
-              userData.map((dates) => (
-                // <tr>
-                //   <h5 className="modalDates">Appointment: {
-                //     dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")
-                //   }</h5>
-
-                //   <h5 className="modalDates">Job:{dates.jobId}</h5>
-                //   <h5 className="modalDates"> Artist:{dates.tattoArtistId}<br/></h5>
-                //   <Button className="date"
-                //     onClick={() => navigate("/prueba")}>
-                //       update
-                //   </Button>
-                // </tr>
+              userData.map((dates, index) => (
                 <>
+                            <CustomInput
+                typeProp="text"
+                nameProp="id"
+                isDisabled={!isEditing}
+                placeholderProp={dates.id}
+                handlerProp={(e) => inputHandlerDate(e)}
+            />
                   <CustomInput
                     typeProp="text"
                     nameProp="appointmentDate"
                     isDisabled={!isEditing}
                     placeholderProp={dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}
-                    inputHandler={inputHandlerDate}
+                    inputHandler={(e) =>inputHandlerDate(e, index)}
                   />
                   <CustomInput
                     typeProp="text"
                     nameProp="jobId"
                     isDisabled={!isEditing}
                     placeholderProp={dates.jobId}
-                    inputHandler={inputHandlerDate}
+                    inputHandler={(e) => inputHandlerDate(e, index)}
                   />
                   <CustomInput
                     typeProp="text"
                     nameProp="tattoArtistId"
                     isDisabled={!isEditing}
                     placeholderProp={dates.tattoArtistId}
-                    inputHandler={inputHandlerDate}
+                    inputHandler={(e) =>inputHandlerDate(e, index)}
 
                   />
                   <Button className="date"
-                    onClick={() => {selectAppointment(),navigate("/prueba")}}>
+                    onClick={() => {selectAppointment(dates.id),navigate("/prueba")}}>
                     update
                   </Button>
                 </>

@@ -12,6 +12,7 @@ export const Dates = () => {
     const navigate = useNavigate()
 
     const [appDates, setAppDates] = useState({
+        id:"",
         appointmentDate: "",
         jobId: "",
         tattoArtistId: "",
@@ -39,6 +40,12 @@ export const Dates = () => {
     return (
         <>
             <CustomInput
+                typeProp="text"
+                nameProp="id"
+                placeholderProp="id"
+                handlerProp={(e) => inputHandlerDate(e)}
+            />
+            <CustomInput
                 typeProp="date"
                 nameProp="appointmentDate"
                 placeholderProp="date"
@@ -61,9 +68,9 @@ export const Dates = () => {
 
             <Button onClick={() => {
                 dateForUpgrade(),
-                setTimeout(() => {
-                    navigate("/profile")
-                },[1000])
+                    setTimeout(() => {
+                        navigate("/profile")
+                    }, [1000])
             }}>
                 Update Appointment
             </Button>
