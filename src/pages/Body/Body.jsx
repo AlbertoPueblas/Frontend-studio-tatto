@@ -16,9 +16,7 @@ import Artist from "../Artist/Artist"
 //---------------------------------------------------------
 
 export const Body = () => {
-
     return (
-    
     <>
         <Routes>
             <Route path="*" element={<Navigate to="/" />}/>

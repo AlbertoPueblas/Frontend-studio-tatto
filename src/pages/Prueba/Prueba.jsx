@@ -61,7 +61,9 @@ export const Dates = () => {
 
             <Button onClick={() => {
                 dateForUpgrade(),
+                setTimeout(() => {
                     navigate("/profile")
+                },[1000])
             }}>
                 Update Appointment
             </Button>

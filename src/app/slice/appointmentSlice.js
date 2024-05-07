@@ -7,6 +7,7 @@ export const appointmentSlice = createSlice({
     initialState: {
         token:"",
         decodificado: {
+            id:"",
             dates:"",
         }
     },

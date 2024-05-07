@@ -78,6 +78,12 @@ export const Dates = () => {
                 {msg && <div>{msg}</div>}
             </div>
             <CustomInput
+                typeProp="date"
+                nameProp="appointmentDate"
+                placeholderProp="date"
+                handlerProp={(e) => inputHandlerDate(e)}
+            />
+            <CustomInput
                 typeProp="text"
                 nameProp="userId"
                 placeholderProp="UserId"
@@ -98,20 +104,14 @@ export const Dates = () => {
                 handlerProp={(e) => inputHandlerDate(e)}
             />
 
-            <CustomInput
-                typeProp="date"
-                nameProp="appointmentDate"
-                placeholderProp="date"
-                handlerProp={(e) => inputHandlerDate(e)}
-            />
 
             <Button onClick={() => {
                 dateForMe(),
-                navigate("/profile")
+                    navigate("/profile")
             }}>
                 Send Appointment
-                </Button>
-                          {/* <ButtonC
+            </Button>
+            {/* <ButtonC
             title={"Date!"}
             className={"regularButtonClass"}
             functionEmit={dateForMe}

@@ -1,3 +1,13 @@
-.login-container {
-    background-color: blue;
+.modalDates {
+    display: center;
+    justify-content: center;
+    text-align: center;
+    margin-left: 6em;
+}
+
+.date {
+    width: 5em;
+    height: 2em;
+    margin: 3em;
+    margin: 0.2em;
 }

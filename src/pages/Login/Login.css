@@ -1,7 +1,8 @@
-.login-container {
+.loginContainer {
     display: center;
-    margin-top: 0.5em;
-    max-width: 50em; 
+    margin-top: 3em;
+    max-width: 50em;
+    margin-left: 13em;
 }
 
 Form {
@@ -12,7 +13,27 @@ Form {
 }
 
 h1 {
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
     opacity: 20%;
     border-radius: 80em;
+}
+
+.regularButton {
+    height: 2em;
+    width: 20em;
+    background-color: red;
+    color: white;
+    border-radius: 1em;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+    margin-left: 15em;
+}
+.regularButton:hover {
+
+    cursor: pointer;
+    background-color: darkred;
+    transition: 0.3s;
 }

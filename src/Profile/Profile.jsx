@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CustomInput } from "../components/CustomInput/CustomInput";
-import { bringDates, bringProfile, loginOut } from "../services/apiCalls";
+import { bringDates, bringProfile } from "../services/apiCalls";
 import BootstrapModal from "../components/BootstrapModal/BootstrapModal";
 import { useDispatch, useSelector, } from "react-redux";
 import { useNavigate } from 'react-router-dom'
@@ -10,6 +10,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import "./Profile.css";
+import { getAppointmentId } from "../app/slice/appointmentSlice";
 
 //---------------------------------------------------------------------------
 
@@ -25,12 +27,10 @@ export const Profile = () => {
     tattoArtistId: "",
   })
   const [now, setNow] = useState(Date())
-  const [selected, setSelected] = useState(); 
   const [userData, setUserData] = useState([{}]);
-  const [oneUser, setOneUser] = useState({})
   const [isEditing, setIsEditing] = useState(false);
-
   const [show, setShow] = useState()
+  const selectDate = useSelector(getAppointmentId)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -47,6 +47,13 @@ export const Profile = () => {
     }));
   };
 
+  const inputHandlerDate = (e) => {
+    console.log(typeof (e.target.value), e.target.name);
+    setAppDates((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -75,6 +82,15 @@ export const Profile = () => {
       navigate("/Profile")
     });
   }
+  
+      const selectAppointment = async () => {
+        try {
+            const res = await updateDate(selectDate, token);
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
   return (
     <>
@@ -122,27 +138,53 @@ export const Profile = () => {
           <Tab eventKey="dates" title="Dates">
             {userData.length > 0 &&
               userData.map((dates) => (
-                <tr>
+                // <tr>
+                //   <h5 className="modalDates">Appointment: {
+                //     dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")
+                //   }</h5>
 
-                  <h5>Appointment: <br /> {
-                    dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")} <br/></h5>
-                  <h5>Job:{dates.jobId}<br/></h5>   
-                  <h5> Artist:{dates.tattoArtistId}<br/> 
-                  <Button className="showButton"
-                        onClick={() => setShow((true),
-                          navigate("/prueba")
-                        )}>
-                      </Button>
-                          </h5>
-                </tr>
+                //   <h5 className="modalDates">Job:{dates.jobId}</h5>
+                //   <h5 className="modalDates"> Artist:{dates.tattoArtistId}<br/></h5>
+                //   <Button className="date"
+                //     onClick={() => navigate("/prueba")}>
+                //       update
+                //   </Button>
+                // </tr>
+                <>
+                  <CustomInput
+                    typeProp="text"
+                    nameProp="appointmentDate"
+                    isDisabled={!isEditing}
+                    placeholderProp={dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}
+                    inputHandler={inputHandlerDate}
+                  />
+                  <CustomInput
+                    typeProp="text"
+                    nameProp="jobId"
+                    isDisabled={!isEditing}
+                    placeholderProp={dates.jobId}
+                    inputHandler={inputHandlerDate}
+                  />
+                  <CustomInput
+                    typeProp="text"
+                    nameProp="tattoArtistId"
+                    isDisabled={!isEditing}
+                    placeholderProp={dates.tattoArtistId}
+                    inputHandler={inputHandlerDate}
 
+                  />
+                  <Button className="date"
+                    onClick={() => {selectAppointment(),navigate("/prueba")}}>
+                    update
+                  </Button>
+                </>
               ))}
-          <Button variant="primary" onClick={() => {
-            setShow(true),
-            navigate("/appointmentDate")
-          }}>
-            Create Appointment
-          </Button>
+            <Button variant="primary" onClick={() => {
+              setShow(true),
+                navigate("/appointmentDate")
+            }}>
+              Create Appointment
+            </Button>
           </Tab>
           <Tab eventKey="contact" title="Contact" disabled>
             Tab content for Contact

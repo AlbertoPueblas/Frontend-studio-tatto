@@ -63,7 +63,7 @@ export const Login = () => {
 
   return (
 
-    <div className="login-container loginElementsDesign">
+    <div className="loginContainer">
       {msg === "" ? (
         <>
           <CustomInput
@@ -82,14 +82,13 @@ export const Login = () => {
 
           <ButtonC
             title={"log me!"}
-            className={"regularButtonClass"}
+            className={"regularButton"}
             functionEmit={loginMe}
           />
         </>
       ) : (
         <div>{msg}</div>
       )}
-      <pre>{JSON.stringify(credentials, null, 2)}</pre>
     </div>
   )
 };
