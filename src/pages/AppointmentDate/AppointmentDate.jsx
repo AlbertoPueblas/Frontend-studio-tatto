@@ -37,7 +37,7 @@ export const Dates = () => {
     const inputHandlerDates = (e) => {
 
         console.log(e.target.value, e.target.name);
-        setAppDate((prevState) => ({
+        setAppCreate((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
 

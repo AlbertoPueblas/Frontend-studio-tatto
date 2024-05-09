@@ -17,7 +17,7 @@ const MyModal = ({dates, appDates, inputHandlerDate,handleUpdate, token }) => {
     useEffect(() => {
         const fetchArtist = async () => {
             const res = await bringAllArtist(token)
-            console.log(res.data.artist);
+            // console.log(res.data.artist);
             setArtists(res.data.artist)
         }
         fetchArtist()
@@ -27,7 +27,7 @@ const MyModal = ({dates, appDates, inputHandlerDate,handleUpdate, token }) => {
     useEffect(() => {
         const fetchJobs = async () => {
             const res = await bringAllJobs(token)
-            console.log(res.data.jobs);
+            // console.log(res.data.jobs);
             setJobs(res.data.jobs)
         }
         fetchJobs()
@@ -67,17 +67,18 @@ const MyModal = ({dates, appDates, inputHandlerDate,handleUpdate, token }) => {
                     <Modal.Title>Edita tus datos!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <MyInput
+                {/* <MyInput
                       typeProp="text"
                       nameProp="id"
-                      isDisabled={!isEditing}
+                    //   isDisabled={!isEditing}
                       value={appDates.id}
-                    />
+                      handlerProp={(e) => inputHandlerDate(e)}
+                    /> */}
                     <MyInput
                         typeProp="datetime-local"
                         nameProp="appointmentDate"
-                        placeholderProp="appointmentDates"
-                        value={dates.appointmentDate}
+                        placeholderProp="date"
+                        value={appDates.appointmentDate}
                         handlerProp={inputHandlerDate}
                         disabled=""
                     />

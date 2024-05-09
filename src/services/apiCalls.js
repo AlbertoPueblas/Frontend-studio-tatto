@@ -16,14 +16,14 @@ export const loginCall = async (credentials) => {
   return res
 };
 
-export const appointmentCreate = async(appDate, token) => {
+export const appointmentCreate = async(appCreate, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log(appDates,"aqui citas o no????");
-  const res = await axios.post(`${API_URL}dates/appointment`,appDate, config);
+  console.log(appCreate,"aqui citas o no????");
+  const res = await axios.post(`${API_URL}dates/appointment`,appCreate, config);
   console.log(config, "Hello?");
   return res
 }

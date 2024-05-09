@@ -14,12 +14,11 @@ export const Dates = () => {
 
 
     const [appDates, setAppDates] = useState({
-        id:"",
+        // id:"",
         appointmentDate: "",
         jobId: "",
         tattoArtistId: "",
     })
-
     const userReduxData = useSelector(getUserData)
     const token = userReduxData.token
 
@@ -65,14 +64,13 @@ export const Dates = () => {
     }
     return (
         <>
-            <MyInput
-                typeProp="text"
-                nameProp="id"
-                value={appDates.id}
-                // isDisabled={!isEditing}
-                placeholderProp="id"
-                handlerProp={(e) => inputHandlerDate(e)}
-            />
+                        <MyInput
+                          typeProp="text"
+                          nameProp="id"
+                          isDisabled={!isEditing}
+                          value={appDates.id}
+                          inputHandler={inputHandlerDate}
+                        />
             <MyInput
                 typeProp="datetime-local"
                 nameProp="appointmentDate"
@@ -99,11 +97,11 @@ export const Dates = () => {
                 })}
             </select>
 
-
             <Button onClick={() => {
-                dateForUpgrade()
-                        // navigate("/profile")
+                dateForUpgrade(appDates)
+
             }}>
+
                 Update Appointment
             </Button>
         </>
