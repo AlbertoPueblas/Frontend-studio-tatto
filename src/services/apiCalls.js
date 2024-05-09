@@ -72,14 +72,14 @@ export const updateProfile = async (profileData, token) => {
   console.log(res, "yo soy updateProfile")
   return res
 }
-export const updateDate = async (appDates, token) => {
+export const updateDate = async (dataToSend, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log(typeof(appDates),appDates,"token",token, "yo soy updateDate") 
-  const res = await axios.put(`${API_URL}dates/changeDate`, appDates, config)
+  console.log(typeof(dataToSend),dataToSend,"token",token, "yo soy updateDate") 
+  const res = await axios.put(`${API_URL}dates/changeDate`, dataToSend, config)
   return res
 }
 

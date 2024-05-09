@@ -68,9 +68,8 @@ export const Dates = () => {
             <MyInput
                 typeProp="text"
                 nameProp="id"
-                // isDisabled={!isEditing}
+                isDisabled={!isEditing}
                 value={appDates.id}
-                handlerProp={inputHandlerDate}
             />
                         <MyInput
                 typeProp="text"

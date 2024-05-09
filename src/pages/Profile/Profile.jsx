@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MyInput } from "../../components/MyInput/MyInput";
-import { bringDates, bringProfile, deleteApointment, updateDate } from "../../services/apiCalls";
+import { bringDates, bringProfile, deleteAppointmentId, updateDate } from "../../services/apiCalls";
 import BootstrapModal from "../../components/BootstrapModal/BootstrapModal";
 import { useDispatch, useSelector, } from "react-redux";
 import { useNavigate } from 'react-router-dom'
@@ -24,6 +24,7 @@ export const Profile = () => {
   });
   const [appDates, setAppDates] = useState({
     id: "",
+    userId:"",
     appointmentDate: "",
     jobId: "",
     tattoArtistId: "",
@@ -58,19 +59,35 @@ export const Profile = () => {
     }));
     console.log(appDates);
   };
-  const handleUpdate = async (dates) => {
-    try {
-      console.log(dates, "hello");
-      await updateDate(appDates, token);
-      console.log("datos actualizados");
-      setTimeout(() => {
-        navigate("/Profile")
-        setShow(false);
-      }, [2000])
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleUpdate = async (dates) => {
+  //   try {
+  //     console.log(dates, "hello");
+  //     await updateDate(appDates, token);
+  //     console.log("datos actualizados");
+  //     setTimeout(() => {
+  //       navigate("/Profile")
+  //       setShow(false);
+  //     }, [2000])
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+//   const dateForUpgrade = async () => {
+//     try {
+//         // Agregar la id al objeto de datos antes de enviarlo al backend
+//         const dataToSend = {
+//             ...appDates,
+//             // Puedes acceder a la id almacenada en el estado interno del componente
+//         };
+
+//         // Enviar los datos al backend
+//         const res = await updateDate(dataToSend, token);
+//         console.log(res);
+//         navigate("/profile");
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -98,7 +115,7 @@ export const Profile = () => {
   }
 
   const deleteDate = async () => {
-    const res = await delelteAppointment(data,token)
+    const res = await deleteAppointmentId(data,token)
   };
 
 
@@ -163,7 +180,7 @@ export const Profile = () => {
                           nameProp="id"
                           isDisabled={!isEditing}
                           value={dates.id}
-                          inputHandler={inputHandlerDate}
+                          // inputHandler={inputHandlerDate}
                         />
                         <MyInput
                           typeProp="text"
@@ -201,7 +218,7 @@ export const Profile = () => {
                           appDates={dates}
                           inputHandlerDate={inputHandlerDate}
                           token={token}
-                          handleUpdate={handleUpdate}
+                          // dateForUpgrade={dateForUpgrade}
                         />
                       </Card.Body>
                     </Card>
