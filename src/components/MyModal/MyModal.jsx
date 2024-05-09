@@ -42,35 +42,24 @@ const MyModal = ({ dates, appDates, inputHandlerDate, token }) => {
         console.log("close");
         setShow(false);
     }
-    // const handleUpdate = async () => {
-    //     try {
-    //         await updateDate(appDates, token);
-    //         console.log("datos actualizados");
-    //         setTimeout(() => {
-    //         navigate("/Profile")
-    //             setShow(false);
-    //         },[2000])
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-    // Lógica para enviar los datos al backend
-const dateForUpgrade = async () => {
-    try {
-        // Agregar la id al objeto de datos antes de enviarlo al backend
-        const dataToSend = {
-            ...appDates,
-            // Puedes acceder a la id almacenada en el estado interno del componente
-        };
 
-        // Enviar los datos al backend
-        const res = await updateDate(dataToSend, token);
-        console.log(res);
-        navigate("/profile");
-    } catch (error) {
-        console.log(error);
-    }
-};
+    // Lógica para enviar los datos al backend
+    const dateForUpgrade = async () => {
+        try {
+            // Agregar la id al objeto de datos antes de enviarlo al backend
+            const dataToSend = {
+                ...appDates,
+                // Puedes acceder a la id almacenada en el estado interno del componente
+            };
+
+            // Enviar los datos al backend
+            const res = await updateDate(dataToSend, token);
+            console.log(res);
+            navigate("/profile");
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
 
     return (
@@ -84,28 +73,27 @@ const dateForUpgrade = async () => {
                     <Modal.Title>Edita tus datos!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <MyInput
+                    {/* <MyInput
                         typeProp="text"
                         nameProp="id"
                         isDisabled={!isEditing}
                         value={appDates.id}
                         readOnly
-                    />
+                    /> */}
                     <MyInput
                         typeProp="text"
                         nameProp="userId"
-                        isDisabled={isEditing}
-                        value={dates.userId}
-                        handlerProp={inputHandlerDate}
+                        isDisabled={!isEditing}
+                        value={appDates.userId}
+                        readOnly
                     />
                     <MyInput
                         typeProp="datetime-local"
-                        nameProp="appointmentDate"
-                        placeholderProp="date"
+                        nameProp="datetime-local"
                         value={appDates.appointmentDate}
-                        handlerProp={inputHandlerDate}
-                        disabled=""
+                        handlerProp={(e) => inputHandlerDate(e)}
                     />
+
                     <select name="jobId"
                         value={dates.jobId}
                         disabled=""

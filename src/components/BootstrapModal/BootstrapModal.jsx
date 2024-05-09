@@ -1,9 +1,9 @@
 import { useState, useTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import { CustomInput } from "../CustomInput/CustomInput";
 import Modal from "react-bootstrap/Modal";
 import { updateProfile } from "../../services/apiCalls";
+import { MyInput } from "../MyInput/MyInput";
 
 //-----------------------------------------------------------
 
@@ -44,7 +44,7 @@ function BootstrapModal({ profileData, inputHandler, token }) {
                     <Modal.Title>Edita tus datos!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CustomInput
+                    <MyInput
                         typeProp="text"
                         nameProp="firstName"
                         // placeholderProp="firstName"
@@ -52,7 +52,7 @@ function BootstrapModal({ profileData, inputHandler, token }) {
                         isDisabled=""
                         handlerProp={inputHandler}
                     />
-                    <CustomInput
+                    <MyInput
                         typeProp="text"
                         nameProp="lastName"
                         placeholderProp="lastName"
@@ -60,7 +60,7 @@ function BootstrapModal({ profileData, inputHandler, token }) {
                         isDisabled=""
                         handlerProp={inputHandler}
                     />
-                    <CustomInput
+                    <MyInput
                         typeProp="email"
                         nameProp="email"
                         placeholderProp="email"

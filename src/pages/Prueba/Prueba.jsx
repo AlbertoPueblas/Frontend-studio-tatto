@@ -14,8 +14,8 @@ export const Dates = () => {
 
 
     const [appDates, setAppDates] = useState({
-        id: "",
-        userId:"",
+        // id: "",
+        userId: "",
         appointmentDate: "",
         jobId: "",
         tattoArtistId: "",
@@ -55,14 +55,14 @@ export const Dates = () => {
 
     const dateForUpgrade = async () => {
         try {
-          const res = await updateDate(appDates, token);
-          console.log(res);
-          navigate("/profile");
+            const res = await updateDate(appDates, token);
+            console.log(res);
+            navigate("/profile");
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
-      
+    };
+
     return (
         <>
             <MyInput
@@ -70,8 +70,9 @@ export const Dates = () => {
                 nameProp="id"
                 isDisabled={!isEditing}
                 value={appDates.id}
+                readOnly
             />
-                        <MyInput
+            <MyInput
                 typeProp="text"
                 nameProp="userId"
                 // isDisabled={!isEditing}
@@ -105,8 +106,8 @@ export const Dates = () => {
             </select>
 
             <Button onClick={dateForUpgrade}>
-  Update Appointment
-</Button>
+                Update Appointment
+            </Button>
 
         </>
     )

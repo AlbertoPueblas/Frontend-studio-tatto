@@ -58,37 +58,7 @@ export const Profile = () => {
       [e.target.name]: e.target.value,
     }));
     console.log(appDates);
-  };
-  // const handleUpdate = async (dates) => {
-  //   try {
-  //     console.log(dates, "hello");
-  //     await updateDate(appDates, token);
-  //     console.log("datos actualizados");
-  //     setTimeout(() => {
-  //       navigate("/Profile")
-  //       setShow(false);
-  //     }, [2000])
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-//   const dateForUpgrade = async () => {
-//     try {
-//         // Agregar la id al objeto de datos antes de enviarlo al backend
-//         const dataToSend = {
-//             ...appDates,
-//             // Puedes acceder a la id almacenada en el estado interno del componente
-//         };
-
-//         // Enviar los datos al backend
-//         const res = await updateDate(dataToSend, token);
-//         console.log(res);
-//         navigate("/profile");
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
-
+  }
   useEffect(() => {
     const fetchProfile = async () => {
       const myProfileData = await bringProfile(token);
@@ -173,7 +143,7 @@ export const Profile = () => {
                 </Button>
                 {userData.length > 0 &&
                   userData.map((dates, index) => (
-                    <Card key={index} style={{ marginBottom: '1rem' }}>
+                    <Card key={index} style={{ marginBottom: '1rem', borderColor: "blue",boxShadow:"1px 3px 5px blue" }}>
                       <Card.Body>
                         <MyInput
                           typeProp="text"
@@ -218,7 +188,7 @@ export const Profile = () => {
                           appDates={dates}
                           inputHandlerDate={inputHandlerDate}
                           token={token}
-                          // dateForUpgrade={dateForUpgrade}
+
                         />
                       </Card.Body>
                     </Card>
