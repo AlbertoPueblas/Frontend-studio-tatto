@@ -1,0 +1,14 @@
+.InputDesign {
+    border-radius: 5em;
+    width: 18em;
+    height: 2em;
+    margin: auto;
+    padding: 1em;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    box-shadow: 5px 5px 5px rgb(0, 0, 0);
+    border: 1em;
+}

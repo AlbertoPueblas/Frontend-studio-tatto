@@ -1,0 +1,11 @@
+.basic-navbar-nav {
+    display: flex;
+    border-color: blue;
+}
+
+.logOut {
+    color: rgb(255, 0, 0);
+}
+.logIn {
+    color: rgb(41, 204, 0);
+}

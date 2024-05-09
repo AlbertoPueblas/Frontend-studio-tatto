@@ -1,8 +1,8 @@
-import { updateDate } from "../../services/apiCalls";
-import { useState } from 'react'
+import { bringAllArtist, bringAllJobs, updateDate } from "../../services/apiCalls";
+import { useEffect, useState } from 'react'
 import { useSelector } from "react-redux";
 import { getUserData } from "../../app/slice/userSlice";
-import { CustomInput } from "../../components/CustomInput/CustomInput";
+import { MyInput } from "../../components/MyInput/MyInput";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
@@ -10,6 +10,8 @@ import { Button } from "react-bootstrap";
 
 export const Dates = () => {
     const navigate = useNavigate()
+  const [isEditing, setIsEditing] = useState(false);
+
 
     const [appDates, setAppDates] = useState({
         id:"",
@@ -21,8 +23,30 @@ export const Dates = () => {
     const userReduxData = useSelector(getUserData)
     const token = userReduxData.token
 
+    const [jobs, setJobs] = useState([])
+    const [Artists, setArtists] = useState([])
+
+    useEffect(() => {
+        const fetchArtist = async () => {
+            const res = await bringAllArtist(token)
+            console.log(res.data.artist);
+            setArtists(res.data.artist)
+        }
+        fetchArtist()
+    }, [])
+
+
+    useEffect(() => {
+        const fetchJobs = async () => {
+            const res = await bringAllJobs(token)
+            console.log(res.data.jobs);
+            setJobs(res.data.jobs)
+        }
+        fetchJobs()
+    }, [])
+
     const inputHandlerDate = (e) => {
-        console.log(typeof (e.target.value), e.target.name);
+        console.log(e.target.value, e.target.name);
         setAppDates((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
@@ -33,44 +57,52 @@ export const Dates = () => {
         try {
             const res = await updateDate(appDates, token);
             console.log(res);
+            navigate("/profile")
+
         } catch (error) {
             console.log(error);
         }
     }
     return (
         <>
-            <CustomInput
+            <MyInput
                 typeProp="text"
                 nameProp="id"
+                value={appDates.id}
+                // isDisabled={!isEditing}
                 placeholderProp="id"
                 handlerProp={(e) => inputHandlerDate(e)}
             />
-            <CustomInput
-                typeProp="date"
+            <MyInput
+                typeProp="datetime-local"
                 nameProp="appointmentDate"
                 placeholderProp="date"
+                value={appDates.appointmentDate}
                 handlerProp={(e) => inputHandlerDate(e)}
             />
-            <CustomInput
-                typeProp="text"
-                nameProp="jobId"
-                placeholderProp="jobId"
-                handlerProp={(e) => inputHandlerDate(e)}
-            />
-
-            <CustomInput
-                typeProp="text"
-                nameProp="tattoArtistId"
-                placeholderProp="tattoArtistId"
-                handlerProp={(e) => inputHandlerDate(e)}
-            />
+            <select name="jobId" onChange={(e) => inputHandlerDate(e)}
+                className="select">
+                <option value="">Select Job</option>
+                {jobs.map((job) => {
+                    return (
+                        <option value={job.id} key={job.id}>{job.jobs}</option>
+                    )
+                })}
+            </select>
+            <select name="tattoArtistId" onChange={(e) => inputHandlerDate(e)}
+                className="select">
+                <option value="">Select Artist</option>
+                {Artists.map((art) => {
+                    return (
+                        <option value={art.id} key={art.id}>{art.firstName}</option>
+                    )
+                })}
+            </select>
 
 
             <Button onClick={() => {
-                dateForUpgrade(),
-                    setTimeout(() => {
-                        navigate("/profile")
-                    }, [1000])
+                dateForUpgrade()
+                        // navigate("/profile")
             }}>
                 Update Appointment
             </Button>

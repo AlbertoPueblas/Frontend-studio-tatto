@@ -5,41 +5,62 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../../app/slice/userSlice';
+import { logout, getUserData } from '../../../app/slice/userSlice';
+import { useSelector } from "react-redux";
+import "./Header.css"
+
 
 //-------------------------------------------------------------
 function Header() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  
+
+  const userReduxData = useSelector(getUserData)
+
+  const token = userReduxData.token
+  const userType = userReduxData.decoded.userRole
+
   const logOutMe = () => {
     dispatch(logout())
   }
 
   return (
-    <Navbar expand="xxlg" className="bg-body-tertiary" display="center">
+
+    <Navbar expand="xlg" className="bg-body-tertiary" display="center">
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Container>
         <Navbar.Brand href="/Home">Home</Navbar.Brand>
-        <Navbar.Brand href="/Login" onClick={() => navigate("/login")} >Iniciar sesion</Navbar.Brand>
+        <Navbar.Brand href="/Profile"  > Profile</Navbar.Brand>
         <Navbar.Brand href="/Register"  >Register</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Brand href="/Login" className='logIn' onClick={() => navigate("/login")} >Log In</Navbar.Brand>
+        <Navbar.Brand href="/Profile" className='logOut'
+          onClick={() => {
+            logOutMe(), navigate("/Home")
+          }}>log out</Navbar.Brand>
+
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/Appointment">Appointment</Nav.Link>
-            <Nav.Link href="./job" onClick={() => {navigate("/job")}}>Jobs</Nav.Link>
-            <NavDropdown title="Profile" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/Profile">Perfil</NavDropdown.Item>
-              <NavDropdown.Item href="home" onClick={() => {
-            logOutMe(),navigate("/Home")}}>log out
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Delete profile</NavDropdown.Item>
-            </NavDropdown>
+            {userType === "Admin" ? (
+              <Nav.Link href="/Appointment">Appointment</Nav.Link>
+            ) : (<Nav.Link href="/AppointmentDate">Appointment</Nav.Link>)}
+            {userType === "Admin" ? (
+              <Nav.Link href="./Artist">Artist</Nav.Link>
+            ) : (null)}
+            {userType === "Admin" ? (
+              <Nav.Link href="./Admin">All users</Nav.Link>
+            ) : (null)}
+            {userType === "Admin" ? (
+              <Nav.Link href="./job" onClick={() => { navigate("/job") }}>Jobs</Nav.Link>
+            ) : (null)}
+
+
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 }
+
 
 export default Header;

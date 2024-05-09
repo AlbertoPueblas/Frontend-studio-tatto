@@ -3,6 +3,7 @@ import { getUserData } from "../../app/slice/userSlice"
 import { useEffect, useState } from "react"
 import {
   bringAllAppointment, bringAllUsers,
+  deleteAppointmentId,
   deleteUserId,
   getUserById
 } from "../../services/apiCalls"
@@ -24,7 +25,7 @@ export const Appointment = () => {
   const [show, setShow] = useState()
   const navigate = useNavigate();
   const userReduxData = useSelector(getUserData)
-
+  const [areYouDeletingMe, setAreYouDeletingMe] = useState(null);
   const token = userReduxData.token
   const userType = userReduxData.decoded.userRole
 
@@ -53,12 +54,20 @@ export const Appointment = () => {
     });
     console.log("close");
     setShow(false);
+  }
 
-    const deleteUser = async (id) => {
-      const res = await deleteUserId(id, token)
+    const deleteAppointment = async (id) => {
+      const res = await deleteAppointmentId(id, token)
     };
 
-  }
+    const deleteAppointmentStepOne = (id) => {
+      if (areYouDeletingMe === id) {
+        setAreYouDeletingMe(null);
+      } else {
+        setAreYouDeletingMe(id);
+      }
+    };
+
 
   return (
     <>
@@ -75,26 +84,41 @@ export const Appointment = () => {
               </tr>
             </thead>
             <tbody>
-              {
-                userData.length > 0 ? (
+              {userData.length > 0 ? (
                   <>
                     {userData.map((dates) => {
                       return (
 
                         <tr>
                           <th>{dates.id}</th>
-                          <th>{dates.appointmentDate}</th>
+                          <th>
+                        {dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}</th>
                           <th><br></br>{dates.userId}</th>
                           <th>{dates.tattoArtistId}</th>
                           <th>
                             <div className="userList">
                               <div className="showButton"
-                                onClick={() => setShow((true), fetchUser(users._id))}>
+                                onClick={() => {setShow(true), fetchUser(users._id)}}>
                               </div>
-                              {/* <div className="deleteButton" onClick={
-                                () => deleteUser(dates.id)}></div> */}
-                              <div className="upgradeButton" onClick={
-                                () => fetchUser(dates.id)}></div>
+                              <div className="deleteButton" onClick={
+                                () => deleteAppointmentStepOne(dates.id)}></div>
+                              {/* <div className="upgradeButton" onClick={
+                                () => fetchUser(dates.id)}></div> */}
+                                <div
+                        className={
+                          // botón de confirmación de borrado
+
+                          areYouDeletingMe === dates._id
+                            ? "deleteButton confirmDelete "
+                            : "deleteButton confirmDelete display-none"
+                        }
+                        onClick={() => deleteAppointment((dates.id),
+                        navigate("/Admin")
+                        ,)}
+
+                      >Delete?  
+                        
+                    </div>
                             </div>
                           </th>
                         </tr>
@@ -130,6 +154,7 @@ export const Appointment = () => {
                         dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}</th>
                         <th>User: <br></br>{dates.userId}</th>
                         <th>Artist id: {dates.tattoArtistId}</th>
+                        <th>Artist id: {dates.jobId}</th>
                       </tr>
                     ))}
                 </Tab>

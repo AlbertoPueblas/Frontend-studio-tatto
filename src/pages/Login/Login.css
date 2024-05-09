@@ -1,39 +1,63 @@
 .loginContainer {
+    background-color: aliceblue;
     display: center;
-    margin-top: 3em;
-    max-width: 50em;
-    margin-left: 13em;
-}
-
-Form {
-    display: center;
+    width: 25em;
+    height: 15em;
     margin: auto;
-    margin-top: 10em;
-    max-width: 30em;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 5px 5px 5px blue;
+    border-radius: 1em;
+    background-image: url(../img/logo2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-h1 {
-    /* background-color: aliceblue; */
-    opacity: 20%;
-    border-radius: 80em;
+.loginContainerFalse {
+    background-color: aliceblue;
+    display: center;
+    width: 25em;
+    height: 15em;
+    margin: auto;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 5px 5px 5px rgb(255, 0, 0);
+    border-radius: 1em;
+    background-image: url(../img/logo2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.regularButton {
+.text {
+    font-size:3.5em;
+    text-shadow: 5px 5px 5px blue;
+    color: white;
+}
+.textFalse {
+    font-size:3.5em;
+    text-shadow: 5px 5px 5px rgb(255, 0, 0);
+    color: white;
+}
+
+.Button {
     height: 2em;
-    width: 20em;
-    background-color: red;
+    width: 18em;
+    background-color: rgb(6, 41, 240);
     color: white;
     border-radius: 1em;
     transition: 0.3s;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1em;
-    margin-left: 15em;
+    margin-left: auto;
+    margin-right: auto;
+
 }
-.regularButton:hover {
+.Button:hover {
 
     cursor: pointer;
-    background-color: darkred;
+    background-color: rgb(40, 245, 22);
     transition: 0.3s;
 }

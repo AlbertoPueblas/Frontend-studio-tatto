@@ -3,9 +3,27 @@
     width: 18em;
     height: 2em;
     margin: auto;
+    padding: 1em;
     display: flex;
     text-align: center;
     justify-content: center;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    box-shadow: 5px 5px 5px blue;
+    border: 1em;
+}
+
+.emailFalse {
+    border-radius: 5em;
+    width: 18em;
+    height: 2em;
+    margin: auto;
+    padding: 1em;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    box-shadow: 2px 2px 2px rgb(255, 0, 0);
+    border: 1em;
 }

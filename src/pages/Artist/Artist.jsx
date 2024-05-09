@@ -33,13 +33,13 @@ export const Artist = () => {
         fetchArtist()
       }, [])
 
-      const deleteUserStepOne = (id) => {
-        if (areYouDeletingMe === id) {
-          setAreYouDeletingMe(null);
-        } else {
-          setAreYouDeletingMe(id);
-        }
-      };
+      // const deleteArtistStepOne = (id) => {
+      //   if (areYouDeletingMe === id) {
+      //     setAreYouDeletingMe(null);
+      //   } else {
+      //     setAreYouDeletingMe(id);
+      //   }
+      // };
     
 
     return(

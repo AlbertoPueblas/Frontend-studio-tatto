@@ -4,3 +4,62 @@
     display: flex;
     flex-direction: column;
 }
+
+.h1 {
+    font-size:10em; 
+    text-shadow: 5px 5px 5px blue;
+    color: white;
+}
+.h1False {
+    text-shadow: 5px 5px 5px rgb(255, 0, 0);
+    color: white;
+}
+
+.Button {
+    height: 2em;
+    width: 20em;
+    background-color: rgb(6, 41, 240);
+    color: white;
+    border-radius: 1em;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+    margin-left: auto;
+    margin-right: auto;
+}
+.Button:hover {
+
+    cursor: pointer;
+    background-color: rgb(40, 245, 22);
+    transition: 0.3s;
+}
+.registerContainer {
+    background-color: aliceblue;
+    width: 27em;
+    height: 16em;
+    margin-bottom: 1em;
+    box-shadow: 5px 5px 5px blue;
+    margin: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 1em;
+    background-image: url(../img/logo2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.registerContainerFalse {
+    background-color: aliceblue;
+    width: 27em;
+    height: 16em;
+    margin-bottom: 1em;
+    box-shadow: 5px 5px 5px rgb(255, 0, 0);
+    margin: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 1em;
+    background-image: url(../img/logo2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+}

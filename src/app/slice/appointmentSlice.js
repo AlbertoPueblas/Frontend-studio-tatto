@@ -9,6 +9,7 @@ export const appointmentSlice = createSlice({
         decodificado: {
             id:"",
             dates:"",
+            jobId:""
         }
     },
     reducers: {

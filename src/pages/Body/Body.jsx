@@ -3,7 +3,7 @@ import { Login } from "../Login/Login";
 import { Home } from "../Home/Home";
 import { Register } from "../Register/Register";
 import { Characters } from "../Characters/Characters";
-import { Profile } from "../../Profile/Profile";
+import { Profile } from "../Profile/Profile";
 import { Menu } from "../Menu/Menu";
 import { Admin } from "../Admin/Admin";
 import { Appointment } from "../Appointment/Appointment"
@@ -22,6 +22,7 @@ export const Body = () => {
             <Route path="*" element={<Navigate to="/" />}/>
             <Route path="/" element={<Home/>} />
             <Route path="/Login" element={<Login/>} />
+            <Route path="/menu" element={<Menu/>} />
             <Route path="/Profile" element={<Profile/>} />
             <Route path="/Register" element={<Register/>} />
             <Route path="/characters" element={<Characters/>} />
@@ -31,7 +32,6 @@ export const Body = () => {
             <Route path="/job" element={<Jobs/>} />
             <Route path="/artist" element={<Artist/>} />
             <Route path="/prueba" element={<Prueba/>} />
-            <Route path="/Menu" element={<Menu/>} />
         </Routes>
     </>
     );

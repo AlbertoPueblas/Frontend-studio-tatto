@@ -2,8 +2,8 @@
 // import { useNavigate } from 'react-router-dom'
 // import Button from 'react-bootstrap/Button';
 // import Form from 'react-bootstrap/Form';
-import './Home.css'
 // import { CustomInput } from "../../components/CustomInput/CustomInput";
+import './Home.css'
 import { loginCall } from '../../services/apiCalls';
 import { useDispatch } from 'react-redux';
 import { decodeToken } from 'react-jwt';
@@ -38,7 +38,7 @@ export const Home = () => {
   return (
     <>
       <div className="card">
-        <img src='./src/pages/img/logo.jpg' className='img'></img>
+        <img src='./src/pages/img/logo.jpeg' className='img'></img>
       </div>
     </>
   )

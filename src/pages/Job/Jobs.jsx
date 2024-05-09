@@ -28,7 +28,7 @@ export const Job = () => {
     useEffect(() => {
         const fetchJobs = async () => {
           const res = await bringAllJobs(token)
-          console.log(res.data.jobs);
+          console.log(res.data);
           setJobs(res.data.jobs)
         }
         fetchJobs()
@@ -50,9 +50,9 @@ export const Job = () => {
     <Table striped>
       <thead>
         <tr>
+          <th></th>
           <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
+          <th>Jobs</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -62,15 +62,14 @@ export const Job = () => {
             {jobs.map((job) => {
               return (
                 <tr>
+                  <th key={job.id}/>
                 <th>{job.id}</th>
-                  <th key={job.jobs}>
-                <th>{job.id}</th>
-                    {job.jobs}</th>
+                   <th> {job.jobs}</th>
 
                   <th>
                     <div className="userList">
                       <div className="showButton"
-                        onClick={() => setShow((true), fetchDates(job.id),fetchProfile(job.id))}>
+                        onClick={() => setShow((true), fetchDates(job._id),fetchProfile(job.id))}>
                       </div>
                       <div className="deleteButton" onClick={
                         () => deleteUserStepOne(job._id)}></div>

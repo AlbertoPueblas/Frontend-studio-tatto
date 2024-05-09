@@ -1,26 +1,24 @@
-import "./CustomInput.css"
+import "./MyInput.css"
 
-export const CustomInput = ({
+export const MyInput = ({
   typeProp,
   nameProp,
   placeholderProp,
   handlerProp,
   value,
   isDisabled,
-  onBlurHandler,
-  isValidContent
+  // isValidContent
 }) => {
   // props, properties, propiedades, se reciben como un objeto
-
   return (
-      <input className={isValidContent ? "customInputDesign" : "emailFalse"}
+      <input className={"InputDesign"}
       type={typeProp}
       name={nameProp}
       placeholder={placeholderProp}
-      value={value}
+      value={value || ""}
       disabled={isDisabled}
       onChange={(e) => handlerProp(e)}
-      onBlur={(e) => onBlurHandler(e)}
+
       >
       </input>
   );

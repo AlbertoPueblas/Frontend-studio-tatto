@@ -8,7 +8,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1em;
+    margin: auto;
+    display: center;
 }
 
 .regularButtonClass:hover {

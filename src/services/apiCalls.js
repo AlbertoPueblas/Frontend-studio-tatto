@@ -16,14 +16,14 @@ export const loginCall = async (credentials) => {
   return res
 };
 
-export const appointmentCreate = async(appDates, token) => {
+export const appointmentCreate = async(appDate, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
   console.log(appDates,"aqui citas o no????");
-  const res = await axios.post(`${API_URL}dates/appointment`,appDates, config);
+  const res = await axios.post(`${API_URL}dates/appointment`,appDate, config);
   console.log(config, "Hello?");
   return res
 }
@@ -78,8 +78,8 @@ export const updateDate = async (appDates, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
+  console.log(appDates, "yo soy updateDate") 
   const res = await axios.put(`${API_URL}dates/changeDate`, appDates, config)
-  console.log(res, "yo soy updateDate")
   return res
 }
 
@@ -101,7 +101,16 @@ export const deleteUserId = async (id, token) => {
   }
   console.log("yo soy deleteProfile")
   return axios.delete(`${API_URL}users/profile/${id}`, config)
+}
 
+export const deleteAppointmentId = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  console.log("yo soy deleteProfile")
+  return axios.delete(`${API_URL}dates/deleteDate/${id}`, config)
 }
 
 export const bringAllUsers = async (token) => {
