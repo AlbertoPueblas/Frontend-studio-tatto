@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MyInput } from "../../components/MyInput/MyInput";
-import { bringDates, bringProfile, updateDate } from "../../services/apiCalls";
+import { bringDates, bringProfile, deleteApointment, updateDate } from "../../services/apiCalls";
 import BootstrapModal from "../../components/BootstrapModal/BootstrapModal";
 import { useDispatch, useSelector, } from "react-redux";
 import { useNavigate } from 'react-router-dom'
@@ -12,6 +12,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import "./Profile.css";
 import MyModal from "../../components/MyModal/MyModal";
+import { ButtonC } from "../../components/ButtonC/ButtonC";
 
 //---------------------------------------------------------------------------
 
@@ -22,7 +23,7 @@ export const Profile = () => {
     email: "",
   });
   const [appDates, setAppDates] = useState({
-    // id: "",
+    id: "",
     appointmentDate: "",
     jobId: "",
     tattoArtistId: "",
@@ -57,19 +58,19 @@ export const Profile = () => {
     }));
     console.log(appDates);
   };
-  // const handleUpdate = async (dates) => {
-  //   try {
-  //     console.log(dates, "hello");
-  //     await updateDate(appDates, token);
-  //     console.log("datos actualizados");
-  //     setTimeout(() => {
-  //       navigate("/Profile")
-  //       setShow(false);
-  //     }, [2000])
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const handleUpdate = async (dates) => {
+    try {
+      console.log(dates, "hello");
+      await updateDate(appDates, token);
+      console.log("datos actualizados");
+      setTimeout(() => {
+        navigate("/Profile")
+        setShow(false);
+      }, [2000])
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -96,12 +97,9 @@ export const Profile = () => {
     dispatch(logout())
   }
 
-  const handleClose = () => {
-    navigate("/");
-    setTimeout(() => {
-      navigate("/Profile")
-    });
-  }
+  const deleteDate = async () => {
+    const res = await delelteAppointment(data,token)
+  };
 
 
   return (
@@ -193,13 +191,17 @@ export const Profile = () => {
                           onClick={() => { navigate("/prueba") }}>
                           update
                         </Button>
+                        {/* <ButtonC className="delete"
+                          onClick={() => deleteDate()}>
+                          delete
+                        </ButtonC> */}
 
                         <MyModal
                           dates={(dates.id, dates.appointmentDates, dates.jobId, dates.tattoArtistId)}
                           appDates={dates}
                           inputHandlerDate={inputHandlerDate}
                           token={token}
-                          // handleUpdate={handleUpdate}
+                          handleUpdate={handleUpdate}
                         />
                       </Card.Body>
                     </Card>

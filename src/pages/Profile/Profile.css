@@ -11,3 +11,11 @@
     margin: 3em;
     margin: 0.2em;
 }
+
+.delete {
+    border-color:5px red;
+    width: 5em;
+    height: 2em;
+    margin: 3em;
+    margin: 0.2em;
+}

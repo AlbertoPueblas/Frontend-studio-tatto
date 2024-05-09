@@ -10,11 +10,12 @@ import { Button } from "react-bootstrap";
 
 export const Dates = () => {
     const navigate = useNavigate()
-  const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
 
 
     const [appDates, setAppDates] = useState({
-        // id:"",
+        id: "",
+        userId:"",
         appointmentDate: "",
         jobId: "",
         tattoArtistId: "",
@@ -54,23 +55,30 @@ export const Dates = () => {
 
     const dateForUpgrade = async () => {
         try {
-            const res = await updateDate(appDates, token);
-            console.log(res);
-            navigate("/profile")
-
+          const res = await updateDate(appDates, token);
+          console.log(res);
+          navigate("/profile");
         } catch (error) {
-            console.log(error);
+          console.log(error);
         }
-    }
+      };
+      
     return (
         <>
+            <MyInput
+                typeProp="text"
+                nameProp="id"
+                // isDisabled={!isEditing}
+                value={appDates.id}
+                handlerProp={inputHandlerDate}
+            />
                         <MyInput
-                          typeProp="text"
-                          nameProp="id"
-                          isDisabled={!isEditing}
-                          value={appDates.id}
-                          inputHandler={inputHandlerDate}
-                        />
+                typeProp="text"
+                nameProp="userId"
+                // isDisabled={!isEditing}
+                value={appDates.userId}
+                handlerProp={inputHandlerDate}
+            />
             <MyInput
                 typeProp="datetime-local"
                 nameProp="appointmentDate"
@@ -97,13 +105,10 @@ export const Dates = () => {
                 })}
             </select>
 
-            <Button onClick={() => {
-                dateForUpgrade(appDates)
+            <Button onClick={dateForUpgrade}>
+  Update Appointment
+</Button>
 
-            }}>
-
-                Update Appointment
-            </Button>
         </>
     )
 };

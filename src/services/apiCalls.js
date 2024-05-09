@@ -78,7 +78,7 @@ export const updateDate = async (appDates, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log(appDates, "yo soy updateDate") 
+  console.log(typeof(appDates),appDates,"token",token, "yo soy updateDate") 
   const res = await axios.put(`${API_URL}dates/changeDate`, appDates, config)
   return res
 }
@@ -101,6 +101,16 @@ export const deleteUserId = async (id, token) => {
   }
   console.log("yo soy deleteProfile")
   return axios.delete(`${API_URL}users/profile/${id}`, config)
+}
+
+export const deleteApointment = async (data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  console.log("yo soy deletedate")
+  return axios.delete(`${API_URL}dates/delete`,data, config)
 }
 
 export const deleteAppointmentId = async (id, token) => {
