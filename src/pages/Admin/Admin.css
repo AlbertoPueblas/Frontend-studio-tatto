@@ -44,3 +44,8 @@
     border-radius: 5em;
     margin-left: 1em;
 }
+
+.pagination {
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -82,11 +82,9 @@ export const Profile = () => {
     const res = await bringOneDate(id, token)
   };
 
-
-  const deleteDate = async () => {
-    const res = await deleteAppointmentId(data, token)
-  };
-
+  // const deleteDate = async () => {
+  //   const res = await deleteAppointmentId(data, token)
+  // };
 
   return (
     <>

@@ -25,6 +25,16 @@ export const bringAllCharacters = async () => {
   
 };
 
+export const bringAppointment = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  return axios.get(`${API_URL}users/dates/${id}`, config)
+};
+
 export const bringDates = async (token) => {
   const config = {
     headers: {
@@ -107,14 +117,62 @@ export const updateProfile = async (profileData, token) => {
 
 
 //Admin calls
-
-export const getUserById = async (id, token) => {
+export const bringAllAppointment = async (token) => {
+  
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  return axios.get(`${API_URL}users/user/${id}`, config)
+  
+  return axios.get(`${API_URL}/dates`, config /*headers*/)
+  
+}
+
+export const bringAllArtist = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  return axios.get(`${API_URL}users/artists`, config)
+}
+
+export const bringAllJobs = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  return axios.get(`${API_URL}jobs/job`, config)
+}
+
+// export const bringAllUsers = async (token) => {
+//   const config = {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   }
+//   return axios.get(`${API_URL}users/allUsers?limit=50?pages=10`, config /*headers*/)
+// }
+
+export const bringAllUsers = async (token, page = 1, limit = 18) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios.get(`${API_URL}users/allUsers?page=${page}&limit=${limit}`, config);
+};
+
+export const deleteAppointmentId = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  console.log("yo soy deleteProfile")
+  return axios.delete(`${API_URL}dates/deleteDate/${id}`, config)
 }
 
 export const deleteUserId = async (id, token) => {
@@ -127,64 +185,11 @@ export const deleteUserId = async (id, token) => {
   return axios.delete(`${API_URL}users/profile/${id}`, config)
 }
 
-
-export const deleteAppointmentId = async (id, token) => {
+export const getUserById = async (id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log("yo soy deleteProfile")
-  return axios.delete(`${API_URL}dates/deleteDate/${id}`, config)
-}
-
-export const bringAllUsers = async (token) => {
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-
-  return axios.get(`${API_URL}users/allUsers?limit=50?pages=10`, config /*headers*/)
-}
-
-export const bringAllAppointment = async (token) => {
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-
-  return axios.get(`${API_URL}/dates`, config /*headers*/)
-
-}
-
-export const bringAppointment = async (id, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-
-  return axios.get(`${API_URL}users/dates/${id}`, config)
-};
-
-export const bringAllJobs = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-  return axios.get(`${API_URL}jobs/job`, config)
-}
-
-export const bringAllArtist = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-  return axios.get(`${API_URL}users/artists`, config)
+  return axios.get(`${API_URL}users/user/${id}`, config)
 }

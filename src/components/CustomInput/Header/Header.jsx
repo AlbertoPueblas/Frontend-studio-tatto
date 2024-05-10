@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout, getUserData } from '../../../app/slice/userSlice';
 import { useSelector } from "react-redux";
 import "./Header.css"
+import { useEffect, useState } from 'react';
 
 
 //-------------------------------------------------------------
@@ -25,7 +26,6 @@ function Header() {
     dispatch(logout())
   }
 
-  
   return (
 
     <Navbar expand="xlg" className="bg-body-tertiary" display="center">
@@ -34,29 +34,21 @@ function Header() {
         <Navbar.Brand href="/Home">Home</Navbar.Brand>
         <Navbar.Brand href="/Profile"  > Profile</Navbar.Brand>
         <Navbar.Brand href="/Register"  >Register</Navbar.Brand>
-        <Navbar.Brand href="/Login" className='logIn' onClick={() => navigate("/login")} >Log In</Navbar.Brand>
-        <Navbar.Brand href="/Home" className='logOut'
-          onClick={() => {
-            logOutMe()
-          }}>log out</Navbar.Brand>
-
+        <Navbar.Brand href="/Login" className='logIn' >Log In</Navbar.Brand>
+        <Navbar.Brand href="/Home" className='logOut' onClick={() => {
+          logOutMe()
+        }}>log out</Navbar.Brand>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-             {/* Condicionales para mostrar unos accesos u otros dependiendo del role */}
+            {/* Condicional para mostrar unos accesos u otros dependiendo del role */}
             {userType === "Admin" ? (
-              <Nav.Link href="/Appointment">Appointment</Nav.Link>
+              <>
+                <Nav.Link href="./job">Jobs</Nav.Link>
+                <Nav.Link href="./Artist">Artist</Nav.Link>
+                <Nav.Link href="./Admin">All users</Nav.Link>
+                <Nav.Link href="/Appointment">Appointment</Nav.Link>
+              </>
             ) : (<Nav.Link href="/AppointmentDate">Appointment</Nav.Link>)}
-            {userType === "Admin" ? (
-              <Nav.Link href="./Artist">Artist</Nav.Link>
-            ) : (null)}
-            {userType === "Admin" ? (
-              <Nav.Link href="./Admin">All users</Nav.Link>
-            ) : (null)}
-            {userType === "Admin" ? (
-              <Nav.Link href="./job" onClick={() => { navigate("/job") }}>Jobs</Nav.Link>
-            ) : (null)}
-
-
           </Nav>
         </Navbar.Collapse>
       </Container>

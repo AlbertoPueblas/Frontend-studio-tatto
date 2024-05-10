@@ -19,17 +19,6 @@ export const Dates = (id) => {
         tattoArtistId: "",
     })
     const [userData, setUserData] = useState([]);
-
-    // const [dataReady,setDataReady] = useState(false)
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const res = await bringProfile(token)
-    //         setDataReady(true)
-    //     }
-    //     fetchData()
-    // })
-
     useEffect(() => {
         const fetchDates = async () => {
           const res = await bringDates(token);
@@ -53,8 +42,10 @@ export const Dates = (id) => {
             console.log(res.data.artist);
             setArtists(res.data.artist)
         }
-        fetchArtist()
-    }, [])
+        if (Artists === 0){
+            fetchArtist()
+        }
+    }, [Artists])
 
 
     useEffect(() => {
@@ -63,8 +54,10 @@ export const Dates = (id) => {
             console.log(res.data.jobs);
             setJobs(res.data.jobs)
         }
-        fetchJobs()
-    }, [])
+        if (jobs.lenght === 0){
+            fetchJobs()
+        }
+    }, [jobs])
 
     const inputHandlerDate = (e) => {
         console.log(e.target.value, e.target.name);
@@ -132,7 +125,6 @@ export const Dates = (id) => {
             <Button onClick={dateForUpgrade}>
                 Update Appointment
             </Button>
-
         </>
     )
 };
