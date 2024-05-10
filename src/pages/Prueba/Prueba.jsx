@@ -1,4 +1,4 @@
-import { bringAllArtist, bringAllJobs, updateDate } from "../../services/apiCalls";
+import { bringAllArtist, bringAllJobs, bringDates, bringProfile, updateDate } from "../../services/apiCalls";
 import { useEffect, useState } from 'react'
 import { useSelector } from "react-redux";
 import { getUserData } from "../../app/slice/userSlice";
@@ -8,18 +8,39 @@ import { Button } from "react-bootstrap";
 
 //------------------------------------------------------------
 
-export const Dates = () => {
+export const Dates = (id) => {
     const navigate = useNavigate()
     const [isEditing, setIsEditing] = useState(false);
-
-
     const [appDates, setAppDates] = useState({
-        // id: "",
+        id: "",
         userId: "",
         appointmentDate: "",
         jobId: "",
         tattoArtistId: "",
     })
+    const [userData, setUserData] = useState([]);
+
+    // const [dataReady,setDataReady] = useState(false)
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const res = await bringProfile(token)
+    //         setDataReady(true)
+    //     }
+    //     fetchData()
+    // })
+
+    useEffect(() => {
+        const fetchDates = async () => {
+          const res = await bringDates(token);
+          console.log(res.clientDates);
+          setUserData(res.clientDates);
+        };
+        if (userData.length === 0) {
+          fetchDates();
+        }
+      }, [userData]);
+
     const userReduxData = useSelector(getUserData)
     const token = userReduxData.token
 
@@ -56,7 +77,7 @@ export const Dates = () => {
     const dateForUpgrade = async () => {
         try {
             const res = await updateDate(appDates, token);
-            console.log(res);
+
             navigate("/profile");
         } catch (error) {
             console.log(error);
@@ -68,16 +89,19 @@ export const Dates = () => {
             <MyInput
                 typeProp="text"
                 nameProp="id"
-                isDisabled={!isEditing}
-                value={appDates.id}
-                readOnly
+                // isDisabled={!isEditing}
+                value={userData.id}
+                handlerProp={inputHandlerDate}
+
+                // readOnly
             />
             <MyInput
                 typeProp="text"
                 nameProp="userId"
                 // isDisabled={!isEditing}
-                value={appDates.userId}
+                value={userData.userId}
                 handlerProp={inputHandlerDate}
+
             />
             <MyInput
                 typeProp="datetime-local"

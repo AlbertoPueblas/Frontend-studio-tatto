@@ -8,7 +8,8 @@ export const appointmentSlice = createSlice({
         token:"",
         decodificado: {
             id:"",
-            dates:"",
+            userId: '',
+            appointmentDate:"",
             jobId:""
         }
     },

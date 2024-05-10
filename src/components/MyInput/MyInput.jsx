@@ -23,3 +23,21 @@ export const MyInput = ({
       </input>
   );
 };
+
+
+
+
+
+
+                        {/* <ButtonC className="delete"
+                          onClick={() => deleteDate()}>
+                          delete
+                        </ButtonC> */}
+
+                        {/* <MyModal
+                          dates={(dates.id, dates.appointmentDates, dates.jobId, dates.tattoArtistId)}
+                          appDates={dates}
+                          inputHandlerDate={inputHandlerDate}
+                          token={token}
+
+                        /> */}

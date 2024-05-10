@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
 import { Navigate, useNavigate } from 'react-router-dom'
 import { loginCall } from '../../services/apiCalls';
-import { amIAdmin, getUserData, login } from "../../app/slice/userSlice";
+import { getUserData, login } from "../../app/slice/userSlice";
 import { useDispatch, useSelector } from 'react-redux'
 import { decodeToken } from "react-jwt";
 import './Login.css'

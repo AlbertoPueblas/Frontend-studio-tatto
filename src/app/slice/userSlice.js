@@ -6,10 +6,12 @@ export const userSlice = createSlice({
     initialState: { // estado inicial del pasillo
         token: "",
         decodificado: {
+            id: "",
+            userId: "",
             name: "",
             email: "",
-            id: ""
-        },
+            role: ""
+        }
     },
 
     // distintas acciones que puedo realizar en este pasillo (todas reciben un state y un action y devuelven un nuevo estado)
@@ -27,30 +29,32 @@ export const userSlice = createSlice({
             return {
                 token: "",
                 decodificado: {
+                    role:"",
                     name: "",
                     email: "",
                     id: ""
                 },
-                vecesLogeado: state.vecesLogeado
             }
         },
-        
-        deleteUser: (state, action) => {
-
-        
-            return {
-                ...state,
-            }
+        setUserDetails: (state, action) => {
+            state.decodificado = action.payload;
+        },
+        setUserId: (state, action) => {
+            state.decodificado.id = action.payload;
+        },
+        setUserId: (state, action) => {
+            state.decodificado.userId = action.payload;
         }
     }
 })
 
 // exportamos las acciones a las que accederemos a través del useDispatch para escribir en el almacén
-export const {login, logout, deleteAcount} = userSlice.actions
+export const {login, logout, setUserDetails, setUserId } = userSlice.actions
 
 // definimos y exportamos los métodos que nos permitirán venir al almacén a leer información
 export const getUserData = (state) => state.user
 export const getLoggedAmount = (state) => state.user.vecesLogeado
-export const amIAdmin =(state) => state.user.decodificado.role === "ADMIN"
+
 
 export default userSlice.reducer;
+

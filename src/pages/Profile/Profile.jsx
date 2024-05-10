@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MyInput } from "../../components/MyInput/MyInput";
-import { bringDates, bringProfile, deleteAppointmentId, updateDate } from "../../services/apiCalls";
+import { bringDates, bringOneDate, bringProfile, deleteAppointmentId, updateDate } from "../../services/apiCalls";
 import BootstrapModal from "../../components/BootstrapModal/BootstrapModal";
 import { useDispatch, useSelector, } from "react-redux";
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +12,6 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import "./Profile.css";
 import MyModal from "../../components/MyModal/MyModal";
-import { ButtonC } from "../../components/ButtonC/ButtonC";
 
 //---------------------------------------------------------------------------
 
@@ -24,7 +23,7 @@ export const Profile = () => {
   });
   const [appDates, setAppDates] = useState({
     id: "",
-    userId:"",
+    userId: "",
     appointmentDate: "",
     jobId: "",
     tattoArtistId: "",
@@ -72,7 +71,6 @@ export const Profile = () => {
   useEffect(() => {
     const fetchDates = async () => {
       const res = await bringDates(token);
-
       setUserData(res.clientDates);
     };
     if (userData.length === 0) {
@@ -80,12 +78,13 @@ export const Profile = () => {
     }
   }, [userData]);
 
-  const logOutMe = () => {
-    dispatch(logout())
-  }
+  const bringMeDate = async (id) => {
+    const res = await bringOneDate(id, token)
+  };
+
 
   const deleteDate = async () => {
-    const res = await deleteAppointmentId(data,token)
+    const res = await deleteAppointmentId(data, token)
   };
 
 
@@ -143,14 +142,18 @@ export const Profile = () => {
                 </Button>
                 {userData.length > 0 &&
                   userData.map((dates, index) => (
-                    <Card key={index} style={{ marginBottom: '1rem', borderColor: "blue",boxShadow:"1px 3px 5px blue" }}>
+                    <Card key={index} style={{
+                      marginBottom: '1rem',
+                      borderColor: "blue",
+                      boxShadow: "1px 3px 5px blue"
+                    }}>
                       <Card.Body>
                         <MyInput
                           typeProp="text"
                           nameProp="id"
                           isDisabled={!isEditing}
                           value={dates.id}
-                          // inputHandler={inputHandlerDate}
+                        // inputHandler={inputHandlerDate}
                         />
                         <MyInput
                           typeProp="text"
@@ -174,22 +177,26 @@ export const Profile = () => {
                           value={dates.tattoArtistId}
                           inputHandler={inputHandlerDate}
                         />
-                        <Button className="date"
-                          onClick={() => { navigate("/prueba") }}>
-                          update
+                        <Button
+                          className="date"
+                          onClick={() => {
+                            bringMeDate(dates.id);
+                            setTimeout(() => {
+                              navigate("/prueba");
+                            },2000)
+                            console.log(typeof(dates.id),dates.id);
+                          }}
+                        >
+                          Update
                         </Button>
-                        {/* <ButtonC className="delete"
-                          onClick={() => deleteDate()}>
-                          delete
-                        </ButtonC> */}
-
                         <MyModal
-                          dates={(dates.id, dates.appointmentDates, dates.jobId, dates.tattoArtistId)}
-                          appDates={dates}
+                          dates={(dates.id, dates.jobId, dates.tattoArtistId)}
+                          // appDates={dates}
                           inputHandlerDate={inputHandlerDate}
+                          bringMeDate={bringMeDate}
                           token={token}
-
                         />
+
                       </Card.Body>
                     </Card>
                   ))}
@@ -204,9 +211,5 @@ export const Profile = () => {
         </>
       )}
     </>
-
-
-
-
   );
 };

@@ -16,15 +16,16 @@ function Header() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const userReduxData = useSelector(getUserData)
+  const userReduxData = useSelector(getUserData) || {}
 
-  const token = userReduxData.token
-  const userType = userReduxData.decoded.userRole
+  const token = userReduxData?.token
+  const userType = userReduxData?.decoded?.userRole
 
   const logOutMe = () => {
     dispatch(logout())
   }
 
+  
   return (
 
     <Navbar expand="xlg" className="bg-body-tertiary" display="center">
@@ -34,13 +35,14 @@ function Header() {
         <Navbar.Brand href="/Profile"  > Profile</Navbar.Brand>
         <Navbar.Brand href="/Register"  >Register</Navbar.Brand>
         <Navbar.Brand href="/Login" className='logIn' onClick={() => navigate("/login")} >Log In</Navbar.Brand>
-        <Navbar.Brand href="/Profile" className='logOut'
+        <Navbar.Brand href="/Home" className='logOut'
           onClick={() => {
-            logOutMe(), navigate("/Home")
+            logOutMe()
           }}>log out</Navbar.Brand>
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
+             {/* Condicionales para mostrar unos accesos u otros dependiendo del role */}
             {userType === "Admin" ? (
               <Nav.Link href="/Appointment">Appointment</Nav.Link>
             ) : (<Nav.Link href="/AppointmentDate">Appointment</Nav.Link>)}
