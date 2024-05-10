@@ -1,11 +1,7 @@
 import { useSelector } from "react-redux"
 import { getUserData } from "../../app/slice/userSlice"
 import { useEffect, useState } from "react"
-import {
-  bringAllAppointment, bringAllUsers,
-  deleteAppointmentId,
-  deleteUserId,
-  getUserById
+import { bringAllAppointment, bringAllUsers, deleteAppointmentId, deleteUserId, getUserById
 } from "../../services/apiCalls"
 import Table from 'react-bootstrap/Table';
 import './Appointment.css'
@@ -15,6 +11,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import dayjs from "dayjs"
 import { Navigate, useNavigate } from "react-router-dom";
+import { Pagination } from "react-bootstrap";
 
 //---------------------------------------------------------------------------------
 
@@ -23,11 +20,16 @@ export const Appointment = () => {
   const [oneUser, setOneUser] = useState({})
   const [userData, setUserData] = useState({})
   const [show, setShow] = useState()
-  const navigate = useNavigate();
   const userReduxData = useSelector(getUserData)
   const [areYouDeletingMe, setAreYouDeletingMe] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const token = userReduxData.token
   const userType = userReduxData.decoded.userRole
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -39,13 +41,24 @@ export const Appointment = () => {
 
   useEffect(() => {
     const fetchAllAppointment = async () => {
-      const res = await bringAllAppointment(token)
-      console.log(res.data.dates);
-      setUserData(res.data.dates)
+      setLoading(true)
+      try {
+        const res = await bringAllAppointment(token, currentPage)
+        console.log(res.data.dates);
+        setUserData(res.data.dates)
+        setTotalPages(res.data.total_pages);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
     }
     fetchAllAppointment()
-  }, [])
+  }, [currentPage, token])
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const handleClose = () => {
     navigate("/");
@@ -89,7 +102,7 @@ export const Appointment = () => {
                     {userData.map((dates) => {
                       return (
 
-                        <tr>
+                        <tr key={dates.id}>
                           <th>{dates.id}</th>
                           <th>
                         {dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}</th>
@@ -166,6 +179,27 @@ export const Appointment = () => {
                 <Button variant="secondary" onClick={handleClose}>Close</Button>
               </Modal.Footer>
             </Modal>
+            <div className="pagination">
+            <Pagination>
+              <Pagination.Prev
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+              {[...Array(totalPages)].map((_, index) => (
+                <Pagination.Item
+                  key={index + 1}
+                  active={index + 1 === currentPage}
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </Pagination.Item>
+              ))}
+              <Pagination.Next
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              />
+            </Pagination>
+          </div>
           </div></>)
         : (<Navigate to="/" />)
       }

@@ -117,7 +117,7 @@ export const updateProfile = async (profileData, token) => {
 
 
 //Admin calls
-export const bringAllAppointment = async (token) => {
+export const bringAllAppointment = async (token,  page = 1, limit = 9) => {
   
   const config = {
     headers: {
@@ -125,7 +125,7 @@ export const bringAllAppointment = async (token) => {
     },
   }
   
-  return axios.get(`${API_URL}/dates`, config /*headers*/)
+  return axios.get(`${API_URL}/dates?page=${page}&limit=${limit}`, config /*headers*/)
   
 }
 
@@ -147,16 +147,9 @@ export const bringAllJobs = async (token) => {
   return axios.get(`${API_URL}jobs/job`, config)
 }
 
-// export const bringAllUsers = async (token) => {
-//   const config = {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }
-//   return axios.get(`${API_URL}users/allUsers?limit=50?pages=10`, config /*headers*/)
-// }
 
-export const bringAllUsers = async (token, page = 1, limit = 18) => {
+
+export const bringAllUsers = async (token, page = 1, limit = 15) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,

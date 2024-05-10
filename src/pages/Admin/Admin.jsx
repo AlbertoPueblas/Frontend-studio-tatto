@@ -1,11 +1,7 @@
 import { useSelector } from "react-redux";
 import { getUserData } from "../../app/slice/userSlice";
 import { useEffect, useState } from "react";
-import {
-  bringAllUsers,
-  bringAppointment,
-  deleteUserId,
-  getUserById
+import { bringAllUsers, bringAppointment, deleteUserId, getUserById
 } from "../../services/apiCalls";
 import Table from 'react-bootstrap/Table';
 import './Admin.css';
@@ -27,7 +23,8 @@ export const Admin = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  
+  const navigate = useNavigate();
   const userReduxData = useSelector(getUserData);
   const token = userReduxData.token;
   const userType = userReduxData.decoded.userRole;
@@ -82,7 +79,6 @@ export const Admin = () => {
     }
   };
 
-  const navigate = useNavigate();
 
   return (
     <>

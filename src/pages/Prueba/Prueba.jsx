@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 
 //------------------------------------------------------------
 
-export const Dates = (id) => {
+export const Dates = () => {
     const navigate = useNavigate()
     const [isEditing, setIsEditing] = useState(false);
     const [appDates, setAppDates] = useState({
