@@ -187,13 +187,13 @@ export const Profile = () => {
                         >
                           Update
                         </Button>
-                        <MyModal
+                        {/* <MyModal
                           dates={(dates.id, dates.jobId, dates.tattoArtistId)}
                           // appDates={dates}
                           inputHandlerDate={inputHandlerDate}
                           bringMeDate={bringMeDate}
                           token={token}
-                        />
+                        /> */}
 
                       </Card.Body>
                     </Card>

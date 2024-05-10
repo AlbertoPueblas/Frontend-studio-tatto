@@ -45,7 +45,6 @@ function Header() {
               <>
                 <Nav.Link href="./job">Jobs</Nav.Link>
                 <Nav.Link href="./Artist">Artist</Nav.Link>
-                <Nav.Link href="./Admin">All users</Nav.Link>
                 <Nav.Link href="/Appointment">Appointment</Nav.Link>
               </>
             ) : (<Nav.Link href="/AppointmentDate">Appointment</Nav.Link>)}
