@@ -42,21 +42,15 @@ function Header() {
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-             {/* Condicionales para mostrar unos accesos u otros dependiendo del role */}
+             Condicionales para mostrar unos accesos u otros dependiendo del role
             {userType === "Admin" ? (
-              <Nav.Link href="/Appointment">Appointment</Nav.Link>
-            ) : (<Nav.Link href="/AppointmentDate">Appointment</Nav.Link>)}
-            {userType === "Admin" ? (
-              <Nav.Link href="./Artist">Artist</Nav.Link>
-            ) : (null)}
-            {userType === "Admin" ? (
+              <>
               <Nav.Link href="./Admin">All users</Nav.Link>
-            ) : (null)}
-            {userType === "Admin" ? (
+              <Nav.Link href="./Artist">Artist</Nav.Link>
+              <Nav.Link href="/Appointment">Appointment</Nav.Link>
               <Nav.Link href="./job" onClick={() => { navigate("/job") }}>Jobs</Nav.Link>
-            ) : (null)}
-
-
+              </>
+            ) : (<Nav.Link href="/AppointmentDate">Appointment</Nav.Link>)}
           </Nav>
         </Navbar.Collapse>
       </Container>

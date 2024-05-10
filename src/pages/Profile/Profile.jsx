@@ -11,7 +11,7 @@ import Card from 'react-bootstrap/Card';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import "./Profile.css";
-import MyModal from "../../components/MyModal/MyModal";
+// import MyModal from "../../components/MyModal/MyModal";
 
 //---------------------------------------------------------------------------
 
@@ -83,9 +83,9 @@ export const Profile = () => {
   };
 
 
-  const deleteDate = async () => {
-    const res = await deleteAppointmentId(data, token)
-  };
+  // const deleteDate = async () => {
+  //   const res = await deleteAppointmentId(data, token)
+  // };
 
 
   return (
@@ -153,7 +153,14 @@ export const Profile = () => {
                           nameProp="id"
                           isDisabled={!isEditing}
                           value={dates.id}
-                        // inputHandler={inputHandlerDate}
+                          inputHandler={inputHandlerDate}
+                        />
+                        <MyInput
+                          typeProp="text"
+                          nameProp="userId"
+                          isDisabled={!isEditing}
+                          value={dates.userId}
+                          inputHandler={inputHandlerDate}
                         />
                         <MyInput
                           typeProp="text"
@@ -183,19 +190,19 @@ export const Profile = () => {
                             bringMeDate(dates.id);
                             setTimeout(() => {
                               navigate("/prueba");
-                            },2000)
-                            console.log(typeof(dates.id),dates.id);
+                            }, 1000)
+                            console.log(typeof (dates.id), dates.id);
                           }}
                         >
                           Update
                         </Button>
-                        <MyModal
+                        {/* <MyModal
                           dates={(dates.id, dates.jobId, dates.tattoArtistId)}
                           // appDates={dates}
                           inputHandlerDate={inputHandlerDate}
                           bringMeDate={bringMeDate}
                           token={token}
-                        />
+                        /> */}
 
                       </Card.Body>
                     </Card>

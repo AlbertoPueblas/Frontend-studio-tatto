@@ -86,6 +86,7 @@ export const registerNewUserCall = async (credentials) => {
 export const updateDate = async (dataToSend, token) => {
   const config = {
     headers: {
+      
       Authorization: `Bearer ${token}`,
     },
   }

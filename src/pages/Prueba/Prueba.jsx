@@ -20,26 +20,16 @@ export const Dates = (id) => {
     })
     const [userData, setUserData] = useState([]);
 
-    // const [dataReady,setDataReady] = useState(false)
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const res = await bringProfile(token)
-    //         setDataReady(true)
-    //     }
-    //     fetchData()
-    // })
-
     useEffect(() => {
         const fetchDates = async () => {
-          const res = await bringDates(token);
-          console.log(res.clientDates);
-          setUserData(res.clientDates);
+            const res = await bringDates(token);
+            console.log(res.clientDates);
+            setUserData(res.clientDates);
         };
         if (userData.length === 0) {
-          fetchDates();
+            fetchDates();
         }
-      }, [userData]);
+    }, [userData]);
 
     const userReduxData = useSelector(getUserData)
     const token = userReduxData.token
@@ -53,8 +43,10 @@ export const Dates = (id) => {
             console.log(res.data.artist);
             setArtists(res.data.artist)
         }
+        if (Artists.length === 0) {
         fetchArtist()
-    }, [])
+        }
+    }, [Artists])
 
 
     useEffect(() => {
@@ -63,8 +55,10 @@ export const Dates = (id) => {
             console.log(res.data.jobs);
             setJobs(res.data.jobs)
         }
-        fetchJobs()
-    }, [])
+        if (jobs.length === 0) {
+            fetchJobs()
+            }
+    }, [jobs])
 
     const inputHandlerDate = (e) => {
         console.log(e.target.value, e.target.name);
@@ -92,8 +86,7 @@ export const Dates = (id) => {
                 // isDisabled={!isEditing}
                 value={userData.id}
                 handlerProp={inputHandlerDate}
-
-                // readOnly
+            // readOnly
             />
             <MyInput
                 typeProp="text"
@@ -101,8 +94,8 @@ export const Dates = (id) => {
                 // isDisabled={!isEditing}
                 value={userData.userId}
                 handlerProp={inputHandlerDate}
-
             />
+
             <MyInput
                 typeProp="datetime-local"
                 nameProp="appointmentDate"
@@ -110,6 +103,7 @@ export const Dates = (id) => {
                 value={appDates.appointmentDate}
                 handlerProp={(e) => inputHandlerDate(e)}
             />
+
             <select name="jobId" onChange={(e) => inputHandlerDate(e)}
                 className="select">
                 <option value="">Select Job</option>
@@ -119,6 +113,7 @@ export const Dates = (id) => {
                     )
                 })}
             </select>
+
             <select name="tattoArtistId" onChange={(e) => inputHandlerDate(e)}
                 className="select">
                 <option value="">Select Artist</option>
@@ -132,7 +127,6 @@ export const Dates = (id) => {
             <Button onClick={dateForUpgrade}>
                 Update Appointment
             </Button>
-
         </>
     )
 };
