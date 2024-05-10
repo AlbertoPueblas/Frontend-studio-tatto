@@ -25,7 +25,7 @@ export const Dates = (id) => {
           console.log(res.clientDates);
           setUserData(res.clientDates);
         };
-        if (userData.length === 0) {
+        if (userData.length == 0) {
           fetchDates();
         }
       }, [userData]);
@@ -42,7 +42,7 @@ export const Dates = (id) => {
             console.log(res.data.artist);
             setArtists(res.data.artist)
         }
-        if (Artists === 0){
+        if (Artists == 0){
             fetchArtist()
         }
     }, [Artists])
@@ -54,7 +54,7 @@ export const Dates = (id) => {
             console.log(res.data.jobs);
             setJobs(res.data.jobs)
         }
-        if (jobs.lenght === 0){
+        if (jobs == 0 ){
             fetchJobs()
         }
     }, [jobs])
