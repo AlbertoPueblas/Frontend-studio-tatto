@@ -14,7 +14,7 @@ Entre otros pasos Hemos realizado la conexion con nuestra BD y rutas al backend
 ![alt text](image.png) </br>
 En la pagina de Login implementamos de manera visual un cambio si algun campo no es correcto.
 ![alt text](image-1.png) ![alt text](image-2.png)</br>
-La barra de navegacion pinta unas rutas u otras dependiendo del rol de usuario.
+La barra de navegacion pinta unas rutas u otras dependiendo del rol de usuario.</br>
 Usuario.
 ![alt text](image-3.png)</br>
 Admin.
