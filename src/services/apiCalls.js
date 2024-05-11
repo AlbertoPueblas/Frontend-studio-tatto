@@ -12,9 +12,7 @@ export const appointmentCreate = async(appCreate, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log(appCreate,"aqui citas o no????");
   const res = await axios.post(`${API_URL}dates/appointment`,appCreate, config);
-  console.log(config, "Hello?");
   return res
 }
 
@@ -51,7 +49,6 @@ export const bringOneDate = async (id, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log(id, token);
   const res = await axios.get(`${API_URL}dates/myDate/${id}`, config)
   return res
 }
@@ -66,30 +63,25 @@ export const bringProfile = async (token) => {
   return res.data
 }
 
-export const deleteMeDate = async (data, token) => {
+export const deleteMeDate = async (id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log("yo soy deletedate")
-  return axios.delete(`${API_URL}dates/delete`,data, config)
+  return axios.delete(`${API_URL}dates/deleteDate${id}`,data, config)
 }
 export const loginCall = async (credentials) => {
   const res = await axios.post(`${API_URL}auth/login`, credentials);
-  console.log(res);
   return res
 };
 
 export const loginOut = async (credentials) => {
   const res = await axios.post(`${API_URL}auth/profile`, credentials);
-  console.log(credentials, "aqui logOut");
-  console.log(res);
   return res
 };
 
 export const registerNewUserCall = async (credentials) => {
-  console.log("hola Register");
   return axios.post(`${API_URL}auth/register`, credentials);
 };
 
@@ -99,7 +91,6 @@ export const updateDate = async (dataToSend, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log(typeof(dataToSend),dataToSend,"token",token, "yo soy updateDate") 
   const res = await axios.put(`${API_URL}dates/changeDate`,dataToSend, config)
   return res
 }
@@ -111,7 +102,6 @@ export const updateProfile = async (profileData, token) => {
     },
   }
   const res = await axios.put(`${API_URL}users/profile`, profileData, config)
-  console.log(res, "yo soy updateProfile")
   return res
 }
 
@@ -173,7 +163,6 @@ export const deleteUserId = async (id, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log("yo soy deleteProfile")
   return axios.delete(`${API_URL}users/profile/${id}`, config)
 }
 

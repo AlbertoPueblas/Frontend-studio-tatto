@@ -27,7 +27,6 @@ export const Artist = () => {
     useEffect(() => {
         const fetchArtist = async () => {
           const res = await bringAllArtist(token)
-          console.log(res.data.artist);
           setArtist(res.data.artist)
         }
         fetchArtist()

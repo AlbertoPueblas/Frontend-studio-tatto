@@ -2,13 +2,13 @@ import { appointmentCreate, bringAllArtist, bringAllJobs } from "../../services/
 import { useEffect, useState } from 'react'
 import './AppointmentDate.css'
 import dayjs from "dayjs"
-import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { useSelector } from "react-redux";
 import { getUserData } from "../../app/slice/userSlice";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import 'react-datepicker/dist/react-datepicker.css';
 import React from 'react';
 import { MyInput } from "../../components/MyInput/MyInput";
 //------------------------------------------------------------
@@ -32,8 +32,6 @@ export const Dates = () => {
     const token = userReduxData.token
 
     const inputHandlerDates = (e) => {
-
-        console.log(e.target.value, e.target.name);
         setAppCreate((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
@@ -51,13 +49,6 @@ export const Dates = () => {
         fetchArtistAndJobs()
     }, [])
 
-
-    useEffect(() => {
-        const fetchJobs = async () => {
-        }
-        fetchJobs()
-    }, [])
-
     const dateForMe = async () => {
         try {
             const res = await appointmentCreate(appCreate, token);
@@ -65,59 +56,17 @@ export const Dates = () => {
         }
     }
 
-    const manageTime = (e) => {
-        if (dayjs(e).diff(now, "d") <= 0) {
-            setMsg("No puedes seleccionar una fecha anterior a la actual")
-            setSelected(null)
-            return;
-        }
-        setSelected(dayjs(e).format("dddd, MMMM D, YYYY h:mm A"))
-    }
-
-
-
-    const handleChange = (e) => {
-        const selectedDate = dayjs(e.target.value);
-        const currentDate = dayjs();
-
-        if (selectedDate.isBefore(currentDate, 'day')) {
-            // Si la fecha seleccionada es anterior al día actual, muestra un mensaje
-            alert("No puedes seleccionar una fecha anterior a la actual");
-            return;
-        }
-
-        // Si la fecha seleccionada es válida, llama a la función handlerProp para manejar el cambio
-        handlerProp(e);
-    };
-
     return (
         <>
-            <div className='calendar'>Actual Date:{dayjs(now).format
-                ("dddd, MMMM D, YYYY h:mm A")}</div>
-
-            <DayPicker className='calendar'
-                mode="single"
-                name="appointmentDate"
-                selected={selected}
-                onSelect={(e) => manageTime(e)}
-                onChange={(e) => {inputHandlerDate(e);handleChange(e)}}
-            />
+            <div className='calendar'><h4>Actual Date:{dayjs(now).format
+                ("dddd, MMMM D, YYYY h:mm A")}</h4>
             <MyInput
                 typeProp="datetime-local"
                 nameProp="appointmentDate"
                 value={selected}
                 placeholderProp="date"
                 handlerProp={(e) => inputHandlerDates(e)}
-            />
-            <div className='calendar'>
-                {selected && (
-                    <>
-                        <div>Selected Date:{selected}</div>
-                        <div>Remaining time: {dayjs(selected).diff(now, "d") + 1}Days.</div>
-                    </>
-                )}
-                {msg && <div>{msg}</div>}
-            </div>
+                />
             <select name="jobId" onChange={(e) => inputHandlerDates(e)}
                 className="select">
                 <option value="">Select Job</option>
@@ -141,10 +90,11 @@ export const Dates = () => {
 
             <Button onClick={() => {
                 dateForMe(),
-                    navigate("/profile")
+                navigate("/profile")
             }}>
                 Send Appointment
             </Button>
+                </div>
         </>
     )
 };

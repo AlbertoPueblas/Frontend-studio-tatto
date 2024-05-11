@@ -48,21 +48,17 @@ export const Profile = () => {
   };
 
   const inputHandlerDate = (e) => {
-    console.log(e.target.name, e.target.value);
     setAppDates((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-    console.log(appDates);
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(token, userData);
       const myProfileData = await bringProfile(token);
       setProfileData(myProfileData);
       const res = await bringDates(token);
-      console.log(res.clientDates);
       setUserData(res.clientDates);
     };
     fetchData();
@@ -76,8 +72,6 @@ export const Profile = () => {
     <>
       {userData.length > 0 && (
         <>
-          <div className='calendar'>{dayjs(now).format
-            ("dddd, MMMM D, YYYY h:mm A")}</div>
           <Card style={{ width: '40rem' }}>
             <Tabs
               defaultActiveKey="home"
@@ -137,7 +131,6 @@ export const Profile = () => {
                           nameProp="id"
                           isDisabled={!isEditing}
                           value={dates.id}
-                        // inputHandler={inputHandlerDate}
                         />
                         <MyInput
                           typeProp="text"
@@ -161,15 +154,13 @@ export const Profile = () => {
                           value={dates.tattoArtistId}
                           inputHandler={inputHandlerDate}
                         />
-
                         <MyModal
                           dates={dates}
                           inputHandlerDate={inputHandlerDate}
                           onblurHandler={inputHandlerDate}
-                          // dateForUpgrade={dateForUpgrade}
                           token={token}
                         />
-
+                        {/* <Button onClick={() => (deleteDate)} ></Button> */}
                       </Card.Body>
                     </Card>
                   ))}

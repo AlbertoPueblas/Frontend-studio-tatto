@@ -36,10 +36,8 @@ const MyModal = ({ dates, token }) => {
           // Enviando al backend los valores de id y userId 
           const dataToSend = { ...appDates, id: dates.id, userId: dates.userId };
           const res = await updateDate(dataToSend, token);
-          console.log(res);
           navigate("/profile");
       } catch (error) {
-          console.log(error);
       }
     };
 
@@ -49,7 +47,6 @@ const MyModal = ({ dates, token }) => {
     };
 
     const inputHandlerDate = (e) => {
-        console.log(e.target.value, e.target.name);
         setAppDates((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,

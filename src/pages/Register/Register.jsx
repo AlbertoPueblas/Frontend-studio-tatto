@@ -25,7 +25,6 @@ export const Register = () => {
 
   const inputHandler = (e) => {
     //genero la función que bindea
-    console.log(e);
     setCredentials((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
@@ -34,7 +33,6 @@ export const Register = () => {
 
   const inputValidatorHandler = (e) => {
     const errorMessage = inputValidator(e.target.value, e.target.name);
-    console.log(errorMessage);
     setIsValidContent((prevState) => ({
       ...prevState,
       [e.target.name]: errorMessage,
@@ -45,7 +43,6 @@ export const Register = () => {
     if (inputValidator(credentials.firstName, "firstName") &&
       inputValidator(credentials.password, "password")) {
       const answer = await registerNewUserCall(credentials);
-      console.log(answer)
       setMsg(answer.data.message);
 
       if (answer.data) {
@@ -55,7 +52,6 @@ export const Register = () => {
       }
     }
     else {
-      console.log("credenciales incorrectas, algún campo no está bien introducido")
     }
   };
 

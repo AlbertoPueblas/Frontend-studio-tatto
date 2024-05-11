@@ -58,7 +58,6 @@ export const Appointment = () => {
     setTimeout(() => {
       navigate("/Admin")
     });
-    console.log("close");
     setShow(false);
   }
 
@@ -107,8 +106,6 @@ export const Appointment = () => {
                             </div>
                             <div className="deleteButton" onClick={
                               () => deleteAppointmentStepOne(dates.id)}></div>
-                            {/* <div className="upgradeButton" onClick={
-                                () => fetchUser(dates.id)}></div> */}
                             <div
                               className={
                                 // botón de confirmación de borrado

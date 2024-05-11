@@ -29,7 +29,6 @@ export const Home = () => {
         decoded: uDecoded,
       };
       dispatch(login(passport))
-      console.log(passport);
     }
   }
 

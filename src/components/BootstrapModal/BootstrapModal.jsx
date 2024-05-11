@@ -17,19 +17,16 @@ function BootstrapModal({ profileData, inputHandler, token }) {
         setTimeout(() => {
             navigate("/Profile")
         });
-        console.log("close");
         setShow(false);
     }
     const handleUpdate = async () => {
         try {
             await updateProfile(profileData, token);
-            console.log("datos actualizados");
             setTimeout(() => {
                 navigate("/Profile")
                 setShow(false);
             }, 2000)
         } catch (error) {
-            console.log(error);
         }
     };
 

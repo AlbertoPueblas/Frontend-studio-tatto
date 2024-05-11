@@ -62,7 +62,6 @@ export const Login = () => {
         }, 1000);
       }
     } catch (error) {
-      console.log(error);
       if (error.code === "ERR_NETWORK") {
         setLoginError("el servidor no está corriendo")
       }
@@ -74,7 +73,6 @@ export const Login = () => {
 
   const inputValidatorHandler = (e) => {
     const errorMessage = inputValidator(e.target.value, e.target.name);
-    console.log(errorMessage);
     setIsValidContent((prevState) => ({
       ...prevState,
       [e.target.name]: errorMessage,
@@ -83,15 +81,13 @@ export const Login = () => {
 
   return (
 
-    <div className={isValidContent.email && 
+    <div className={isValidContent.email &&
       isValidContent.password ? "loginContainer" : "loginContainerFalse"}
-    
-    
     >
       {msg === "" ? (
         <>
-          <h1 className={isValidContent.email && 
-      isValidContent.password ? "text" : "textFalse"}>Login</h1>
+          <h1 className={isValidContent.email &&
+            isValidContent.password ? "text" : "textFalse"}>Login</h1>
           <CustomInput
             isValidContent={isValidContent.email}
             typeProp={"email"}

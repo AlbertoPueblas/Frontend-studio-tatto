@@ -28,7 +28,6 @@ export const Job = () => {
     useEffect(() => {
         const fetchJobs = async () => {
           const res = await bringAllJobs(token)
-          console.log(res.data);
           setJobs(res.data.jobs)
         }
         fetchJobs()
@@ -40,8 +39,7 @@ export const Job = () => {
         } else {
           setAreYouDeletingMe(id);
         }
-      };
-    
+      };  
 
     return(
         <>
