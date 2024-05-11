@@ -2,7 +2,6 @@ import axios from "axios";
 
 //--------------------------------------------
 
-// const API_URL = "https://rickandmortyapi.com/api"
 const API_URL = "http://localhost:3000/api/"
 
 // Users calls
@@ -174,3 +173,4 @@ export const getUserById = async (id, token) => {
   }
   return axios.get(`${API_URL}users/user/${id}`, config)
 }
+
