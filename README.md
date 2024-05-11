@@ -19,9 +19,9 @@ Usuario.
 ![alt text](image-3.png)</br>
 Admin.
 ![alt text](image-4.png)</br>
-Esto lo logramos con un coondicional.
+Esto lo logramos con un coondicional.</br>
 ![alt text](image-5.png)</br>
-Las tablas en Admin de Usuarios y citas cuentan con una paginación
+Las tablas en Admin de Usuarios y citas cuentan con una paginación</br>
 ![alt text](image-6.png)</br>
 A demas el Admin puede eliminar usuarios y citas ajenas 
 
