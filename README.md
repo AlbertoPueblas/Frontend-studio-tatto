@@ -11,18 +11,18 @@ Objetivo
 Este proyecto es para hacer la parte visual de una base de datos.
 El primer paso es instalar las diferentes dependencias React, Redux etc.
 Entre otros pasos Hemos realizado la conexion con nuestra BD y rutas al backend 
-![alt text](image.png)
+![alt text](image.png) </br>
 En la pagina de Login implementamos de manera visual un cambio si algun campo no es correcto.
-![alt text](image-1.png) ![alt text](image-2.png)
+![alt text](image-1.png) ![alt text](image-2.png)</br>
 La barra de navegacion pinta unas rutas u otras dependiendo del rol de usuario.
 Usuario.
-![alt text](image-3.png)
+![alt text](image-3.png)</br>
 Admin.
-![alt text](image-4.png)
+![alt text](image-4.png)</br>
 Esto lo logramos con un coondicional.
-![alt text](image-5.png)
+![alt text](image-5.png)</br>
 Las tablas en Admin de Usuarios y citas cuentan con una paginación
-![alt text](image-6.png)
+![alt text](image-6.png)</br>
 A demas el Admin puede eliminar usuarios y citas ajenas 
 
 ## Actualizaciones futuras
