@@ -1,14 +1,12 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout, getUserData } from '../../../app/slice/userSlice';
 import { useSelector } from "react-redux";
 import "./Header.css"
-import { useEffect, useState } from 'react';
 
 
 //-------------------------------------------------------------
@@ -47,13 +45,12 @@ function Header() {
                 <Nav.Link href="./Artist">Artist</Nav.Link>
                 <Nav.Link href="/Appointment">Appointment</Nav.Link>
               </>
-            ) : (<Nav.Link href="/AppointmentDate">Appointment</Nav.Link>)}
+            ) : (<Nav.Link href="/AppointmentDate">New Appointment</Nav.Link>)}
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 }
-
 
 export default Header;

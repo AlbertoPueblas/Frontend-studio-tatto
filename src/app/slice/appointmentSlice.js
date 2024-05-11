@@ -5,12 +5,12 @@ import { createSlice } from "@reduxjs/toolkit";
 export const appointmentSlice = createSlice({
     name: "appointment",
     initialState: {
-        token:"",
+        token: "",
         decodificado: {
-            id:"",
+            id: "",
             userId: '',
-            appointmentDate:"",
-            jobId:""
+            appointmentDate: "",
+            jobId: ""
         }
     },
     reducers: {

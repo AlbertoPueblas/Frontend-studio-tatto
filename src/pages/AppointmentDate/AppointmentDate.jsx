@@ -9,9 +9,6 @@ import { getUserData } from "../../app/slice/userSlice";
 import { CustomInput } from "../../components/CustomInput/CustomInput";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-
-
-
 import React from 'react';
 import { MyInput } from "../../components/MyInput/MyInput";
 //------------------------------------------------------------
@@ -44,23 +41,19 @@ export const Dates = () => {
         }));
     };
 
-
-
     useEffect(() => {
-        const fetchArtist = async () => {
+        const fetchArtistAndJobs = async () => {
             const res = await bringAllArtist(token)
-            console.log(res.data.artist);
             setArtists(res.data.artist)
+            const resp = await bringAllJobs(token)
+            setJobs(resp.data.jobs)
         }
-        fetchArtist()
+        fetchArtistAndJobs()
     }, [])
 
 
     useEffect(() => {
         const fetchJobs = async () => {
-            const res = await bringAllJobs(token)
-            console.log(res.data.jobs);
-            setJobs(res.data.jobs)
         }
         fetchJobs()
     }, [])
@@ -68,50 +61,47 @@ export const Dates = () => {
     const dateForMe = async () => {
         try {
             const res = await appointmentCreate(appCreate, token);
-            console.log(res);
         } catch (error) {
-            console.log(error);
         }
     }
 
-    // const manageTime = (e) => {
-    //     if (dayjs(e).diff(now, "d") <= 0) {
-    //         setMsg("No puedes seleccionar una fecha anterior a la actual")
-    //         setSelected(null)
-    //         return;
-    //     }
-    //     setSelected(dayjs(e).format("dddd, MMMM D, YYYY h:mm A"))
-    // }
+    const manageTime = (e) => {
+        if (dayjs(e).diff(now, "d") <= 0) {
+            setMsg("No puedes seleccionar una fecha anterior a la actual")
+            setSelected(null)
+            return;
+        }
+        setSelected(dayjs(e).format("dddd, MMMM D, YYYY h:mm A"))
+    }
 
 
 
-    // const handleChange = (e) => {
-    //     const selectedDate = dayjs(e.target.value);
-    //     const currentDate = dayjs();
+    const handleChange = (e) => {
+        const selectedDate = dayjs(e.target.value);
+        const currentDate = dayjs();
 
-    //     if (selectedDate.isBefore(currentDate, 'day')) {
-    //         // Si la fecha seleccionada es anterior al día actual, muestra un mensaje
-    //         alert("No puedes seleccionar una fecha anterior a la actual");
-    //         return;
-    //     }
+        if (selectedDate.isBefore(currentDate, 'day')) {
+            // Si la fecha seleccionada es anterior al día actual, muestra un mensaje
+            alert("No puedes seleccionar una fecha anterior a la actual");
+            return;
+        }
 
-    //     // Si la fecha seleccionada es válida, llama a la función handlerProp para manejar el cambio
-    //     handlerProp(e);
-    // };
-
+        // Si la fecha seleccionada es válida, llama a la función handlerProp para manejar el cambio
+        handlerProp(e);
+    };
 
     return (
         <>
             <div className='calendar'>Actual Date:{dayjs(now).format
                 ("dddd, MMMM D, YYYY h:mm A")}</div>
 
-            {/* <DayPicker className='calendar'
+            <DayPicker className='calendar'
                 mode="single"
                 name="appointmentDate"
                 selected={selected}
                 onSelect={(e) => manageTime(e)}
                 onChange={(e) => {inputHandlerDate(e);handleChange(e)}}
-            /> */}
+            />
             <MyInput
                 typeProp="datetime-local"
                 nameProp="appointmentDate"

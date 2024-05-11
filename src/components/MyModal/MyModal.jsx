@@ -4,8 +4,6 @@ import Button from "react-bootstrap/Button";
 import { MyInput } from "../MyInput/MyInput";
 import Modal from "react-bootstrap/Modal";
 import { bringAllArtist, bringAllJobs, updateDate, } from "../../services/apiCalls";
-import dayjs from "dayjs";
-import { id } from "date-fns/locale";
 
 //-----------------------------------------------------------
 
@@ -14,6 +12,14 @@ const MyModal = ({ dates, token }) => {
     const [jobs, setJobs] = useState([]);
     const [artists, setArtists] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
+    const navigate = useNavigate();
+    const [appDates, setAppDates] = useState({
+        id: "",
+        userId: "",
+        appointmentDate: "",
+        jobId: "",
+        tattoArtistId: "",
+    })
 
     useEffect(() => {
         const fetchArtistAndJobs = async () => {
@@ -24,35 +30,24 @@ const MyModal = ({ dates, token }) => {
         };
         fetchArtistAndJobs();
     }, [token]);
-
-
-
-    const navigate = useNavigate();
+    
+    const dateForUpgrade = async () => {
+      try {
+          // Enviando al backend los valores de id y userId 
+          const dataToSend = { ...appDates, id: dates.id, userId: dates.userId };
+          const res = await updateDate(dataToSend, token);
+          console.log(res);
+          navigate("/profile");
+      } catch (error) {
+          console.log(error);
+      }
+    };
 
     const handleClose = () => {
         setShow(false);
         navigate("/Profile");
     };
 
-
-      const dateForUpgrade = async () => {
-        try {
-            const dataToSend = { ...appDates, id: dates.id, userId: dates.userId };
-            const res = await updateDate(dataToSend, token);
-            console.log(res);
-            navigate("/profile");
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const [appDates, setAppDates] = useState({
-        id: "",
-        userId: "",
-        appointmentDate: "",
-        jobId: "",
-        tattoArtistId: "",
-    })
     const inputHandlerDate = (e) => {
         console.log(e.target.value, e.target.name);
         setAppDates((prevState) => ({
@@ -82,10 +77,8 @@ const MyModal = ({ dates, token }) => {
             <MyInput
                 typeProp="hidden"
                 nameProp="userId"
-                // isDisabled={!isEditing}
                 value={dates.userId}
-                handlerProp={(e) => inputHandlerDate(e)}
-
+                readOnly
             />
             <MyInput
                 typeProp="datetime-local"

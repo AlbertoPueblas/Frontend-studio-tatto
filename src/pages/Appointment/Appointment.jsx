@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux"
 import { getUserData } from "../../app/slice/userSlice"
 import { useEffect, useState } from "react"
-import { bringAllAppointment, bringAllUsers, deleteAppointmentId, deleteUserId, getUserById
+import {
+  bringAllAppointment, bringAllUsers, deleteAppointmentId, deleteUserId, getUserById
 } from "../../services/apiCalls"
 import Table from 'react-bootstrap/Table';
 import './Appointment.css'
@@ -30,21 +31,13 @@ export const Appointment = () => {
   const token = userReduxData.token
   const userType = userReduxData.decoded.userRole
 
-
   useEffect(() => {
-    const fetchUsers = async () => {
-      const res = await bringAllUsers(token)
-      setUsers(res.data.users)
-    }
-    fetchUsers()
-  }, [])
-
-  useEffect(() => {
-    const fetchAllAppointment = async () => {
+    const fetchAllAppointmentAndUsers = async () => {
       setLoading(true)
       try {
+        const resp = await bringAllUsers(token)
+        setUsers(resp.data.users)
         const res = await bringAllAppointment(token, currentPage)
-        console.log(res.data.dates);
         setUserData(res.data.dates)
         setTotalPages(res.data.total_pages);
         setLoading(false);
@@ -53,7 +46,7 @@ export const Appointment = () => {
         setLoading(false);
       }
     }
-    fetchAllAppointment()
+    fetchAllAppointmentAndUsers()
   }, [currentPage, token])
 
   const handlePageChange = (page) => {
@@ -69,18 +62,17 @@ export const Appointment = () => {
     setShow(false);
   }
 
-    const deleteAppointment = async (id) => {
-      const res = await deleteAppointmentId(id, token)
-    };
+  const deleteAppointment = async (id) => {
+    const res = await deleteAppointmentId(id, token)
+  };
 
-    const deleteAppointmentStepOne = (id) => {
-      if (areYouDeletingMe === id) {
-        setAreYouDeletingMe(null);
-      } else {
-        setAreYouDeletingMe(id);
-      }
-    };
-
+  const deleteAppointmentStepOne = (id) => {
+    if (areYouDeletingMe === id) {
+      setAreYouDeletingMe(null);
+    } else {
+      setAreYouDeletingMe(id);
+    }
+  };
 
   return (
     <>
@@ -98,46 +90,46 @@ export const Appointment = () => {
             </thead>
             <tbody>
               {userData.length > 0 ? (
-                  <>
-                    {userData.map((dates) => {
-                      return (
+                <>
+                  {userData.map((dates) => {
+                    return (
 
-                        <tr key={dates.id}>
-                          <th>{dates.id}</th>
-                          <th>
-                        {dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}</th>
-                          <th><br></br>{dates.userId}</th>
-                          <th>{dates.tattoArtistId}</th>
-                          <th>
-                            <div className="userList">
-                              <div className="showButton"
-                                onClick={() => {setShow(true), fetchUser(users._id)}}>
-                              </div>
-                              <div className="deleteButton" onClick={
-                                () => deleteAppointmentStepOne(dates.id)}></div>
-                              {/* <div className="upgradeButton" onClick={
-                                () => fetchUser(dates.id)}></div> */}
-                                <div
-                        className={
-                          // botón de confirmación de borrado
-
-                          areYouDeletingMe === dates._id
-                            ? "deleteButton confirmDelete "
-                            : "deleteButton confirmDelete display-none"
-                        }
-                        onClick={() => deleteAppointment((dates.id),
-                        navigate("/Admin")
-                        ,)}
-
-                      >Delete?  
-                        
-                    </div>
+                      <tr key={dates.id}>
+                        <th>{dates.id}</th>
+                        <th>
+                          {dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}</th>
+                        <th><br></br>{dates.userId}</th>
+                        <th>{dates.tattoArtistId}</th>
+                        <th>
+                          <div className="userList">
+                            <div className="showButton"
+                              onClick={() => { setShow(true), fetchUser(users._id) }}>
                             </div>
-                          </th>
-                        </tr>
-                      );
-                    })}
-                  </>) : null}
+                            <div className="deleteButton" onClick={
+                              () => deleteAppointmentStepOne(dates.id)}></div>
+                            {/* <div className="upgradeButton" onClick={
+                                () => fetchUser(dates.id)}></div> */}
+                            <div
+                              className={
+                                // botón de confirmación de borrado
+
+                                areYouDeletingMe === dates._id
+                                  ? "deleteButton confirmDelete "
+                                  : "deleteButton confirmDelete display-none"
+                              }
+                              onClick={() => deleteAppointment((dates.id),
+                                navigate("/Admin")
+                                ,)}
+
+                            >Delete?
+
+                            </div>
+                          </div>
+                        </th>
+                      </tr>
+                    );
+                  })}
+                </>) : null}
             </tbody>
           </Table>
           <div
@@ -164,7 +156,7 @@ export const Appointment = () => {
                         <th key={dates.id}></th>
                         <th>Appointment id: {dates.id}</th>
                         <th>Appointment: {
-                        dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}</th>
+                          dayjs(dates.appointmentDate).format("dddd, MMMM D, YYYY h:mm A")}</th>
                         <th>User: <br></br>{dates.userId}</th>
                         <th>Artist id: {dates.tattoArtistId}</th>
                         <th>Artist id: {dates.jobId}</th>
@@ -180,26 +172,26 @@ export const Appointment = () => {
               </Modal.Footer>
             </Modal>
             <div className="pagination">
-            <Pagination>
-              <Pagination.Prev
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              />
-              {[...Array(totalPages)].map((_, index) => (
-                <Pagination.Item
-                  key={index + 1}
-                  active={index + 1 === currentPage}
-                  onClick={() => handlePageChange(index + 1)}
-                >
-                  {index + 1}
-                </Pagination.Item>
-              ))}
-              <Pagination.Next
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              />
-            </Pagination>
-          </div>
+              <Pagination>
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+                {[...Array(totalPages)].map((_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={index + 1 === currentPage}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+              </Pagination>
+            </div>
           </div></>)
         : (<Navigate to="/" />)
       }

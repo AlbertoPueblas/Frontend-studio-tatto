@@ -13,7 +13,6 @@ export const userSlice = createSlice({
             role: ""
         }
     },
-
     // distintas acciones que puedo realizar en este pasillo (todas reciben un state y un action y devuelven un nuevo estado)
     reducers: {
         login: (state, action) => {
@@ -29,7 +28,7 @@ export const userSlice = createSlice({
             return {
                 token: "",
                 decodificado: {
-                    role:"",
+                    role: "",
                     name: "",
                     email: "",
                     id: ""
@@ -49,7 +48,7 @@ export const userSlice = createSlice({
 })
 
 // exportamos las acciones a las que accederemos a través del useDispatch para escribir en el almacén
-export const {login, logout, setUserDetails, setUserId } = userSlice.actions
+export const { login, logout, setUserDetails, setUserId } = userSlice.actions
 
 // definimos y exportamos los métodos que nos permitirán venir al almacén a leer información
 export const getUserData = (state) => state.user

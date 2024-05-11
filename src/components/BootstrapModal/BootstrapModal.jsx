@@ -9,10 +9,10 @@ import { MyInput } from "../MyInput/MyInput";
 
 function BootstrapModal({ profileData, inputHandler, token }) {
     const [show, setShow] = useState(false)
-    
+
     const navigate = useNavigate();
 
-    const handleClose = () => { 
+    const handleClose = () => {
         navigate("/");
         setTimeout(() => {
             navigate("/Profile")
@@ -25,7 +25,7 @@ function BootstrapModal({ profileData, inputHandler, token }) {
             await updateProfile(profileData, token);
             console.log("datos actualizados");
             setTimeout(() => {
-            navigate("/Profile")
+                navigate("/Profile")
                 setShow(false);
             }, 2000)
         } catch (error) {
@@ -36,7 +36,7 @@ function BootstrapModal({ profileData, inputHandler, token }) {
     return (
         <>
             <Button variant="primary" onClick={() => setShow(true)}>
-            modify profile
+                modify profile
             </Button>
 
             <Modal show={show} onHide={handleClose}>
