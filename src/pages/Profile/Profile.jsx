@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { MyInput } from "../../components/MyInput/MyInput";
-import { bringDates, bringOneDate, bringProfile, deleteAppointmentId, updateDate } from "../../services/apiCalls";
+import { bringDates, bringProfile, deleteMeDate, updateDate } from "../../services/apiCalls";
 import BootstrapModal from "../../components/BootstrapModal/BootstrapModal";
 import { useDispatch, useSelector, } from "react-redux";
 import { useNavigate } from 'react-router-dom'
-import { getUserData, logout, } from "../../app/slice/userSlice";
+import { getUserData } from "../../app/slice/userSlice";
 import dayjs from "dayjs"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import "./Profile.css";
-// import MyModal from "../../components/MyModal/MyModal";
+import MyModal from "../../components/MyModal/MyModal";
 
 //---------------------------------------------------------------------------
 
@@ -33,14 +33,11 @@ export const Profile = () => {
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [show, setShow] = useState()
-  // const selectDate = useSelector(getAppointmentId)
-
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const myPassport = useSelector(getUserData)
   const token = myPassport.token;
-
 
   const inputHandler = (e) => {
     setProfileData((prevState) => ({
@@ -58,34 +55,23 @@ export const Profile = () => {
     }));
     console.log(appDates);
   }
+
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchData = async () => {
+      console.log(token, userData);
       const myProfileData = await bringProfile(token);
       setProfileData(myProfileData);
-    };
-    if (profileData.email === "") {
-      fetchProfile();
-    }
-  }, [profileData]);
-
-  useEffect(() => {
-    const fetchDates = async () => {
       const res = await bringDates(token);
+      console.log(res.clientDates);
       setUserData(res.clientDates);
     };
-    if (userData.length === 0) {
-      fetchDates();
-    }
-  }, [userData]);
+    fetchData();
+  }, [token]);
 
-  const bringMeDate = async (id) => {
-    const res = await bringOneDate(id, token)
+  const deleteDate = async () => {
+    const res = await deleteMeDate(data, token)
   };
-
-  // const deleteDate = async () => {
-  //   const res = await deleteAppointmentId(data, token)
-  // };
-
+ 
   return (
     <>
       {userData.length > 0 && (
@@ -175,25 +161,14 @@ export const Profile = () => {
                           value={dates.tattoArtistId}
                           inputHandler={inputHandlerDate}
                         />
-                        <Button
-                          className="date"
-                          onClick={() => {
-                            bringMeDate(dates.id);
-                            setTimeout(() => {
-                              navigate("/prueba");
-                            },2000)
-                            console.log(typeof(dates.id),dates.id);
-                          }}
-                        >
-                          Update
-                        </Button>
-                        {/* <MyModal
-                          dates={(dates.id, dates.jobId, dates.tattoArtistId)}
-                          // appDates={dates}
+
+                        <MyModal
+                          dates={dates}
                           inputHandlerDate={inputHandlerDate}
-                          bringMeDate={bringMeDate}
+                          onblurHandler={inputHandlerDate}
+                          // dateForUpgrade={dateForUpgrade}
                           token={token}
-                        /> */}
+                        />
 
                       </Card.Body>
                     </Card>

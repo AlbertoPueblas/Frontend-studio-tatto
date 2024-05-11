@@ -66,7 +66,7 @@ export const bringProfile = async (token) => {
   return res.data
 }
 
-export const deleteApointment = async (data, token) => {
+export const deleteMeDate = async (data, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -164,7 +164,6 @@ export const deleteAppointmentId = async (id, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log("yo soy deleteProfile")
   return axios.delete(`${API_URL}dates/deleteDate/${id}`, config)
 }
 

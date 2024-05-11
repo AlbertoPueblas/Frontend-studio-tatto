@@ -3,31 +3,29 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { MyInput } from "../MyInput/MyInput";
 import Modal from "react-bootstrap/Modal";
-import { bringAllArtist, bringAllJobs, bringOneDate,} from "../../services/apiCalls";
+import { bringAllArtist, bringAllJobs, updateDate, } from "../../services/apiCalls";
+import dayjs from "dayjs";
+import { id } from "date-fns/locale";
 
 //-----------------------------------------------------------
 
-const MyModal = ({ dates, appDates, inputHandlerDate, token }) => {
+const MyModal = ({ dates, token }) => {
     const [show, setShow] = useState(false);
     const [jobs, setJobs] = useState([]);
     const [artists, setArtists] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
-        const fetchArtist = async () => {
-            const res = await bringAllArtist(token);
-            setArtists(res.data.artist);
-        };
-        fetchArtist();
-    }, [token]);
-
-    useEffect(() => {
-        const fetchJobs = async () => {
+        const fetchArtistAndJobs = async () => {
+            const resp = await bringAllArtist(token);
+            setArtists(resp.data.artist);
             const res = await bringAllJobs(token);
             setJobs(res.data.jobs);
         };
-        fetchJobs();
+        fetchArtistAndJobs();
     }, [token]);
+
+
 
     const navigate = useNavigate();
 
@@ -36,12 +34,11 @@ const MyModal = ({ dates, appDates, inputHandlerDate, token }) => {
         navigate("/Profile");
     };
 
-    const bringMeDate = async (id) => {
-        const res = await bringOneDate(id, token)
-      };
+
       const dateForUpgrade = async () => {
         try {
-            const res = await updateDate(appDates, token);
+            const dataToSend = { ...appDates, id: dates.id, userId: dates.userId };
+            const res = await updateDate(dataToSend, token);
             console.log(res);
             navigate("/profile");
         } catch (error) {
@@ -49,10 +46,24 @@ const MyModal = ({ dates, appDates, inputHandlerDate, token }) => {
         }
     };
 
+    const [appDates, setAppDates] = useState({
+        id: "",
+        userId: "",
+        appointmentDate: "",
+        jobId: "",
+        tattoArtistId: "",
+    })
+    const inputHandlerDate = (e) => {
+        console.log(e.target.value, e.target.name);
+        setAppDates((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
     return (
         <>
-            <Button variant="primary" onClick={() => setShow((true),
-                 bringMeDate(dates.id))}>
+            <Button variant="primary" onClick={() => setShow(true)}>
                 Modify
             </Button>
 
@@ -62,52 +73,55 @@ const MyModal = ({ dates, appDates, inputHandlerDate, token }) => {
                 </Modal.Header>
                 <Modal.Body>
                 <MyInput
-                        typeProp="text"
-                        nameProp="id"
-                        value={dates.id}
-                        isDisabled={!isEditing}
-                        handlerProp={inputHandlerDate}
-                    />
+                typeProp="hidden"
+                nameProp="id"
+                isDisabled={!isEditing}
+                value={dates.id}
+                readOnly
+            />
+            <MyInput
+                typeProp="hidden"
+                nameProp="userId"
+                // isDisabled={!isEditing}
+                value={dates.userId}
+                handlerProp={(e) => inputHandlerDate(e)}
 
-                    <MyInput
-                        typeProp="datetime-local"
-                        nameProp="appointmentDate"
-                        value={dates.appointmentDate}
-                        handlerProp={inputHandlerDate}
-                    />
-
-                    <select
-                        name="jobId"
-                        value={dates.jobId}
-                        onChange={inputHandlerDate}
-                        className="select"
-                    >
-                        <option value="">Select Job</option>
-                        {jobs.map((job) => (
-                            <option value={job.id} key={job.id}>
-                                {job.jobs}
-                            </option>
-                        ))}
-                    </select>
-                    <select
-                        name="tattoArtistId"
-                        value={dates.tattoArtistId}
-                        onChange={inputHandlerDate}
-                        className="select"
-                    >
-                        <option value="">Select Artist</option>
-                        {artists.map((art) => (
-                            <option value={art.id} key={art.id}>
-                                {art.firstName}
-                            </option>
-                        ))}
-                    </select>
+            />
+            <MyInput
+                typeProp="datetime-local"
+                nameProp="appointmentDate"
+                placeholderProp="date"
+                value={appDates.appointmentDate}
+                handlerProp={(e) => inputHandlerDate(e)}
+            />
+            <select name="jobId" onChange={(e) => inputHandlerDate(e)}
+                className="select">
+                <option value="">Select Job</option>
+                {jobs.map((job) => {
+                    return (
+                        <option value={job.id} key={job.id}>{job.jobs}</option>
+                    )
+                })}
+            </select>
+            <select name="tattoArtistId" onChange={(e) => inputHandlerDate(e)}
+                className="select">
+                <option value="">Select Artist</option>
+                {artists.map((art) => {
+                    return (
+                        <option value={art.id} key={art.id}>{art.firstName}</option>
+                    )
+                })}
+            </select>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button variant="primary" onClick={dateForUpgrade}>
+                    <Button variant="primary" onClick={() => {
+                        dateForUpgrade()
+                        handleClose()
+                        window.location.reload()
+                    }}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
