@@ -83,7 +83,7 @@ export const Dates = () => {
                 typeProp="text"
                 nameProp="id"
                 // isDisabled={!isEditing}
-                value={userData.id}
+                value={appDates.id}
                 handlerProp={inputHandlerDate}
 
                 // readOnly
@@ -92,7 +92,7 @@ export const Dates = () => {
                 typeProp="text"
                 nameProp="userId"
                 // isDisabled={!isEditing}
-                value={userData.userId}
+                value={appDates.userId}
                 handlerProp={inputHandlerDate}
 
             />
